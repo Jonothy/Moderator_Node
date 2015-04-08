@@ -2,11 +2,11 @@
 	<a class="active" href="./">Game</a>
 	<a href="./standings">Standings</a>
 </nav>
-
 {{#if photo}}
-
-	<img src="photos/{{photo.name}}" width="530" height="420" alt="Cat Picture" />
-
+	<canvas id="previewCanvas" width ="530" height="420"></canvas>
+<!-- 	<img src="photos/{{photo.name}}" width="530" height="420" alt="Cat Picture" /> -->
+	<canvas id="filterCanvas" width = "530" height="420"></canvas>
+	
 	<div class="button-holder">
 		<form action="./cute" method="post">
 			<input type="hidden" name="photo" value="{{photo.name}}" />
@@ -14,9 +14,78 @@
 		</form>
 		<form action="./notcute" method="post">
 			<input type="hidden" name="photo" value="{{photo.name}}" />
-			<input type="submit" value="BLOOD ORGY" />
+			<input type="submit" value="NOT" />
 		</form>
 	</div>
+	<div id="wrapper">
+		<canvas id="hiddenCanvas"></canvas>
+		<img id="imgtag" alt="capture"/>
+	</div>
+	<script>
+
+	var canvas = document.getElementById('previewCanvas');
+	var context = canvas.getContext('2d');
+	var filtercanvas = document.getElementById('filterCanvas');
+	var filtercontext = filtercanvas.getContext('2d');
+	var hiddencanvas = document.getElementById('hiddenCanvas');
+	var hiddencontext = hiddencanvas.getContext('2d');
+	var imageObj = new Image();
+
+	imageObj.onload = function() {
+
+		/* image preview */
+		context.drawImage(imageObj, 0, 0);
+
+		console.log("image width and height");
+		console.log(imageObj.width);
+		console.log(imageObj.height);
+
+
+		var imageData = context.getImageData(0,0,imageObj.width, imageObj.height);
+		var data = imageData.data;
+
+		for(var i = 0; i < data.length; i += 4) {
+	      // red
+	      data[i] = 255 - data[i];
+	      // green
+	      data[i + 1] = 255 - data[i + 1];
+	      // blue
+	      data[i + 2] = 255 - data[i + 2];
+	    }
+	    filtercontext.putImageData(imageData, 0, 0);
+
+	    /* full size image save */
+
+	    hiddencanvas.width = imageObj.width;
+		hiddencanvas.height = imageObj.height;
+	    hiddencontext.drawImage(imageObj, 0, 0);
+		var saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
+		var saveData = saveImageData.data;
+
+
+		for(var i = 0; i < saveData.length; i += 4) {
+	      // red
+	      saveData[i] = 255 - saveData[i];
+	      // green
+	      saveData[i + 1] = 255 - saveData[i + 1];
+	      // blue
+	      saveData[i + 2] = 255 - saveData[i + 2];
+	    }
+
+	    hiddencontext.putImageData(saveImageData, 0, 0);
+	    var uri = hiddencanvas.toDataURL("image/png");
+		// userImage.src = uri;
+		console.log(uri);
+		imgtag.width = imageObj.width;
+		imgtag.height = imageObj.height;
+		imgtag.src = uri;
+	};
+
+	imageObj.src = "photos/{{photo.name}}";	
+	
+
+
+</script>
 
 {{else}}
 

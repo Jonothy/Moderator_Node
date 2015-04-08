@@ -1,0 +1,30 @@
+Notes on the EL Wire Sequencer
+
+Equipment
+- We have three EL Wire boards, named A, B, and C
+- A is the one by itself and is connected to a Mac Mini. A relays the messages from the Mac Mini to B and C
+- B, one of the two on the same side, is the board closest to the entrance
+- C is the one closest to the restroom
+
+
+Power for the EL Wire Inverters and Mac Mini
+
+- The power strip that has an extension going up to ceiling and over to where the ceiling access panel is is connected to both the inverter for the sing
+
+Inverters for the EL Wire
+
+- The inverters are black boxes hidden in the ceiling. They have one toggle switch which is their on/off switch. There is also a red push button switch on the opposite side of the on/off switch. When the inverter is first on, it is in an off state. In order to turn it into the on state, you must push the red button once. Do not push more than once, because otherwise it would go into a blinking state. If you see the EL Wire acting stuttery, you are likely in the blinking state.  If the EL Wires are behaving erratically, then power cycle the inverter and press the red button once.
+
+The EL Wire Boards
+
+- Before making any physical modifications to the boards, please make sure to turn off the inverters either at the inverters or by cutting power to them. Remember when you turn off the inverters in either way, you must press the red button in order to get it into an on state after powerup, but you must not press it twice otherwise it will be in blink mode
+
+Max patch relaying message
+
+- The Max Patch on the desktop of the Mac Mini runs the kinect and sends messages to EL Wire board 'A.' The Max Patch starts automatically upon computer start and runs.
+
+Mac Mini
+
+- To connect the Mac Mini running the EL Wire, be on network 'FL_1900AC_5ghz'. Then vnc into 192.168.0.222 The Username is BrooklynResearch and the password is pizza247
+
+- You can VNC into the mac mini using Finder>Go>Connect to Server and then typing in vnc://192.168.0.222 as the server address. It will then prompt you for username and password.

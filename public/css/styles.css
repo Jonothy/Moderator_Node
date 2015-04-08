@@ -44,9 +44,9 @@ header{
 }
 
 header h1{
-	padding-top:50px;
-	font-size:52px;
-	line-height:80px;
+	padding-top:20px;
+	font-size:32px;
+	line-height:32px;
 	color:#45bad3;
 }
 
@@ -105,10 +105,31 @@ nav a.active{
 --------------------------*/
 
 
-body > img{
+/*body > img{
 	display:block;
 	margin:60px auto;
 	border-radius: 3px;
+}*/
+
+#previewCanvas {
+	display:block;
+	margin:60px auto;
+	border-radius: 3px;
+}
+
+#filterCanvas {
+	display:block;
+	margin:60px auto;
+	border-radius: 3px;
+}
+
+
+#hiddenCanvas{
+	display: none;
+}
+
+#wrapper {
+	display: none;
 }
 
 .button-holder{

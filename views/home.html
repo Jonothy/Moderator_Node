@@ -36,22 +36,16 @@
 		/* image preview */
 		context.drawImage(imageObj, 0, 0);
 
-		console.log("image width and height");
-		console.log(imageObj.width);
-		console.log(imageObj.height);
+		// console.log("image width and height");
+		// console.log(imageObj.width);
+		// console.log(imageObj.height);
 
 
 		var imageData = context.getImageData(0,0,imageObj.width, imageObj.height);
 		var data = imageData.data;
 
-		for(var i = 0; i < data.length; i += 4) {
-	      // red
-	      data[i] = 255 - data[i];
-	      // green
-	      data[i + 1] = 255 - data[i + 1];
-	      // blue
-	      data[i + 2] = 255 - data[i + 2];
-	    }
+		// performing a negative filter
+		negativeFilter(data);
 	    filtercontext.putImageData(imageData, 0, 0);
 
 	    /* full size image save */
@@ -62,16 +56,8 @@
 		var saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
 		var saveData = saveImageData.data;
 
-
-		for(var i = 0; i < saveData.length; i += 4) {
-	      // red
-	      saveData[i] = 255 - saveData[i];
-	      // green
-	      saveData[i + 1] = 255 - saveData[i + 1];
-	      // blue
-	      saveData[i + 2] = 255 - saveData[i + 2];
-	    }
-
+		// performing a negative filter
+		negativeFilter(saveData);
 	    hiddencontext.putImageData(saveImageData, 0, 0);
 	    var uri = hiddencanvas.toDataURL("image/png");
 		// userImage.src = uri;
@@ -83,6 +69,19 @@
 
 	imageObj.src = "photos/{{photo.name}}";	
 	
+	// negative filter
+	function negativeFilter(pixelData){
+
+		for(var i = 0; i < pixelData.length; i += 4) {
+	      // red
+	      pixelData[i] = 255 - pixelData[i];
+	      // green
+	      pixelData[i + 1] = 255 - pixelData[i + 1];
+	      // blue
+	      pixelData[i + 2] = 255 - pixelData[i + 2];
+	    }
+
+	}
 
 
 </script>

@@ -20,7 +20,6 @@ module.exports = function(app){
 			var viewed = all_photos;
 
 			var not_viewed = all_photos.filter(function(photo){
-
 				if(photo.viewed == 0){
 					return all_photos.indexOf(photo.viewed == 0);
 				}
@@ -89,6 +88,25 @@ module.exports = function(app){
 
 	});
 
+	
+
+	// to be executed when a new image is registered
+	app.post('/newImage', newImage);
+
+	function newImage(req, res){
+
+		// add new Image
+	}
+
+	// to be executed when a new image is requested from client
+	app.get('/requestNext', requestNext);
+
+	function requestNext(req, res){
+
+		// send non-viewed image or tell client that there is none currently
+
+	}
+
 	// This is executed before the next two post requests
 	app.post('*', function(req, res, next){
 		
@@ -106,6 +124,7 @@ module.exports = function(app){
 
 	app.post('/notcute', vote);
 	app.post('/cute', vote);
+
 
 	function vote(req, res){
 

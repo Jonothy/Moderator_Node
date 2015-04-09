@@ -1,5 +1,5 @@
 {
-  "name": "picture-voting-game",
+  "name": "moderation_tool",
   "version": "0.0.1",
   "description": "Moderating with node.js",
   "main": "index.js",

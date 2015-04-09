@@ -97,7 +97,8 @@ module.exports = function(app){
 			// add up number of total photos there is
 
 			// Render the standings template and pass the photos and stats
-			res.render('standings', { standings: all_photos, numApproved: approved.length, numRejected : rejected.length, numPhotos: all_photos.length });
+			res.render('standings', { standings: all_photos, numApproved: approved.length, 
+					numRejected : rejected.length, numPhotos: all_photos.length });
 
 		});
 

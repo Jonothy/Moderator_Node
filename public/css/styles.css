@@ -132,6 +132,10 @@ nav a.active{
 	display: none;
 }
 
+#image-submit {
+	display: none;
+}
+
 .button-holder{
 	margin:0 auto;
 	text-align:center;
@@ -163,16 +167,22 @@ nav a.active{
 }
 
 
-/* The Cute! button */
+/* The Accepted button */
 
 .button-holder form:first-child input{
 	background: url('../img/sprite.svg') #aadb9c 17px -86px no-repeat;
 }
 
-/* The Not Cute! button */
+/*The Rejected button*/
 
-.button-holder form:last-child input{
+.button-holder form:nth-child(2) input{
 	background: url('../img/sprite.svg') #f3818d 17px 18px no-repeat;
+}
+
+/*The Save button*/
+
+.button-holder form:nth-child(3) input{
+	background: url('../img/sprite.svg') #f3818d 17px -86px no-repeat;
 }
 
 

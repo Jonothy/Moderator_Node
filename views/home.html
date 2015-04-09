@@ -8,11 +8,11 @@
 	<canvas id="filterCanvas" width = "530" height="420"></canvas>
 	
 	<div class="button-holder">
-		<form action="./cute" method="post">
+		<form action="./accepted" method="post">
 			<input type="hidden" name="photo" value="{{photo.name}}" />
 			<input type="submit" value="PUBLICLY ACCEPTABLE" />
 		</form>
-		<form action="./notcute" method="post">
+		<form action="./declined" method="post">
 			<input type="hidden" name="photo" value="{{photo.name}}" />
 			<input type="submit" value="NOT" />
 		</form>

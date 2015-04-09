@@ -122,8 +122,8 @@ module.exports = function(app){
 		
 	});
 
-	app.post('/notcute', vote);
-	app.post('/cute', vote);
+	app.post('/accepted', vote);
+	app.post('/declined', vote);
 
 
 	function vote(req, res){
@@ -131,8 +131,8 @@ module.exports = function(app){
 		// Which field to increment, depending on the path
 
 		var what = {
-			'/notcute': {dislikes:1},
-			'/cute': {likes:1}
+			'/accepted': {dislikes:1},
+			'/declined': {likes:1}
 		};
 
 		// Find the photo, increment the vote counter and mark that the user has voted on it.

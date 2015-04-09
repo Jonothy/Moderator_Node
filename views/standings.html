@@ -4,13 +4,15 @@
 </nav>
 
 {{#if standings}}
-
 	<ul>
+		Approved: {{ numApproved }}
+		Rejected: {{ numRejected}}
+		Total Photos: {{ numPhotos }}
 
 		{{#each standings}}
 		
 		<li>
-			<img src="photos/{{name}}" alt="Cat picture thumbnail" />
+			<img src="photos/{{name}}" alt="Moderated images thumbnail" />
 			<p class="up">{{this.likes}}</p>
 			<p class="down">{{this.dislikes}}</p>
 		</li>

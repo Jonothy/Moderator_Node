@@ -16,9 +16,6 @@ module.exports = function(app){
 		// Find all photos
 		photos.find({}, function(err, all_photos){
 
-			// Find photos with no votes or views
-			var viewed = all_photos;
-
 			var not_viewed = all_photos.filter(function(photo){
 				if(photo.viewed == 0){
 					return all_photos.indexOf(photo.viewed == 0);
@@ -31,9 +28,11 @@ module.exports = function(app){
 			var image_to_show = null;
 
 			if(not_viewed.length > 0){
+				var viewed_time = new Date();
 				// Choose a random image
 				image_to_show = not_viewed[Math.floor(Math.random()*not_viewed.length)];
-				photos.update(image_to_show, {$inc : {viewed:1}});
+				// update photo as viewed and update time of viewing
+				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
 
 
@@ -81,8 +80,24 @@ module.exports = function(app){
 				return (p2.likes - p2.dislikes) - (p1.likes - p1.dislikes);
 			});
 
-			// Render the standings template and pass the photos
-			res.render('standings', { standings: all_photos });
+			// add up number of approved photos
+			var approved = all_photos.filter(function(photo){
+				if(photo.likes == 1){
+					return all_photos.indexOf(photo.likes == 0);
+				}
+			});
+
+			// add up number of rejected photos
+			var rejected = all_photos.filter(function(photo){
+				if(photo.dislikes == 1){
+					return all_photos.indexOf(photo.dislikes == 0);
+				}
+			});
+
+			// add up number of total photos there is
+
+			// Render the standings template and pass the photos and stats
+			res.render('standings', { standings: all_photos, numApproved: approved.length, numRejected : rejected.length, numPhotos: all_photos.length });
 
 		});
 

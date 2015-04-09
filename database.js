@@ -33,6 +33,8 @@ photos_on_disk.forEach(function(photo){
 		likes: 0,
 		dislikes: 0,
 		viewed: 0,
+		time_added: 0,
+		time_viewed: 0
 	});
 });
 

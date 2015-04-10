@@ -3,7 +3,12 @@
  * It requires the database module that we wrote previously.
  */ 
 
-var db = require('./database'),
+var path = require('path'),
+	formidable = require('formidable'),
+	http = require('http'),
+	sys = require('sys'),
+	fs = require('fs'),
+	db = require('./database'),
 	photos = db.photos,
 	users = db.users;
 
@@ -21,9 +26,6 @@ module.exports = function(app){
 					return all_photos.indexOf(photo.viewed == 0);
 				}
 			});
-
-			console.log("not_viewed variable");
-			console.log(not_viewed);
 
 			var image_to_show = null;
 
@@ -112,6 +114,81 @@ module.exports = function(app){
 	function newImage(req, res){
 
 		// add new Image
+		// console.log(req.body);
+		console.log(req.body.imgData);
+		// console.log(res);
+		console.log("new photo")
+
+		// var imageBuffer = decodeBase64Image(req.body.imgData);
+		var data = req.body.imgData.replace(/^data:image\/\w+;base64,/, "");
+		var buf = new Buffer(data, 'base64');
+		fs.writeFile('public/uploads/testImage.png', buf);
+
+		console.log("SAVE BUFFER DATA");
+		// console.log(imageBuffer.data);
+		// fs.writeFile('public/uploads/yartery.png', imageBuffer.data, 'base64', function(err) { console.log(err);});
+
+
+		// var form = new formidable.IncomingForm();
+		console.log("before parse");
+	   //  form.parse(req, function(err, fields, files) {
+	   //      // `file` is the name of the <input> field of type `file`
+	   //      console.log(files);
+	   //      console.log(files.path);
+	   //      var old_path = files.path.path;
+
+	   //      console.log("what is old path?")
+
+		  //   var file_size = files.file.size,
+	   //          file_ext = files.file.name.split('.').pop(),
+	   //          index = old_path.lastIndexOf('/') + 1,
+	   //          file_name = old_path.substr(index),
+	   //          new_path = path.join(process.env.PWD, '/uploads/', file_name + '.' + file_ext);
+	 
+	 		// console.log("before file read");
+	   //      fs.readFile(old_path, function(err, data) {
+	   //          fs.writeFile(new_path, data, function(err) {
+	   //              fs.unlink(old_path, function(err) {
+	   //                  if (err) {
+	   //                      res.status(500);
+	   //                      res.json({'success': false});
+	   //                  } else {
+	   //                      res.status(200);
+	   //                      res.json({'success': true});
+	   //                  }
+	   //              });
+	   //          });
+	   //      });
+	   //  });
+
+		res.redirect('../');
+		// var photo = req.something?
+
+		// photos.insert({
+		// 	name: photo,
+		// 	likes: 0,
+		// 	dislikes: 0,
+		// 	viewed: 0,
+		// 	time_added: 0,
+		// 	time_viewed: 0
+		// });
+	}
+
+	function decodeBase64Image(dataString) {
+		var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+		response = {};
+
+		if (matches.length !== 3) {
+			console.log("error decoding");
+			return new Error('Invalid input string');
+		}
+
+		console.log("matches");
+
+		response.type = matches[1];
+		response.data = new Buffer(matches[2], 'base64');
+
+		return response;
 	}
 
 	// to be executed when a new image is requested from client
@@ -145,10 +222,14 @@ module.exports = function(app){
 	function vote(req, res){
 
 		// Which field to increment, depending on the path
-
+		console.log("req");
+		// console.log(req);
+		console.log(req.body);
+		// console.log("res");
+		// console.log(res);
 		var what = {
-			'/accepted': {dislikes:1},
-			'/declined': {likes:1}
+			'/accepted': {likes:1},
+			'/declined': {dislikes:1}
 		};
 
 		// Find the photo, increment the vote counter and mark that the user has voted on it.
@@ -162,6 +243,12 @@ module.exports = function(app){
 				users.update({ip: req.ip}, { $addToSet: { votes: found[0]._id}}, function(){
 					res.redirect('../');
 				});
+
+				/* if photo is liked and we want to save a processed photo */
+				if(req.path == '/accepted')
+				{
+					console.log("we should save this photo");
+				}
 
 			}
 			else{

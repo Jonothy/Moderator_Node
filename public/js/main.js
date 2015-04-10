@@ -5,6 +5,7 @@ var context = canvas.getContext('2d');
 var hiddencanvas = document.getElementById('hiddenCanvas');
 var hiddencontext = hiddencanvas.getContext('2d');
 var imageObj = new Image();
+var saveObj = new Image();
 
 imageObj.onload = function() {
 
@@ -47,7 +48,12 @@ acceptButton.addEventListener('click', function (e) {
 	imgtag.width = imageObj.width;
 	imgtag.height = imageObj.height;
 	imgtag.src = uri;
+	saveObj.width = imageObj.width;
+	saveObj.height = imageObj.height;
+	saveObj.src = uri;
 
+	console.log(imgtag);
+	// document.getElementById('upload').value = imgtag.src;
     document.getElementById('moderation-action').style.display = 'none';
     document.getElementById('image-submit').style.display = 'block';
 

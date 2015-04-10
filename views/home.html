@@ -1,0 +1,96 @@
+<nav>
+	<a class="active" href="./">Game</a>
+	<a href="./standings">Standings</a>
+</nav>
+{{#if photo}}
+	<canvas id="previewCanvas" width ="530" height="420"></canvas>
+<!-- 	<img src="photos/{{photo.name}}" width="530" height="420" alt="Cat Picture" /> -->
+	<div class="button-holder">
+		<!-- <form action="./accepted" method="post">
+			<input type="hidden" name="photo" value="{{photo.name}}" />
+			<input type="submit" value="PUBLICLY ACCEPTABLE" />
+		</form> -->
+		<div id="moderation-action">
+			<form action="./accepted" method="post">
+				<input type="hidden" name="photo" value="{{photo.name}}" />
+				<input type="button" id="btn-accept" value="PUBLICLY ACCEPTABLE" />
+			</form>
+			<form action="./declined" method="post">
+				<input type="hidden" name="photo" value="{{photo.name}}" />
+				<input type="submit" value="NOT" />
+			</form>
+		</div>
+		<div id="image-submit">
+			<!-- <form action="./accepted" id="data-submit" method="post" enctype="multipart/form-data"/> -->
+			<form action="./accepted" id="data-submit" name="data-submit" method="post"/>
+				<input type="hidden" name="photo" value="{{photo.name}}" />
+				<input type="hidden" id="upload" name="upload" value="something"/>
+				<!-- submit altered photo -->
+				<input type="submit" id="btn-accept" value="SAVE IMAGE" />
+			</form>
+		</div>
+	</div>
+	<div id="wrapper">
+		<canvas id="hiddenCanvas"></canvas>
+		<img id="imgtag" alt="capture"/>
+	</div>
+	<script src="js/support/jquery-2.1.3.min.js"></script>
+	<script src="js/filters.js"></script>
+	<script src="js/main.js"></script>
+	<script>
+		imageObj.src = "photos/{{photo.name}}";
+
+		$(document).ready(function () {
+		    $('#data-submit').submit(function () {
+		        // var formData = new FormData($('form')[0]);
+		        // console.log(saveObj);
+		        // console.log(saveObj.src);
+
+		        // function saveImage() {
+				    var canvasData = hiddenCanvas.toDataURL("image/png");
+				    console.log("canvas data");
+				    console.log(canvasData);
+				    var xmlHttpReq = false;       
+				    if (window.XMLHttpRequest) {
+				        ajax = new XMLHttpRequest();
+				    }
+
+				   ajax.open('POST', 'newImage', false);
+				   ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				   ajax.onreadystatechange = function() {
+				        console.log(ajax.responseText);
+				    }
+				   ajax.send("imgData="+canvasData);
+				// }
+
+
+		        // var formData = new FormData();
+		        // formData.append('photo', 'butts');
+		        // // formData.append('upload', saveObj);
+		        // console.log(formData);
+		        // // $('#response').html("<b>Loading response...</b>");
+		        // $.ajax({
+		        //     url: 'newImage',  //Server script to process data
+		        //     type: 'POST',
+		        //     data: formData,
+		        //     async: false,
+		        //     success: function (msg) {
+		        //     	alert("success");
+		        //         // $('#response').html(msg);
+		        //     },
+		        //     cache: false,
+		        //     // contentType: false,
+		        //     contentType: true,
+		        //     processData: false
+		        // });
+		        // this.reset();
+		        // return false;
+		    });
+		});
+	</script>
+
+{{else}}
+
+	<h3>No more photos to vote on! Check out the <a href="./standings">standings</a>.</h3>
+
+{{/if}}

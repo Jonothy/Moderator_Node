@@ -29,6 +29,8 @@ module.exports = function(app){
 	// Make the files in the public folder available to the world
 	app.use(express.static(__dirname + '/public'));
 
+	// app.use(express.bodyParser({uploadDir:'/public/uploaded'}));
+
 	// Parse POST request data. It will be available in the req.body object
 	app.use(express.urlencoded());
 

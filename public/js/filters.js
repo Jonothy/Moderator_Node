@@ -1,5 +1,6 @@
 /* image filter functions */
 
+/* negative filter */
 function negativeFilter(pixelData){
 
 	for(var i = 0; i < pixelData.length; i += 4) {

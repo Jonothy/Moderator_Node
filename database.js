@@ -34,7 +34,8 @@ photos_on_disk.forEach(function(photo){
 		dislikes: 0,
 		viewed: 0,
 		time_added: 0,
-		time_viewed: 0
+		time_viewed: 0,
+		time_saved: 0
 	});
 });
 

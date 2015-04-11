@@ -60,7 +60,7 @@
 				   ajax.onreadystatechange = function() {
 				        console.log(ajax.responseText);
 				    }
-				   ajax.send("imgData="+canvasData);
+				   ajax.send("imgData="+canvasData.replace(/^data:image\/(png|jpg);base64,/, ""));
 				// }
 
 

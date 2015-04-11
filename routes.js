@@ -119,11 +119,20 @@ module.exports = function(app){
 		// console.log(res);
 		console.log("new photo")
 
+
 		// var imageBuffer = decodeBase64Image(req.body.imgData);
-		var data = req.body.imgData.replace(/^data:image\/\w+;base64,/, "");
-		var buf = new Buffer(data, 'base64');
+		// var data = req.body.imgData.replace(/^data:image\/\w+;base64,/, "");
+		var data = req.body.imgData;
+		console.log("imgData is a type of");
+		
+		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
 		fs.writeFile('public/uploads/testImage.png', buf);
 
+		var stream = fs.createWriteStream('public/uploads/meow.png');
+		stream.write(buf);
+		stream.on("end", function() {
+			stream.end();
+		});
 		console.log("SAVE BUFFER DATA");
 		// console.log(imageBuffer.data);
 		// fs.writeFile('public/uploads/yartery.png', imageBuffer.data, 'base64', function(err) { console.log(err);});

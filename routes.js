@@ -37,36 +37,7 @@ module.exports = function(app){
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
 
-
-			// Find the photo, increment the vote counter and mark that the user has voted on it.
-
 			res.render('home', {photo: image_to_show });
-
-			// Find the current user
-			// users.find({ip: req.ip}, function(err, u){
-
-			// 	var voted_on = [];
-
-			// 	if(u.length == 1){
-			// 		voted_on = u[0].votes;
-			// 	}
-
-			// 	// Find which photos the user hasn't still voted on
-
-			// 	var not_voted_on = all_photos.filter(function(photo){
-			// 		return voted_on.indexOf(photo._id) == -1;
-			// 	});
-
-			// 	var image_to_show = null;
-
-			// 	if(not_voted_on.length > 0){
-			// 		// Choose a random image from the array
-			// 		image_to_show = not_voted_on[Math.floor(Math.random()*not_voted_on.length)];
-			// 	}
-
-			// 	res.render('home', { photo: image_to_show });
-
-			// });
 
 		});
 
@@ -106,71 +77,75 @@ module.exports = function(app){
 
 	});
 
+
+	// to be executed when a filtered image is received
+	app.post('/saveProcessed', saveProcessed);
 	
+	function saveProcessed(req, res){
 
-	// to be executed when a new image is registered
-	app.post('/newImage', newImage);
-
-	function newImage(req, res){
-
-		// add new Image
-		// console.log(req.body);
-		console.log(req.body.imgData);
+		// add uploaded image
+		// console.log(req.body);	
 		// console.log(res);
 		console.log("new photo")
 
-
-		// var imageBuffer = decodeBase64Image(req.body.imgData);
-		// var data = req.body.imgData.replace(/^data:image\/\w+;base64,/, "");
 		var data = req.body.imgData;
-		console.log("imgData is a type of");
 		
 		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
 		fs.writeFile('public/uploads/testImage.png', buf);
 
-		var stream = fs.createWriteStream('public/uploads/meow.png');
-		stream.write(buf);
-		stream.on("end", function() {
-			stream.end();
-		});
-		console.log("SAVE BUFFER DATA");
-		// console.log(imageBuffer.data);
-		// fs.writeFile('public/uploads/yartery.png', imageBuffer.data, 'base64', function(err) { console.log(err);});
 
+		// stream option in case for some reason too memory intensive
+		// var stream = fs.createWriteStream('public/uploads/meow.png');
+		// stream.write(buf);
+		// stream.on("end", function() {
+		// 	stream.end();
+		// });
+		console.log("SAVE BUFFER DATA");
+
+		res.status(200);
+		res.json({'success': true});
+
+	}
+
+	// to be executed when a new image is registered
+	app.post('/newImage', newImage);
+
+
+	function newImage(req, res){
+
+		// possible future more sophisticated form parsing
 
 		// var form = new formidable.IncomingForm();
-		console.log("before parse");
-	   //  form.parse(req, function(err, fields, files) {
-	   //      // `file` is the name of the <input> field of type `file`
-	   //      console.log(files);
-	   //      console.log(files.path);
-	   //      var old_path = files.path.path;
+		//  form.parse(req, function(err, fields, files) {
+		//      // `file` is the name of the <input> field of type `file`
+		//      console.log(files);
+		//      console.log(files.path);
+		//      var old_path = files.path.path;
 
-	   //      console.log("what is old path?")
+		//      console.log("what is old path?")
 
-		  //   var file_size = files.file.size,
-	   //          file_ext = files.file.name.split('.').pop(),
-	   //          index = old_path.lastIndexOf('/') + 1,
-	   //          file_name = old_path.substr(index),
-	   //          new_path = path.join(process.env.PWD, '/uploads/', file_name + '.' + file_ext);
-	 
-	 		// console.log("before file read");
-	   //      fs.readFile(old_path, function(err, data) {
-	   //          fs.writeFile(new_path, data, function(err) {
-	   //              fs.unlink(old_path, function(err) {
-	   //                  if (err) {
-	   //                      res.status(500);
-	   //                      res.json({'success': false});
-	   //                  } else {
-	   //                      res.status(200);
-	   //                      res.json({'success': true});
-	   //                  }
-	   //              });
-	   //          });
-	   //      });
-	   //  });
+		//   var file_size = files.file.size,
+		//          file_ext = files.file.name.split('.').pop(),
+		//          index = old_path.lastIndexOf('/') + 1,
+		//          file_name = old_path.substr(index),
+		//          new_path = path.join(process.env.PWD, '/uploads/', file_name + '.' + file_ext);
 
-		res.redirect('../');
+				// console.log("before file read");
+		//      fs.readFile(old_path, function(err, data) {
+		//          fs.writeFile(new_path, data, function(err) {
+		//              fs.unlink(old_path, function(err) {
+		//                  if (err) {
+		//                      res.status(500);
+		//                      res.json({'success': false});
+		//                  } else {
+		//                      res.status(200);
+		//                      res.json({'success': true});
+		//                  }
+		//              });
+		//          });
+		//      });
+		//  });
+
 		// var photo = req.something?
 
 		// photos.insert({
@@ -181,6 +156,8 @@ module.exports = function(app){
 		// 	time_added: 0,
 		// 	time_viewed: 0
 		// });
+
+		res.redirect('../');
 	}
 
 	function decodeBase64Image(dataString) {

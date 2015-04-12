@@ -25,10 +25,10 @@ var acceptButton = document.getElementById('btn-accept');
 acceptButton.addEventListener('click', function (e) {
     console.log("accepted!");
     var imageData = context.getImageData(0,0,imageObj.width, imageObj.height);
-	var data = imageData.data;
+	// var data = imageData.data;
 
 	// performing a negative filter
-	negativeFilter(data);
+	// negativeFilter(data);
     context.putImageData(imageData, 0, 0);
 
     // overlay
@@ -44,22 +44,22 @@ acceptButton.addEventListener('click', function (e) {
 	hiddencanvas.height = imageObj.height;
     hiddencontext.drawImage(imageObj, 0, 0);
 	var saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
-	var saveData = saveImageData.data;
+	// var saveData = saveImageData.data;
 
 	// performing a negative filter
-	negativeFilter(saveData);
+	// negativeFilter(saveData);
     hiddencontext.putImageData(saveImageData, 0, 0);
     var uri = hiddencanvas.toDataURL("image/png");
 	// userImage.src = uri;
-	console.log(uri);
-	imgtag.width = imageObj.width;
-	imgtag.height = imageObj.height;
-	imgtag.src = uri;
+	// console.log(uri);
+	// imgtag.width = imageObj.width;
+	// imgtag.height = imageObj.height;
+	// imgtag.src = uri;
 	saveObj.width = imageObj.width;
 	saveObj.height = imageObj.height;
 	saveObj.src = uri;
 
-	console.log(imgtag);
+	// console.log(imgtag);
 	// document.getElementById('upload').value = imgtag.src;
     document.getElementById('moderation-action').style.display = 'none';
     document.getElementById('image-submit').style.display = 'block';

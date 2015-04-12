@@ -39,12 +39,12 @@ section, footer, header, aside{
 
 
 header{
-	padding:20px;
+	padding:10px;
 	text-align: center;
 }
 
 header h1{
-	padding-top:20px;
+	padding-top:10px;
 	font-size:32px;
 	line-height:32px;
 	color:#45bad3;
@@ -111,18 +111,15 @@ nav a.active{
 	border-radius: 3px;
 }*/
 
+#overlay-images {
+	display:none;
+}
+
 #previewCanvas {
 	display:block;
 	margin:60px auto;
 	border-radius: 3px;
 }
-
-#filterCanvas {
-	display:block;
-	margin:60px auto;
-	border-radius: 3px;
-}
-
 
 #hiddenCanvas{
 	display: none;

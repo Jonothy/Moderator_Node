@@ -31,6 +31,13 @@ acceptButton.addEventListener('click', function (e) {
 	negativeFilter(data);
     context.putImageData(imageData, 0, 0);
 
+    // overlay
+    var compositeTest = document.getElementById('overlay-0');
+	// composite the image
+	context.globalCompositeOperation = "source-over";
+	// context.globalCompositeOperation = "destination-over";
+	context.drawImage(compositeTest,-100,-10);
+
     /* full size image save */
 
     hiddencanvas.width = imageObj.width;

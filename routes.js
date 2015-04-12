@@ -84,7 +84,8 @@ module.exports = function(app){
 	function saveProcessed(req, res){
 
 		// add uploaded image
-		// console.log(req.body);	
+		console.log(req.body);
+		console.log(req.body.photoName);	
 		// console.log(res);
 		console.log("new photo")
 

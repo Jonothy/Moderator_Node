@@ -13,6 +13,7 @@ var handlebars = require('express3-handlebars'),
 
 module.exports = function(app){
 
+	console.log("CONFIG.JS");
 	// Register and configure the handlebars templating engine
 	app.engine('html', handlebars({ 
 		defaultLayout: 'main',

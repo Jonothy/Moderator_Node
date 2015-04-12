@@ -8,6 +8,7 @@ var path = require('path'),
 	http = require('http'),
 	sys = require('sys'),
 	fs = require('fs'),
+	watch = require('watch')
 	db = require('./database'),
 	photos = db.photos,
 	users = db.users;
@@ -15,6 +16,7 @@ var path = require('path'),
 
 module.exports = function(app){
 
+	console.log("ROUTES.JS");
 	// Homepage
 	app.get('/', function(req, res){
 
@@ -84,7 +86,6 @@ module.exports = function(app){
 	function saveProcessed(req, res){
 
 		// add uploaded image
-		console.log(req.body);
 		console.log(req.body.photoName);	
 		// console.log(res);
 		console.log("new photo")

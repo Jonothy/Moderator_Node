@@ -54,14 +54,21 @@ chokidar.watch(__dirname + '/public/photos', {ignored: /[\/\\]\./}).on('all', fu
 		//   console.log(data);
 		// });
 
+		// location_id will be based on the path the file was found in
+		var location_id = 0;
+
+		var added_time = new Date();
+
 		photos.insert({
 			name: path.replace(/^.*[\\\/]/, ''),
 			likes: 0,
 			dislikes: 0,
 			viewed: 0,
-			time_added: 0,
+			time_added: added_time.toString(),
 			time_viewed: 0,
-			time_saved: 0
+			time_saved: 0,
+			loc_id: location_id,
+			filepath: path
 		});
 	}
 });
@@ -76,15 +83,22 @@ var log = console.log.bind(console);
 watcher
   .on('add', function(path) { 
   		log('File', path, 'has been added'); 
-  		photos.insert({
-  			name: path.replace(/^.*[\\\/]/, ''),
+  		// location_id will be based on the path the file was found in
+		var location_id = 0;
+
+		var added_time = new Date();
+
+		photos.insert({
+			name: path.replace(/^.*[\\\/]/, ''),
 			likes: 0,
 			dislikes: 0,
 			viewed: 0,
-			time_added: 0,
+			time_added: added_time.toString(),
 			time_viewed: 0,
-			time_saved: 0
-  		});
+			time_saved: 0,
+			loc_id: location_id,
+			filepath: path
+		});
   	})
   // .on('change', function(path) { log('File', path, 'has been changed'); })
   // .on('unlink', function(path) { log('File', path, 'has been removed'); })

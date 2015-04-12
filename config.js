@@ -33,6 +33,6 @@ module.exports = function(app){
 	// app.use(express.bodyParser({uploadDir:'/public/uploaded'}));
 
 	// Parse POST request data. It will be available in the req.body object
-	app.use(express.urlencoded());
+	app.use(express.urlencoded({limit: '50mb'}));
 
 };

@@ -45,7 +45,7 @@ module.exports = function(app){
 
 	});
 
-	app.get('/standings', function(req, res){
+	app.get('/stats', function(req, res){
 
 		photos.find({}, function(err, all_photos){
 
@@ -72,7 +72,7 @@ module.exports = function(app){
 			// add up number of total photos there is
 
 			// Render the standings template and pass the photos and stats
-			res.render('standings', { standings: all_photos, numApproved: approved.length, 
+			res.render('stats', { standings: all_photos, numApproved: approved.length, 
 					numRejected : rejected.length, numPhotos: all_photos.length });
 
 		});
@@ -88,7 +88,7 @@ module.exports = function(app){
 		// add uploaded image
 		console.log(req.body.photoName);	
 		// console.log(res);
-		console.log("new photo")
+		console.log("processed photo")
 
 		var data = req.body.imgData;
 		
@@ -109,55 +109,11 @@ module.exports = function(app){
 
 	}
 
-	// to be executed when a new image is registered
+	// possible hook for adding photos via POST request
 	app.post('/newImage', newImage);
 
 
 	function newImage(req, res){
-
-		// possible future more sophisticated form parsing
-
-		// var form = new formidable.IncomingForm();
-		//  form.parse(req, function(err, fields, files) {
-		//      // `file` is the name of the <input> field of type `file`
-		//      console.log(files);
-		//      console.log(files.path);
-		//      var old_path = files.path.path;
-
-		//      console.log("what is old path?")
-
-		//   var file_size = files.file.size,
-		//          file_ext = files.file.name.split('.').pop(),
-		//          index = old_path.lastIndexOf('/') + 1,
-		//          file_name = old_path.substr(index),
-		//          new_path = path.join(process.env.PWD, '/uploads/', file_name + '.' + file_ext);
-
-				// console.log("before file read");
-		//      fs.readFile(old_path, function(err, data) {
-		//          fs.writeFile(new_path, data, function(err) {
-		//              fs.unlink(old_path, function(err) {
-		//                  if (err) {
-		//                      res.status(500);
-		//                      res.json({'success': false});
-		//                  } else {
-		//                      res.status(200);
-		//                      res.json({'success': true});
-		//                  }
-		//              });
-		//          });
-		//      });
-		//  });
-
-		// var photo = req.something?
-
-		// photos.insert({
-		// 	name: photo,
-		// 	likes: 0,
-		// 	dislikes: 0,
-		// 	viewed: 0,
-		// 	time_added: 0,
-		// 	time_viewed: 0
-		// });
 
 		res.redirect('../');
 	}
@@ -230,6 +186,32 @@ module.exports = function(app){
 
 				users.update({ip: req.ip}, { $addToSet: { votes: found[0]._id}}, function(){
 					res.redirect('../');
+
+					// ajax response
+					// Find all photos
+					// photos.find({}, function(err, all_photos){
+
+					// 	var not_viewed = all_photos.filter(function(photo){
+					// 		if(photo.viewed == 0){
+					// 			return all_photos.indexOf(photo.viewed == 0);
+					// 		}
+					// 	});
+
+					// 	var image_to_show = null;
+
+					// 	if(not_viewed.length > 0){
+					// 		var viewed_time = new Date();
+					// 		// Choose a random image
+					// 		image_to_show = not_viewed[Math.floor(Math.random()*not_viewed.length)];
+					// 		// update photo as viewed and update time of viewing
+					// 		photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
+					// 	}
+
+					// 	res.status(200);
+					// 	res.json({'success': true, 'photoName': image_to_show});
+					// 	res.redirect('../');
+
+					// });
 				});
 
 				/* if photo is liked and we want to save a processed photo */

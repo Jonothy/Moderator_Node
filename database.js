@@ -86,14 +86,14 @@ watcher
 			time_saved: 0
   		});
   	})
-  .on('change', function(path) { log('File', path, 'has been changed'); })
-  .on('unlink', function(path) { log('File', path, 'has been removed'); })
-  // More events.
-  .on('addDir', function(path) { log('Directory', path, 'has been added'); })
-  .on('unlinkDir', function(path) { log('Directory', path, 'has been removed'); })
-  .on('error', function(error) { log('Error happened', error); })
-  .on('ready', function() { log('Initial scan complete. Ready for changes.'); })
-  .on('raw', function(event, path, details) { log('Raw event info:', event, path, details); })
+  // .on('change', function(path) { log('File', path, 'has been changed'); })
+  // .on('unlink', function(path) { log('File', path, 'has been removed'); })
+  // // More events.
+  // .on('addDir', function(path) { log('Directory', path, 'has been added'); })
+  // .on('unlinkDir', function(path) { log('Directory', path, 'has been removed'); })
+  // .on('error', function(error) { log('Error happened', error); })
+  // .on('ready', function() { log('Initial scan complete. Ready for changes.'); })
+  // .on('raw', function(event, path, details) { log('Raw event info:', event, path, details); })
 
 	// 'add', 'addDir' and 'change' events also receive stat() results as second
 	// argument when available: http://nodejs.org/api/fs.html#fs_class_fs_stats
@@ -110,7 +110,8 @@ chokidar.watch('file', {
   followSymlinks: true,
   cwd: '.',
 
-  usePolling: true,
+  useFsEvents: true,
+  // usePolling: true,
   alwaysStat: false,
   depth: undefined,
   interval: 1000,

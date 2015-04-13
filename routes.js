@@ -176,30 +176,37 @@ module.exports = function(app){
 		res.redirect('../');
 	}
 
-	function decodeBase64Image(dataString) {
-		var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-		response = {};
-
-		if (matches.length !== 3) {
-			console.log("error decoding");
-			return new Error('Invalid input string');
-		}
-
-		console.log("matches");
-
-		response.type = matches[1];
-		response.data = new Buffer(matches[2], 'base64');
-
-		return response;
-	}
 
 	// to be executed when a new image is requested from client
-	app.get('/requestNext', requestNext);
+	app.post('/requestNext', requestNext);
 
 	function requestNext(req, res){
 
 		// send non-viewed image or tell client that there is none currently
+		// Find all photos
+		photos.find({}, function(err, all_photos){
 
+			var not_viewed = all_photos.filter(function(photo){
+				if(photo.viewed == 0){
+					return all_photos.indexOf(photo.viewed == 0);
+				}
+			});
+
+			var image_to_show = null;
+
+			if(not_viewed.length > 0){
+				var viewed_time = new Date();
+				// Choose a random image
+				image_to_show = not_viewed[Math.floor(Math.random()*not_viewed.length)];
+				// update photo as viewed and update time of viewing
+				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
+			}
+
+			res.status(200);
+			res.json({'success': true, 'photoName': image_to_show});
+		// 	res.redirect('../');
+
+		});
 	}
 
 	// This is executed before the next two post requests

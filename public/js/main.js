@@ -35,8 +35,8 @@ acceptButton.addEventListener('click', function (e) {
     console.log("accepted!");
 
 	// performing a negative filter
-	// negativeFilter(imageData.data);
-    // context.putImageData(imageData, 0, 0);
+	negativeFilter(imageData.data);
+    context.putImageData(imageData, 0, 0);
 
 	// composite the image
 	context.globalCompositeOperation = "source-over";
@@ -46,8 +46,8 @@ acceptButton.addEventListener('click', function (e) {
     /* full size image save */
 
 	// performing a negative filter
-	// negativeFilter(saveImageData.data);
-    // hiddencontext.putImageData(saveImageData, 0, 0);
+	negativeFilter(saveImageData.data);
+    hiddencontext.putImageData(saveImageData, 0, 0);
 
     hiddencontext.globalCompositeOperation = "source-over";
 	hiddencontext.drawImage(compositeObj,-100,-10);

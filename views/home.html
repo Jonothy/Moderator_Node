@@ -60,7 +60,7 @@
 		    var canvasData = hiddenCanvas.toDataURL("image/png");
 			postData += "&imgData=";
 			postData +=canvasData.replace(/^data:image\/(png|jpg);base64,/, "");
-			// console.log("postData");
+			console.log("submit");
 			// console.log(postData);
 
 		    $.ajax(
@@ -88,6 +88,27 @@
 		        	else{
 
 		        		console.log("no more photos!");
+		        		poll("/requestNext", "POST", 1000,
+						    function beforeRequest(xhr) {
+						        return "beforeRequest";
+						    },
+						    function onSuccess(xhr) {
+						        var data = JSON.parse(xhr.responseText);
+						        // show messages...
+						        console.log('poll success');
+						        console.log(data);
+						    },
+						    function onError(xhr, sendRequest, period) {
+						        if (xhr.status === 401) {
+						            // show dialog to log in user
+						            console.log("in 401")
+						        }
+						        else {
+						            // retry the operation
+						            setTimeout(sendRequest, period + 1000);
+						        }
+						    }
+						);
 		        	}
 		        	document.getElementById('moderation-action').style.display = 'block';
     				document.getElementById('image-submit').style.display = 'none';
@@ -103,6 +124,32 @@
 		    e.preventDefault(); //STOP default action
 		    // e.unbind(); //unbind. to stop multiple form submit.
 		});
+
+		function poll(url, method, period, beforeRequest, onSuccess, onError) {
+		    var xhr = new XMLHttpRequest(),
+		        onReadyStateChange= function() {
+		            if (this.readyState === 4) {
+		                if (this.status === 200 || this.status === 201) {
+		                    onSuccess(xhr);
+		                    setTimeout(sendRequest, period);
+		                }
+		                else if (this.status > 399) {
+		                    // Allow error handling code to retry the operation
+		                    onError(xhr, sendRequest, period);
+		                }
+		            }
+		        },
+		        sendRequest = function() {
+		            var data = beforeRequest(xhr) || null;
+		            xhr.open(method, url, true);
+		            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+		            xhr.send(data);
+		        };
+
+		    xhr.onreadystatechange = onReadyStateChange;
+
+		    setTimeout(sendRequest, period);
+		}
 		 
 		// $("#data-submit").submit();
 

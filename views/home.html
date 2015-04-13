@@ -4,9 +4,9 @@
 </nav>
 
 <!-- composite test -->
-	<div id="overlay-images">
+<!-- 	<div id="overlay-images">
 		<img id="overlay-0" alt="composite source" src="img/sequence01.png"/>
-	</div>
+	</div> -->
 	
 {{#if photo}}
 	<canvas id="previewCanvas" width ="530" height="420"></canvas>
@@ -28,11 +28,13 @@
 		</div>
 		<div id="image-submit">
 			<!-- <form action="./accepted" id="data-submit" method="post" enctype="multipart/form-data"/> -->
-			<form action="./accepted" id="data-submit" name="data-submit" method="post"/>
-				<input type="hidden" name="photo" value="{{photo.name}}" />
+			<form action="./saveProcessed" id="data-submit" name="data-submit" method="post"/>
+			<!-- <div id="data-submit"> -->
+				<input type="hidden" id="photo-name" name="photo" value="{{photo.name}}" />
 				<input type="hidden" id="upload" name="upload" value="something"/>
 				<!-- submit altered photo -->
 				<input type="submit" id="btn-accept" value="SAVE IMAGE" />
+			<!-- </div> -->
 			</form>
 		</div>
 	</div>
@@ -51,31 +53,87 @@
 		imageObj.src = "photos/{{photo.name}}";
 
 
-		$(document).ready(function () {
-		    $('#data-submit').submit(function () {
-		        // var formData = new FormData($('form')[0]);
-		        // console.log(saveObj);
-		        // console.log(saveObj.src);
+		$("#data-submit").submit(function(e)
+		{
+		    var postData = 'photo=' + document.getElementById('photo-name').value;
+		    // console.log(postData);
+		    var canvasData = hiddenCanvas.toDataURL("image/png");
+			postData += "&imgData=";
+			postData +=canvasData.replace(/^data:image\/(png|jpg);base64,/, "");
+			// console.log("postData");
+			// console.log(postData);
 
-		        // function saveImage() {
-				    var canvasData = hiddenCanvas.toDataURL("image/png");
-				    var dataSend = "imgData=";
-				    dataSend+=canvasData.replace(/^data:image\/(png|jpg);base64,/, "");
-				    dataSend+="&photoName=";
-				    dataSend+="{{photo.name}}";
-				    console.log("canvas data");
-				    console.log(canvasData);
-				    var xmlHttpReq = false;       
-				    if (window.XMLHttpRequest) {
-				        ajax = new XMLHttpRequest();
-				    }
+		    $.ajax(
+		    {
+		        url : 'saveProcessed',
+		        type: "POST",
+		        data : postData,
+		        success:function(data, textStatus, jqXHR) 
+		        {
+		        	//data: return data from server
+		        	console.log("successful posting!");
+		        	// console.log(data);
 
-				   ajax.open('POST', 'saveProcessed', false);
-				   ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				   ajax.onreadystatechange = function() {
-				        console.log(ajax.responseText);
-				    }
-				   ajax.send(dataSend);
+		        	if(data.photoName !== undefined && data.photoName !== null){
+			        	var nameOfPhoto = data.photoName.name;
+				        context.clearRect(0, 0, canvas.width, canvas.height);
+				        hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
+
+				        imageObj.src = "photos/"+nameOfPhoto;
+
+				        document.getElementById('photo-name').value = nameOfPhoto;
+
+		        	}
+
+		        	else{
+
+		        		console.log("no more photos!");
+		        	}
+		        	document.getElementById('moderation-action').style.display = 'block';
+    				document.getElementById('image-submit').style.display = 'none';
+		            
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) 
+		        {
+		        	console.log("unsuccesful");
+		        	console.log(data);
+		            //if fails      
+		        }
+		    });
+		    e.preventDefault(); //STOP default action
+		    // e.unbind(); //unbind. to stop multiple form submit.
+		});
+		 
+		// $("#data-submit").submit();
+
+		// $(document).ready(function () {
+		    // $('#data-submit').submit(function () {
+		    //     // var formData = new FormData($('form')[0]);
+		    //     // console.log(saveObj);
+		    //     // console.log(saveObj.src);
+
+		    //     console.log("submitted");
+		    //     // function saveImage() {
+				    // var canvasData = hiddenCanvas.toDataURL("image/png");
+				    // var dataSend = "imgData=";
+				    // dataSend+=canvasData.replace(/^data:image\/(png|jpg);base64,/, "");
+				  //   dataSend+="&photoName=";
+				  //   dataSend+="{{photo.name}}";
+				  //   console.log("canvas data");
+				  //   console.log(canvasData);
+				  //   var xmlHttpReq = false;       
+				  //   if (window.XMLHttpRequest) {
+				  //       ajax = new XMLHttpRequest();
+				  //   }
+
+				  //  ajax.open('POST', 'saveProcessed', false);
+				  //  ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				  //  ajax.onreadystatechange = function() {
+				  //       console.log(ajax.responseText);
+				  //    	var parsed_data = JSON.parse(ajax.responseText);
+				  //    	console.log(parsed_data.photoName);
+				  //   }
+				  //  ajax.send(dataSend);
 				// }
 
 
@@ -100,8 +158,8 @@
 		        // });
 		        // this.reset();
 		        // return false;
-		    });
-		});
+		    // });
+		// });
 	</script>
 
 {{else}}

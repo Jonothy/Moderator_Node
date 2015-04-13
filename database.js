@@ -9,7 +9,6 @@
 
 // Require the nedb module
 var Datastore = require('nedb'),
-	watch = require('watch'),
 	chokidar = require('chokidar'),
 	fs = require('fs');
 

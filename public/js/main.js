@@ -6,17 +6,26 @@ var hiddencanvas = document.getElementById('hiddenCanvas');
 var hiddencontext = hiddencanvas.getContext('2d');
 var imageObj = new Image();
 var saveObj = new Image();
+var compositeObj = new Image();
+var saveImageData;
+
+compositeObj.src = "img/sequence01.png";
+
 
 imageObj.onload = function() {
 
 	/* image preview */
 	context.drawImage(imageObj, 0, 0);
+	hiddencanvas.width = imageObj.width;
+	hiddencanvas.height = imageObj.height;
+	hiddencontext.drawImage(imageObj, 0, 0);
+	
+	imageData = context.getImageData(0,0,imageObj.width, imageObj.height);
+	saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
+	saveObj.width = imageObj.width;
+	saveObj.height = imageObj.height;
 
-	// console.log("image width and height");
-	// console.log(imageObj.width);
-	// console.log(imageObj.height);
-
-
+	console.log("image loaded!");
 
 };
 
@@ -24,43 +33,30 @@ imageObj.onload = function() {
 var acceptButton = document.getElementById('btn-accept');
 acceptButton.addEventListener('click', function (e) {
     console.log("accepted!");
-    var imageData = context.getImageData(0,0,imageObj.width, imageObj.height);
-	// var data = imageData.data;
 
 	// performing a negative filter
-	// negativeFilter(data);
-    context.putImageData(imageData, 0, 0);
+	// negativeFilter(imageData.data);
+    // context.putImageData(imageData, 0, 0);
 
-    // overlay
-    var compositeTest = document.getElementById('overlay-0');
 	// composite the image
 	context.globalCompositeOperation = "source-over";
 	// context.globalCompositeOperation = "destination-over";
-	context.drawImage(compositeTest,-100,-10);
+	context.drawImage(compositeObj,-100,-10);
 
     /* full size image save */
 
-    hiddencanvas.width = imageObj.width;
-	hiddencanvas.height = imageObj.height;
-    hiddencontext.drawImage(imageObj, 0, 0);
-	var saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
-	// var saveData = saveImageData.data;
-
 	// performing a negative filter
-	// negativeFilter(saveData);
-    hiddencontext.putImageData(saveImageData, 0, 0);
-    var uri = hiddencanvas.toDataURL("image/png");
-	// userImage.src = uri;
-	// console.log(uri);
-	// imgtag.width = imageObj.width;
-	// imgtag.height = imageObj.height;
-	// imgtag.src = uri;
-	saveObj.width = imageObj.width;
-	saveObj.height = imageObj.height;
-	saveObj.src = uri;
+	// negativeFilter(saveImageData.data);
+    // hiddencontext.putImageData(saveImageData, 0, 0);
 
-	// console.log(imgtag);
-	// document.getElementById('upload').value = imgtag.src;
+    hiddencontext.globalCompositeOperation = "source-over";
+	hiddencontext.drawImage(compositeObj,-100,-10);
+
+    var uri = hiddencanvas.toDataURL("image/png");
+
+	saveObj.src = uri;
+	console.log('processed!');
+
     document.getElementById('moderation-action').style.display = 'none';
     document.getElementById('image-submit').style.display = 'block';
 

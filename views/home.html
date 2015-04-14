@@ -57,7 +57,8 @@
 
 		imageObj.src = "photos/{{photo.name}}";
 
-		var pollTimer;
+		var pollTimer1, pollTimer2;
+		var clear = false;
 
 		$("#data-submit").submit(function(e)
 		{
@@ -93,6 +94,7 @@
 
 		        	else{
 
+		        		clear = false;
 		        		console.log("no more photos!");
 		        		poll("/requestNext", "POST", 1000,
 						    function beforeRequest(xhr) {
@@ -112,7 +114,9 @@
 
 							        document.getElementById('photo-name').value = nameOfPhoto;
 							        console.log('found new photo');
-							        clearTimeout(pollTimer);
+							        clearTimeout(pollTimer1);
+							        clearTimeout(pollTimer2);
+							        clear = true;
 
 					        	}
 						    },
@@ -150,7 +154,10 @@
 		            if (this.readyState === 4) {
 		                if (this.status === 200 || this.status === 201) {
 		                    onSuccess(xhr);
-		                    // setTimeout(sendRequest, period);
+		                    if(!clear){
+			                    pollTimer2 = setTimeout(sendRequest, period);
+			                }
+
 		                }
 		                else if (this.status > 399) {
 		                    // Allow error handling code to retry the operation
@@ -167,8 +174,8 @@
 
 		    xhr.onreadystatechange = onReadyStateChange;
 
-		    pollTimer = setTimeout(sendRequest, period);
-		    pollTimer();
+		    pollTimer1 = setTimeout(sendRequest, period);
+		    // pollTimer1();
 		}
 		 
 	</script>

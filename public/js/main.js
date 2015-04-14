@@ -43,7 +43,7 @@ acceptButton.addEventListener('click', function (e) {
 	// context.globalCompositeOperation = "destination-over";
 	context.drawImage(compositeObj,-100,-10);
 
-    /* full size image save */
+    // full size image save 
 
 	// performing a negative filter
 	negativeFilter(saveImageData.data);
@@ -52,9 +52,9 @@ acceptButton.addEventListener('click', function (e) {
     hiddencontext.globalCompositeOperation = "source-over";
 	hiddencontext.drawImage(compositeObj,-100,-10);
 
-    var uri = hiddencanvas.toDataURL("image/png");
+    // var uri = hiddencanvas.toDataURL("image/jpeg");
 
-	saveObj.src = uri;
+	// saveObj.src = uri;
 	console.log('processed!');
 
     document.getElementById('moderation-action').style.display = 'none';

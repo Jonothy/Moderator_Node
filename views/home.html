@@ -9,6 +9,11 @@
 	</div> -->
 	
 {{#if photo}}
+
+	<div id="waiting-new">
+		<h3>No more photos, please wait. Check out the <a href="./stats">stats</a>.</h3>
+
+	</div>
 	<canvas id="previewCanvas" width ="530" height="420"></canvas>
 <!-- 	<img src="photos/{{photo.name}}" width="530" height="420" alt="Cat Picture" /> -->
 	<div class="button-holder">
@@ -52,12 +57,13 @@
 
 		imageObj.src = "photos/{{photo.name}}";
 
+		var pollTimer;
 
 		$("#data-submit").submit(function(e)
 		{
 		    var postData = 'photo=' + document.getElementById('photo-name').value;
 		    // console.log(postData);
-		    var canvasData = hiddenCanvas.toDataURL("image/png");
+		    var canvasData = hiddenCanvas.toDataURL("image/jpg");
 			postData += "&imgData=";
 			postData +=canvasData.replace(/^data:image\/(png|jpg);base64,/, "");
 			console.log("submit");
@@ -97,6 +103,18 @@
 						        // show messages...
 						        console.log('poll success');
 						        console.log(data);
+						        if(data.photoName !== undefined && data.photoName !== null){
+						        	var nameOfPhoto = data.photoName.name;
+							        context.clearRect(0, 0, canvas.width, canvas.height);
+							        hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
+
+							        imageObj.src = "photos/"+nameOfPhoto;
+
+							        document.getElementById('photo-name').value = nameOfPhoto;
+							        console.log('found new photo');
+							        clearTimeout(pollTimer);
+
+					        	}
 						    },
 						    function onError(xhr, sendRequest, period) {
 						        if (xhr.status === 401) {
@@ -105,6 +123,7 @@
 						        }
 						        else {
 						            // retry the operation
+						            console.log('retrying');
 						            setTimeout(sendRequest, period + 1000);
 						        }
 						    }
@@ -131,7 +150,7 @@
 		            if (this.readyState === 4) {
 		                if (this.status === 200 || this.status === 201) {
 		                    onSuccess(xhr);
-		                    setTimeout(sendRequest, period);
+		                    // setTimeout(sendRequest, period);
 		                }
 		                else if (this.status > 399) {
 		                    // Allow error handling code to retry the operation
@@ -148,65 +167,10 @@
 
 		    xhr.onreadystatechange = onReadyStateChange;
 
-		    setTimeout(sendRequest, period);
+		    pollTimer = setTimeout(sendRequest, period);
+		    pollTimer();
 		}
 		 
-		// $("#data-submit").submit();
-
-		// $(document).ready(function () {
-		    // $('#data-submit').submit(function () {
-		    //     // var formData = new FormData($('form')[0]);
-		    //     // console.log(saveObj);
-		    //     // console.log(saveObj.src);
-
-		    //     console.log("submitted");
-		    //     // function saveImage() {
-				    // var canvasData = hiddenCanvas.toDataURL("image/png");
-				    // var dataSend = "imgData=";
-				    // dataSend+=canvasData.replace(/^data:image\/(png|jpg);base64,/, "");
-				  //   dataSend+="&photoName=";
-				  //   dataSend+="{{photo.name}}";
-				  //   console.log("canvas data");
-				  //   console.log(canvasData);
-				  //   var xmlHttpReq = false;       
-				  //   if (window.XMLHttpRequest) {
-				  //       ajax = new XMLHttpRequest();
-				  //   }
-
-				  //  ajax.open('POST', 'saveProcessed', false);
-				  //  ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				  //  ajax.onreadystatechange = function() {
-				  //       console.log(ajax.responseText);
-				  //    	var parsed_data = JSON.parse(ajax.responseText);
-				  //    	console.log(parsed_data.photoName);
-				  //   }
-				  //  ajax.send(dataSend);
-				// }
-
-
-		        // var formData = new FormData();
-		        // formData.append('photo', 'butts');
-		        // // formData.append('upload', saveObj);
-		        // console.log(formData);
-		        // // $('#response').html("<b>Loading response...</b>");
-		        // $.ajax({
-		        //     url: 'newImage',  //Server script to process data
-		        //     type: 'POST',
-		        //     data: formData,
-		        //     async: false,
-		        //     success: function (msg) {
-		        //     	alert("success");
-		        //         // $('#response').html(msg);
-		        //     },
-		        //     cache: false,
-		        //     // contentType: false,
-		        //     contentType: true,
-		        //     processData: false
-		        // });
-		        // this.reset();
-		        // return false;
-		    // });
-		// });
 	</script>
 
 {{else}}

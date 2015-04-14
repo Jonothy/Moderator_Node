@@ -6,6 +6,7 @@
  * routes.js
  */ 
 
+var nasSavePath = '/Volumes/nas'
 
 // Require the nedb module
 var Datastore = require('nedb'),
@@ -43,7 +44,7 @@ users.ensureIndex({fieldName: 'ip', unique: true});
 
 
 // watcher function
-chokidar.watch(__dirname + '/public/photos', {ignored: /[\/\\]\./}).on('all', function(event, path) {
+chokidar.watch([__dirname + '/public/photos'], {ignored: /[\/\\]\./}).on('all', function(event, path) {
   console.log(event, path);
   console.log("stuff");
 

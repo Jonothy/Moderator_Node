@@ -111,6 +111,10 @@ nav a.active{
 	border-radius: 3px;
 }*/
 
+#waiting-new {
+	display:none;
+}
+
 #overlay-images {
 	display:none;
 }

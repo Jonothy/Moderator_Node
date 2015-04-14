@@ -12,6 +12,7 @@ var path = require('path'),
 	photos = db.photos,
 	users = db.users;
 
+var nasSavePath = '/Volumes/nas';
 
 module.exports = function(app){
 
@@ -97,6 +98,15 @@ module.exports = function(app){
 		  if (err) throw err;
 		  console.log('It\'s saved!');
 		  fs.rename('public/uploads/modified_'+photoName, 'public/uploads/finalized_'+photoName, function (err) {
+		  	if (err) throw err;
+		  	console.log('finalized!');
+		  });
+		});
+
+		fs.writeFile(nasSavePath+'/modified_'+photoName, buf, function (err) {
+		  if (err) throw err;
+		  console.log('It\'s saved!');
+		  fs.rename(nasSavePath+'/modified_'+photoName, nasSavePath + '/finalized_'+photoName, function (err) {
 		  	if (err) throw err;
 		  	console.log('finalized!');
 		  });

@@ -16,7 +16,6 @@ var nasSavePath = '/Volumes/nas';
 
 module.exports = function(app){
 
-	console.log("ROUTES.JS");
 	// Homepage
 	app.get('/', function(req, res){
 
@@ -31,6 +30,8 @@ module.exports = function(app){
 
 			var image_to_show = null;
 
+
+
 			if(not_viewed.length > 0){
 				var viewed_time = new Date();
 				// Choose a random image
@@ -38,6 +39,8 @@ module.exports = function(app){
 				// update photo as viewed and update time of viewing
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
+			console.log('image to show');
+			console.log(image_to_show);
 
 			res.render('home', {photo: image_to_show });
 
@@ -87,7 +90,7 @@ module.exports = function(app){
 		// add uploaded image
 		// console.log(req.body);	
 		// console.log(res);
-		console.log("processed photo");
+		console.log("rejected photo");
 
 		var photoName = req.body.photo;
 		

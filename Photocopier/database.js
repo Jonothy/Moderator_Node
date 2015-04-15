@@ -6,7 +6,11 @@
  * routes.js
  */ 
 
-var nasSavePath = '/Volumes/nas'
+var debug = 1;
+var nasSavePath = '/Volumes/nas';
+
+var savePath = [__dirname + 'public/photos', 'Volumes/nas/incoming'];
+
 
 // Require the nedb module
 var Datastore = require('nedb'),
@@ -133,8 +137,6 @@ chokidar.watch('file', {
   ignorePermissionErrors: false,
   atomic: true
 });
-
-console.log("THIS IS IN DATABASE.JS")
 
 // Make the photos and users data sets available to the code
 // that uses require() on this module:

@@ -26,7 +26,7 @@
 				<input type="hidden" name="photo" value="{{photo.name}}" />
 				<input type="button" id="btn-accept" value="PUBLICLY ACCEPTABLE" />
 			</form>
-			<form action="./declined" method="post">
+			<form action="./declined" id="rejected" method="post">
 				<input type="hidden" name="photo" value="{{photo.name}}" />
 				<input type="submit" value="NOT" />
 			</form>
@@ -55,24 +55,21 @@
 	<script src="js/main.js"></script>
 	<script>
 
-		imageObj.src = "photos/{{photo.name}}";
+		// imageObj.src = "photos/{{photo.name}}";
 
+		// basic directory 
+		// imageObj.src = "images/{{photo.name}}";
 		var pollTimer1, pollTimer2;
 		var clear = false;
 
-		$("#data-submit").submit(function(e)
+		// rejected
+		$("#rejected").submit(function(e)
 		{
 		    var postData = 'photo=' + document.getElementById('photo-name').value;
-		    // console.log(postData);
-		    var canvasData = hiddenCanvas.toDataURL("image/jpg");
-			postData += "&imgData=";
-			postData +=canvasData.replace(/^data:image\/(png|jpg);base64,/, "");
-			console.log("submit");
-			// console.log(postData);
 
 		    $.ajax(
 		    {
-		        url : 'saveProcessed',
+		        url : 'rejected',
 		        type: "POST",
 		        data : postData,
 		        success:function(data, textStatus, jqXHR) 
@@ -96,6 +93,11 @@
 
 		        		clear = false;
 		        		console.log("no more photos!");
+		        		document.getElementById('moderation-action').style.display = 'none';
+    					document.getElementById('image-submit').style.display = 'none';
+    					document.getElementById('previewCanvas').style.display = 'none';
+    					document.getElementById('waiting-new').style.display = 'block';
+
 		        		poll("/requestNext", "POST", 1000,
 						    function beforeRequest(xhr) {
 						        return "beforeRequest";
@@ -133,8 +135,100 @@
 						    }
 						);
 		        	}
-		        	document.getElementById('moderation-action').style.display = 'block';
-    				document.getElementById('image-submit').style.display = 'none';
+
+		            
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) 
+		        {
+		        	console.log("unsuccesful");
+		        	console.log(data);
+		            //if fails      
+		        }
+		    });
+		    e.preventDefault(); //STOP default action
+		    // e.unbind(); //unbind. to stop multiple form submit.
+		});
+
+		// acepted and processed
+		$("#data-submit").submit(function(e)
+		{
+		    var postData = 'photo=' + document.getElementById('photo-name').value;
+		    // console.log(postData);
+		    var canvasData = hiddenCanvas.toDataURL("image/jpg");
+			postData += "&imgData=";
+			postData +=canvasData.replace(/^data:image\/(png|jpg);base64,/, "");
+			console.log("submit");
+			// console.log(postData);
+
+
+
+		    $.ajax(
+		    {
+		        url : 'saveProcessed',
+		        type: "POST",
+		        data : postData,
+		        success:function(data, textStatus, jqXHR) 
+		        {
+		        	//data: return data from server
+		        	console.log("successful posting!");
+		        	// console.log(data);
+
+		        	if(data.photoName !== undefined && data.photoName !== null){
+			        	var nameOfPhoto = data.photoName.name;
+				        context.clearRect(0, 0, canvas.width, canvas.height);
+				        hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
+
+				        imageObj.src = "photos/"+nameOfPhoto;
+
+				        document.getElementById('photo-name').value = nameOfPhoto;
+		        	}
+
+		        	else{
+
+		        		clear = false;
+		        		console.log("no more photos!");
+		        		document.getElementById('moderation-action').style.display = 'none';
+    					document.getElementById('image-submit').style.display = 'none';
+    					document.getElementById('previewCanvas').style.display = 'none';
+    					document.getElementById('waiting-new').style.display = 'block';
+		        		poll("/requestNext", "POST", 1000,
+						    function beforeRequest(xhr) {
+						        return "beforeRequest";
+						    },
+						    function onSuccess(xhr) {
+						        var data = JSON.parse(xhr.responseText);
+						        // show messages...
+						        console.log('poll success');
+						        console.log(data);
+						        if(data.photoName !== undefined && data.photoName !== null){
+						        	var nameOfPhoto = data.photoName.name;
+							        context.clearRect(0, 0, canvas.width, canvas.height);
+							        hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
+
+							        imageObj.src = "photos/"+nameOfPhoto;
+
+							        document.getElementById('photo-name').value = nameOfPhoto;
+							        console.log('found new photo');
+							        clearTimeout(pollTimer1);
+							        clearTimeout(pollTimer2);
+							        clear = true;
+
+					        	}
+						    },
+						    function onError(xhr, sendRequest, period) {
+						        if (xhr.status === 401) {
+						            // show dialog to log in user
+						            console.log("in 401")
+						        }
+						        else {
+						            // retry the operation
+						            console.log('retrying');
+						            setTimeout(sendRequest, period + 1000);
+						        }
+						    }
+						);
+		        	}
+		        	
 		            
 		        },
 		        error: function(jqXHR, textStatus, errorThrown) 

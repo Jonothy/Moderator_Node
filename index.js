@@ -28,4 +28,4 @@ require('./routes')(app);
 // `node index.js`. Start the server!
 
 app.listen(8080);
-console.log('Your application is running on http://localhost:8080');
+console.log('Photocopier is running on http://localhost:8080');

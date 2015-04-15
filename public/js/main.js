@@ -26,6 +26,13 @@ imageObj.onload = function() {
 	saveObj.height = imageObj.height;
 
 	console.log("image loaded!");
+	document.getElementById('photo-name').value = nameOfPhoto;
+
+	// show elements
+	document.getElementById('previewCanvas').style.display = 'block';
+	document.getElementById('moderation-action').style.display = 'block';
+	document.getElementById('image-submit').style.display = 'none';
+	document.getElementById('waiting-new').style.display = 'none';
 
 };
 

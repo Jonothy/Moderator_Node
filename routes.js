@@ -79,46 +79,18 @@ module.exports = function(app){
 
 	});
 
-
-	// to be executed when a filtered image is received
-	app.post('/saveProcessed', saveProcessed);
+		// to be executed when a filtered image is received
+	app.post('/rejected', rejected);
 	
-	function saveProcessed(req, res){
+	function rejected(req, res){
 
 		// add uploaded image
 		// console.log(req.body);	
 		// console.log(res);
 		console.log("processed photo");
 
-		var data = req.body.imgData;
 		var photoName = req.body.photo;
 		
-		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
-		fs.writeFile('public/uploads/modified_'+photoName, buf, function (err) {
-		  if (err) throw err;
-		  console.log('It\'s saved!');
-		  fs.rename('public/uploads/modified_'+photoName, 'public/uploads/finalized_'+photoName, function (err) {
-		  	if (err) throw err;
-		  	console.log('finalized!');
-		  });
-		});
-
-		fs.writeFile(nasSavePath+'/modified_'+photoName, buf, function (err) {
-		  if (err) throw err;
-		  console.log('It\'s saved!');
-		  fs.rename(nasSavePath+'/modified_'+photoName, nasSavePath + '/finalized_'+photoName, function (err) {
-		  	if (err) throw err;
-		  	console.log('finalized!');
-		  });
-		});
-
-		// stream option in case for some reason too memory intensive
-		// var stream = fs.createWriteStream('public/uploads/meow.png');
-		// stream.write(buf);
-		// stream.on("end", function() {
-		// 	stream.end();
-		// });
-		console.log("SAVE BUFFER DATA");
 		console.log(photoName);
 
 		photos.find({ name: photoName }, function(err, found){
@@ -126,7 +98,7 @@ module.exports = function(app){
 			if(found.length == 1){
 
 				console.log(found[0]);
-				photos.update(found[0], {$inc : {likes:1}});
+				photos.update(found[0], {$inc : {dislikes:1}});
 
 				users.update({ip: req.ip}, { $addToSet: { votes: found[0]._id}}, function(){
 					// res.redirect('../');
@@ -154,8 +126,92 @@ module.exports = function(app){
 
 						res.status(200);
 						res.json({'success': true, 'photoName': image_to_show});
-					// 	res.redirect('../');
 
+					});
+				});
+			}
+
+			else{
+				res.redirect('../');
+			}
+		});
+	}
+
+
+	// to be executed when a filtered image is received
+	app.post('/saveProcessed', saveProcessed);
+	
+	function saveProcessed(req, res){
+
+		// add uploaded image
+		// console.log(req.body);	
+		// console.log(res);
+		console.log("processed photo");
+
+		var data = req.body.imgData;
+		var photoName = req.body.photo;
+		
+		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
+		fs.writeFile('public/uploads/modified_'+photoName, buf, function (err) {
+		  if (err) throw err;
+		  console.log('It\'s saved!');
+		  fs.rename('public/uploads/modified_'+photoName, 'public/uploads/finalized_'+photoName, function (err) {
+		  	if (err) throw err;
+		  	console.log('finalized!');
+		  });
+		});
+
+		// fs.writeFile(nasSavePath+'/modified_'+photoName, buf, function (err) {
+		//   if (err) throw err;
+		//   console.log('It\'s saved!');
+		//   fs.rename(nasSavePath+'/modified_'+photoName, nasSavePath + '/finalized_'+photoName, function (err) {
+		//   	if (err) throw err;
+		//   	console.log('finalized!');
+		//   });
+		// });
+
+		// stream option in case for some reason too memory intensive
+		// var stream = fs.createWriteStream('public/uploads/meow.png');
+		// stream.write(buf);
+		// stream.on("end", function() {
+		// 	stream.end();
+		// });
+		console.log("SAVE BUFFER DATA");
+		console.log(photoName);
+
+		photos.find({ name: photoName }, function(err, found){
+
+			if(found.length == 1){
+
+				console.log(found[0]);
+				photos.update(found[0], {$inc : {likes:1}});
+
+				users.update({ip: req.ip}, { $addToSet: { votes: found[0]._id}}, function(){
+
+					console.log("user update");
+					// ajax response
+					// Find all photos
+					var image_to_show = null;
+					photos.find({}, function(err, all_photos){
+
+						var not_viewed = all_photos.filter(function(photo){
+							if(photo.viewed == 0){
+								return all_photos.indexOf(photo.viewed == 0);
+							}
+						});
+
+						var image_to_show = null;
+
+						if(not_viewed.length > 0){
+							var viewed_time = new Date();
+							// Choose a random image
+							image_to_show = not_viewed[Math.floor(Math.random()*not_viewed.length)];
+							// update photo as viewed and update time of viewing
+							photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
+						}
+
+						res.status(200);
+						res.json({'success': true, 'photoName': image_to_show});
 					});
 				});
 
@@ -175,6 +231,32 @@ module.exports = function(app){
 		// res.status(200);
 		// res.json({'success': true});
 
+	}
+
+	function nextPhoto(){
+		photos.find({}, function(err, all_photos){
+
+			var not_viewed = all_photos.filter(function(photo){
+				if(photo.viewed == 0){
+					return all_photos.indexOf(photo.viewed == 0);
+				}
+			});
+
+			var image_to_show = null;
+
+			if(not_viewed.length > 0){
+				var viewed_time = new Date();
+				// Choose a random image
+				image_to_show = not_viewed[Math.floor(Math.random()*not_viewed.length)];
+				// update photo as viewed and update time of viewing
+				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
+			}
+
+			console.log("nextPhoto photo");
+			console.log(image_to_show);
+			return image_to_show;
+
+		});
 	}
 
 	// possible hook for adding photos via POST request

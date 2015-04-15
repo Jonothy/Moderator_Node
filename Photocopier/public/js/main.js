@@ -44,7 +44,8 @@ acceptButton.addEventListener('click', function (e) {
     console.log("accepted!");
 
 	// performing a negative filter
-	negativeFilter(imageData.data);
+	// negativeFilter(imageData.data);
+	contrastImage(imageData.data, 200);
     context.putImageData(imageData, 0, 0);
 
 	// composite the image
@@ -55,7 +56,8 @@ acceptButton.addEventListener('click', function (e) {
     // full size image save 
 
 	// performing a negative filter
-	negativeFilter(saveImageData.data);
+	// negativeFilter(saveImageData.data);
+	contrastImage(saveImageData.data, 200);
     hiddencontext.putImageData(saveImageData, 0, 0);
 
     hiddencontext.globalCompositeOperation = "source-over";
@@ -152,6 +154,7 @@ function requestNext(data){
         hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
 
         imageObj.src = "photos/"+nameOfPhoto;
+        // imageObj.src = "images/incoming/"+nameOfPhoto;
         document.getElementById('photo-name').value = nameOfPhoto;
 	}
 
@@ -178,6 +181,7 @@ function requestNext(data){
 			        hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
 
 			        imageObj.src = "photos/"+nameOfPhoto;
+			        // imageObj.src = "images/incoming/"+nameOfPhoto;
 
 			        document.getElementById('photo-name').value = nameOfPhoto;
 			        console.log('found new photo');

@@ -14,16 +14,30 @@ function negativeFilter(pixelData){
 
 }
 
-function contrastImage(imageData, contrast) {
+function contrastImage(pixelData, contrast) {
 
-    var data = imageData.data;
+    // var data = imageData.data;
     var factor = (259 * (contrast + 255)) / (255 * (259 - contrast));
 
-    for(var i=0;i<data.length;i+=4)
+    for(var i=0;i<pixelData.length;i+=4)
     {
-        data[i] = factor * (data[i] - 128) + 128;
-        data[i+1] = factor * (data[i+1] - 128) + 128;
-        data[i+2] = factor * (data[i+2] - 128) + 128;
+        pixelData[i] = factor * (pixelData[i] - 128) + 128;
+        pixelData[i+1] = factor * (pixelData[i+1] - 128) + 128;
+        pixelData[i+2] = factor * (pixelData[i+2] - 128) + 128;
     }
     return imageData;
 }
+
+// function contrastImage(imageData, contrast) {
+
+//     var data = imageData.data;
+//     var factor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+
+//     for(var i=0;i<data.length;i+=4)
+//     {
+//         data[i] = factor * (data[i] - 128) + 128;
+//         data[i+1] = factor * (data[i+1] - 128) + 128;
+//         data[i+2] = factor * (data[i+2] - 128) + 128;
+//     }
+//     return imageData;
+// }

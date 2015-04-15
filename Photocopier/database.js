@@ -7,10 +7,10 @@
  */ 
 
 var debug = 1;
-var nasSavePath = '/Volumes/nas';
-
-var savePath = [__dirname + 'public/photos', 'Volumes/nas/incoming'];
-
+var nasLoadPath = '/Volumes/nas/incoming';
+var debugLoadPath = __dirname + '/public/photos';
+var loadPath = [nasLoadPath, debugLoadPath];
+var readyString = "good_";
 
 // Require the nedb module
 var Datastore = require('nedb'),
@@ -48,7 +48,7 @@ users.ensureIndex({fieldName: 'ip', unique: true});
 
 
 // watcher function
-chokidar.watch([__dirname + '/public/photos'], {ignored: /[\/\\]\./}).on('all', function(event, path) {
+chokidar.watch(loadPath[debug], {ignored: /[\/\\]\./}).on('all', function(event, path) {
   console.log(event, path);
   console.log("stuff");
 
@@ -61,19 +61,21 @@ chokidar.watch([__dirname + '/public/photos'], {ignored: /[\/\\]\./}).on('all', 
 		// location_id will be based on the path the file was found in
 		var location_id = 0;
 
-		var added_time = new Date();
+		if(path.indexOf(readyString) >= 0){
+			var added_time = new Date();
 
-		photos.insert({
-			name: path.replace(/^.*[\\\/]/, ''),
-			likes: 0,
-			dislikes: 0,
-			viewed: 0,
-			time_added: added_time.toString(),
-			time_viewed: 0,
-			time_saved: 0,
-			loc_id: location_id,
-			filepath: path
-		});
+			photos.insert({
+				name: path.replace(/^.*[\\\/]/, ''),
+				likes: 0,
+				dislikes: 0,
+				viewed: 0,
+				time_added: added_time.toString(),
+				time_viewed: 0,
+				time_saved: 0,
+				loc_id: location_id,
+				filepath: path
+			});
+		}
 	}
 });
 
@@ -90,19 +92,22 @@ watcher
   		// location_id will be based on the path the file was found in
 		var location_id = 0;
 
-		var added_time = new Date();
+		if(path.indexOf(readyString) >= 0){
 
-		photos.insert({
-			name: path.replace(/^.*[\\\/]/, ''),
-			likes: 0,
-			dislikes: 0,
-			viewed: 0,
-			time_added: added_time.toString(),
-			time_viewed: 0,
-			time_saved: 0,
-			loc_id: location_id,
-			filepath: path
-		});
+			var added_time = new Date();
+
+			photos.insert({
+				name: path.replace(/^.*[\\\/]/, ''),
+				likes: 0,
+				dislikes: 0,
+				viewed: 0,
+				time_added: added_time.toString(),
+				time_viewed: 0,
+				time_saved: 0,
+				loc_id: location_id,
+				filepath: path
+			});
+		}
   	})
   // .on('change', function(path) { log('File', path, 'has been changed'); })
   // .on('unlink', function(path) { log('File', path, 'has been removed'); })

@@ -16,23 +16,28 @@ function negativeFilter(pixelData){
 
 function contrastImage(pixelData, contrast) {
 
-    // var data = imageData.data;
+    console.log("contrast to");
+    console.log(contrast);
+    var tempData = pixelData;
     var factor = (259 * (contrast + 255)) / (255 * (259 - contrast));
 
-    for(var i=0;i<pixelData.length;i+=4)
+    for(var i=0;i<tempData.data.length;i+=4)
     {
-        pixelData[i] = factor * (pixelData[i] - 128) + 128;
-        pixelData[i+1] = factor * (pixelData[i+1] - 128) + 128;
-        pixelData[i+2] = factor * (pixelData[i+2] - 128) + 128;
+        tempData.data[i] = factor * (tempData.data[i] - 128) + 128;
+        tempData.data[i+1] = factor * (tempData.data[i+1] - 128) + 128;
+        tempData.data[i+2] = factor * (tempData.data[i+2] - 128) + 128;
     }
-    return imageData;
+    return tempData;
 }
 
-function cssContrast(contrast) {
+function cssContrast(canvasi, contrast) {
 
   console.log("css contrast");
-  canvas.style.webkitFilter = 'blur(3px)';
-  canvas.style.filter = 'blur(3px)';
+
+  var contrast_arg = 'contrast('+contrast+')';
+  console.log(contrast_arg);
+  canvasi.style.webkitFilter = contrast_arg;
+  canvasi.style.filter = contrast_arg;
 
 }
 

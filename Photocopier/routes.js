@@ -112,6 +112,12 @@ module.exports = function(app){
 					// res.redirect('../');
 
 					console.log("user update");
+
+					// rename file into rejected folder
+					// fs.rename(savePath[debug]+'modified_'+photoName, savePath[debug]+'finalized_'+photoName, function (err) {
+					//   	if (err) throw err;
+					//   	console.log('finalized!');
+					//   });
 					// ajax response
 					// Find all photos
 					photos.find({}, function(err, all_photos){

@@ -123,12 +123,14 @@ nav a.active{
 	display:block;
 	margin:10px auto;
 	border-radius: 3px;
-	-webkit-filter: contrast(40);
-  	filter: contrast(40);
+	-webkit-filter: none;
+  	filter: none;
 }
 
 #hiddenCanvas{
 	display: none;
+	-webkit-filter: none;
+  	filter: none;
 }
 
 #wrapper {

@@ -7,6 +7,8 @@ var hiddencontext = hiddencanvas.getContext('2d');
 var imageObj = new Image();
 var saveObj = new Image();
 var compositeObj = new Image();
+var compositeSaveObj = new Image();
+var imageData;
 var saveImageData;
 var pollTimer1, pollTimer2;
 var clear = false;
@@ -17,23 +19,21 @@ compositeObj.src = "img/sequence01.png";
 
 imageObj.onload = function() {
 
-	canvas.style.webkitFilter = 'contrast(40)';
-  	canvas.style.filter = 'contrast(40)';
-
 	/* image preview */
 	context.drawImage(imageObj, 0, 0);
 	hiddencanvas.width = imageObj.width;
 	hiddencanvas.height = imageObj.height;
 	hiddencontext.drawImage(imageObj, 0, 0);
 	
-	imageData = context.getImageData(0,0,imageObj.width, imageObj.height);
-	saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
+	// imageData = context.getImageData(0,0,imageObj.width, imageObj.height);
+	// saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
 	saveObj.width = imageObj.width;
 	saveObj.height = imageObj.height;
 
 	console.log("image loaded!");
 
 	// show elements
+	document.getElementById('controls').style.display = 'none';
 	document.getElementById('previewCanvas').style.display = 'block';
 	document.getElementById('moderation-action').style.display = 'block';
 	document.getElementById('image-submit').style.display = 'none';
@@ -48,41 +48,52 @@ acceptButton.addEventListener('click', function (e) {
 
 	// performing a negative filter
 	// negativeFilter(imageData.data);
-	// contrastImage(imageData.data, 200);
-    // context.putImageData(imageData, 0, 0);
+	
 
-    cssContrast(100);
+    
 
 	// composite the image
 	context.globalCompositeOperation = "source-over";
 	// context.globalCompositeOperation = "destination-over";
 	context.drawImage(compositeObj,-100,-10);
-
-	cssContrast(100);
+	// cssContrast(canvas, 50);
+	imageData = context.getImageData(0,0,canvas.width, canvas.height);
+	
+	var contrastedImg = contrastImage(imageData, 125);
+    context.putImageData(contrastedImg, 0, 0);
     // full size image save 
 
 	// performing a negative filter
 	// negativeFilter(saveImageData.data);
-	contrastImage(saveImageData.data, 200);
-    hiddencontext.putImageData(saveImageData, 0, 0);
+	
 
     hiddencontext.globalCompositeOperation = "source-over";
 	hiddencontext.drawImage(compositeObj,-100,-10);
+	// cssContrast(hiddencanvas, 50);
+	saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
+	
+	var contrastedSave = contrastImage(saveImageData, 125);
+    hiddencontext.putImageData(contrastedSave, 0, 0);
 
-    // var uri = hiddencanvas.toDataURL("image/jpeg");
-
-	// saveObj.src = uri;
 	console.log('processed!');
 
+	document.getElementById('controls').style.display = 'block';
     document.getElementById('moderation-action').style.display = 'none';
     document.getElementById('image-submit').style.display = 'block';
 
 });
 
-// slider bar
+// slider bar to apply filters
 function showValue(newValue)
 {
+	console.log("changed slider!");
 	document.getElementById("range").innerHTML=newValue;
+	// cssContrast(canvas, newValue);
+	// cssContrast(hiddencanvas, newValue);
+	var contrastedImg = contrastImage(imageData, newValue);
+    context.putImageData(contrastedImg, 0, 0);
+	var contrastedSave = contrastImage(saveImageData, newValue);
+    hiddencontext.putImageData(contrastedSave, 0, 0);
 }
 
 // rejected behavior
@@ -156,6 +167,10 @@ function requestNext(data){
 
 	if(data.photoName !== undefined && data.photoName !== null){
     	nameOfPhoto = data.photoName.name;
+    	canvas.style.webkitFilter = 'none';
+  		canvas.style.filter = 'none';
+  		hiddencanvas.style.webkitFilter = 'none';
+  		hiddencanvas.style.filter = 'none';
         context.clearRect(0, 0, canvas.width, canvas.height);
         hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
 
@@ -183,6 +198,10 @@ function requestNext(data){
 		        console.log(data);
 		        if(data.photoName !== undefined && data.photoName !== null){
 		        	nameOfPhoto = data.photoName.name;
+		        	canvas.style.webkitFilter = 'none';
+			  		canvas.style.filter = 'none';
+			  		hiddencanvas.style.webkitFilter = 'none';
+			  		hiddencanvas.style.filter = 'none';
 			        context.clearRect(0, 0, canvas.width, canvas.height);
 			        hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
 

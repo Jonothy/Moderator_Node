@@ -2,7 +2,7 @@
 	<a class="active" href="./">Moderation</a>
 	<a href="./stats">Stats</a>
 </nav>	 -->
-{{#if photo}}
+
 
 	<div id="waiting-new">
 		<h3>No more photos, please wait. Check out the <a href="./stats">stats</a>.</h3>
@@ -44,21 +44,38 @@
 	<script>
 
 		var nameOfPhoto = "{{photo.name}}";
-		document.getElementById('photo-name').value = nameOfPhoto;
-		imageObj.src = "photos/{{photo.name}}";
-		// imageObj.src = "images/incoming/{{photo.name}}";
-		
 
+		if(nameOfPhoto !== ""){
+			document.getElementById('photo-name').value = nameOfPhoto;
+			imageObj.src = "photos/{{photo.name}}";
+			// imageObj.src = "images/incoming/{{photo.name}}";
+		}
 
+		else{
 
-		// basic directory 
-		// imageObj.src = "images/{{photo.name}}";
-		
+			var postData = "gimme=true";
+
+			$.ajax(
+		    {
+		        url : 'requestNext',
+		        type: "POST",
+		        data : postData,
+		        success:function(data, textStatus, jqXHR) 
+		        {
+		        	//data: return data from server
+		        	console.log("successful posting!");
+		        	// console.log(data);
+		        	requestNext(data);
+
+		            
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) 
+		        {
+		        	console.log("unsuccesful");
+		        	console.log(data);
+		            //if fails      
+		        }
+		    });
+		}	
 		 
 	</script>
-
-{{else}}
-
-	<h3>No more photos to vote on! Check out the <a href="./stats">stats</a>.</h3>
-
-{{/if}}

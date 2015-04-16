@@ -17,6 +17,9 @@ compositeObj.src = "img/sequence01.png";
 
 imageObj.onload = function() {
 
+	canvas.style.webkitFilter = 'contrast(40)';
+  	canvas.style.filter = 'contrast(40)';
+
 	/* image preview */
 	context.drawImage(imageObj, 0, 0);
 	hiddencanvas.width = imageObj.width;
@@ -45,14 +48,17 @@ acceptButton.addEventListener('click', function (e) {
 
 	// performing a negative filter
 	// negativeFilter(imageData.data);
-	contrastImage(imageData.data, 200);
-    context.putImageData(imageData, 0, 0);
+	// contrastImage(imageData.data, 200);
+    // context.putImageData(imageData, 0, 0);
+
+    cssContrast(100);
 
 	// composite the image
 	context.globalCompositeOperation = "source-over";
 	// context.globalCompositeOperation = "destination-over";
 	context.drawImage(compositeObj,-100,-10);
 
+	cssContrast(100);
     // full size image save 
 
 	// performing a negative filter

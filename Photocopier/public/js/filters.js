@@ -28,6 +28,14 @@ function contrastImage(pixelData, contrast) {
     return imageData;
 }
 
+function cssContrast(contrast) {
+
+  console.log("css contrast");
+  canvas.style.webkitFilter = 'blur(3px)';
+  canvas.style.filter = 'blur(3px)';
+
+}
+
 // function contrastImage(imageData, contrast) {
 
 //     var data = imageData.data;

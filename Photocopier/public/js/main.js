@@ -127,15 +127,15 @@ function showContrast(newValue)
     context.drawImage(compositeObj,-100,-10);
 
     // hiddenCanvas draw
-    hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
-	hiddencontext.drawImage(imageObj, 0, 0);
-	saveImageData = hiddencontext.getImageData(0,0, hiddencanvas.width, hiddencanvas.height);
-	var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(document.getElementById('brightness-bar').value)/10.0, parseFloat(newValue)/10.0);
-	hiddencontext.putImageData(hidden_cb_image, 0,0 );
-	// var contrastedSave = contrastImage(saveImageData, newValue);
-    // hiddencontext.putImageData(contrastedSave, 0, 0);
-    hiddencontext.globalCompositeOperation = "source-over";
-	hiddencontext.drawImage(compositeObj,-100,-10);
+ //    hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
+	// hiddencontext.drawImage(imageObj, 0, 0);
+	// saveImageData = hiddencontext.getImageData(0,0, hiddencanvas.width, hiddencanvas.height);
+	// var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(document.getElementById('brightness-bar').value)/10.0, parseFloat(newValue)/10.0);
+	// hiddencontext.putImageData(hidden_cb_image, 0,0 );
+	// // var contrastedSave = contrastImage(saveImageData, newValue);
+ //    // hiddencontext.putImageData(contrastedSave, 0, 0);
+ //    hiddencontext.globalCompositeOperation = "source-over";
+	// hiddencontext.drawImage(compositeObj,-100,-10);
 
 }
 
@@ -162,15 +162,15 @@ function showBrightness(newValue)
     context.drawImage(compositeObj,-100,-10);
 
 
-    hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
-	hiddencontext.drawImage(imageObj, 0, 0);
-	saveImageData = hiddencontext.getImageData(0,0, hiddencanvas.width, hiddencanvas.height);
-	var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(newValue) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
-	hiddencontext.putImageData(hidden_cb_image, 0, 0);
-	// var contrastedSave = contrastImage(saveImageData, newValue);
-    // hiddencontext.putImageData(contrastedSave, 0, 0);
-    hiddencontext.globalCompositeOperation = "source-over";
-	hiddencontext.drawImage(compositeObj,-100,-10);
+ //    hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
+	// hiddencontext.drawImage(imageObj, 0, 0);
+	// saveImageData = hiddencontext.getImageData(0,0, hiddencanvas.width, hiddencanvas.height);
+	// var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(newValue) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
+	// hiddencontext.putImageData(hidden_cb_image, 0, 0);
+	// // var contrastedSave = contrastImage(saveImageData, newValue);
+ //    // hiddencontext.putImageData(contrastedSave, 0, 0);
+ //    hiddencontext.globalCompositeOperation = "source-over";
+	// hiddencontext.drawImage(compositeObj,-100,-10);
 
     // hiddenCanvas draw
  //    hiddencontext.drawImage(imageObj, 0, 0);
@@ -213,6 +213,17 @@ $("#rejected").submit(function(e)
 // image accepted and processed behavior
 $("#data-submit").submit(function(e)
 {
+
+	hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
+	hiddencontext.drawImage(imageObj, 0, 0);
+	saveImageData = hiddencontext.getImageData(0,0, hiddencanvas.width, hiddencanvas.height);
+	var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(document.getElementById('brightness-bar').value) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
+	hiddencontext.putImageData(hidden_cb_image, 0, 0);
+	// var contrastedSave = contrastImage(saveImageData, newValue);
+    // hiddencontext.putImageData(contrastedSave, 0, 0);
+    hiddencontext.globalCompositeOperation = "source-over";
+	hiddencontext.drawImage(compositeObj,-100,-10);
+
     var postData = 'photo=' + document.getElementById('photo-name').value;
     // console.log(postData);
     var canvasData = hiddenCanvas.toDataURL("image/jpg");

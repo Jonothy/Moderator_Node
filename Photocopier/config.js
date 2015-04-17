@@ -31,8 +31,8 @@ module.exports = function(app){
 	app.use(express.static(__dirname + '/public'));
 
 	// static directory for serving image files
-	// app.use('/images', serveStatic('/Volumes/OCULTO/Photocopier'));
-	app.use('/images', serveStatic(__dirname + '/images'));
+	app.use('/images', serveStatic('/Volumes/OCULTO/Photocopier'));
+	// app.use('/images', serveStatic(__dirname + '/images'));
 	// app.use(express.bodyParser({uploadDir:'/public/uploaded'}));
 
 	// Parse POST request data. It will be available in the req.body object

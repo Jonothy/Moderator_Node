@@ -29,6 +29,7 @@ var clear = false;
 
 // loading composite object
 compositeObj.src = "img/sequence01.png";
+// prevCompostiteObj.src = "img/tinysequence01.png";
 
 
 imageObj.onload = function() {
@@ -92,41 +93,15 @@ function showContrast(newValue)
 	var brightness = parseFloat(document.getElementById('brightness-bar').value)/10.0;
 	var contrast = parseFloat(newValue)/10.0;
 	adjustValues(context, brightness, contrast);
-	// clear for filter application
-	// context.clearRect(0, 0, canvas.width, canvas.height);
-	// context.drawImage(imageObj, 0, 0);
-	// imageData = context.getImageData(0,0, canvas.width, canvas.height);
-
-	// // apply filter
-	// var cb_image = Filters.brightnessContrast(imageData, parseFloat(document.getElementById('brightness-bar').value)/10.0, parseFloat(newValue)/10.0);
-	// context.putImageData(cb_image, 0,0 );
-
-	// // composite
- //    context.globalCompositeOperation = "source-over";
- //    context.drawImage(compositeObj,-100,-10);
 }
 
 function showBrightness(newValue)
 {
 	console.log("changed brightness slider!");
 	document.getElementById("range-brightness").innerHTML=newValue;
-
 	var brightness = parseFloat(newValue) / 10.0;
 	var contrast = parseFloat(document.getElementById('contrast-bar').value) / 10.0;
 	adjustValues(context, brightness, contrast);
-	// clear for filter application
-	// context.clearRect(0, 0, canvas.width, canvas.height);
-	// context.drawImage(imageObj, 0, 0);
-	// imageData = context.getImageData(0,0, canvas.width, canvas.height);
-
-	// // apply filter
-	// var cb_image = Filters.brightnessContrast(imageData, parseFloat(newValue) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
-	// context.putImageData(cb_image, 0, 0);
-	
-	// // composite
- //    context.globalCompositeOperation = "source-over";
- //    context.drawImage(compositeObj,-100,-10);
-
 }
 
 function adjustValues(ctx, brightness, contrast)

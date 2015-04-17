@@ -3,7 +3,7 @@
  * It requires the database module that we wrote previously.
  */ 
 
-var debug = 1;
+var debug = 0;
 var nasSavePath = '/Volumes/OCULTO/Photocopier/';
 var debugSavePath = __dirname+'/images/';
 var savePath = [nasSavePath, debugSavePath]
@@ -173,20 +173,20 @@ module.exports = function(app){
 		  // saved so rename to signify so
 		  fs.rename(savePath[debug]+'approved/modified_'+photoName, savePath[debug]+'approved/finalized_'+photoName, function (err) {
 		  	// request to printer
-		  	request({
-			    url: printer_url, //URL to hit
-			    method: 'GET',
-			    //Lets post the following key/values as form
-			    json: {
-			        to_print: savePath[debug]+'approved/finalized_'+photoName,
-			    }
-			}, function(error, response, body){
-			    if(error) {
-			        console.log(error);
-			    } else {
-			        console.log(response.statusCode, body);
-			}
-			});
+		 //  	request({
+			//     url: printer_url, //URL to hit
+			//     method: 'GET',
+			//     //Lets post the following key/values as form
+			//     json: {
+			//         to_print: savePath[debug]+'approved/finalized_'+photoName,
+			//     }
+			// }, function(error, response, body){
+			//     if(error) {
+			//         console.log(error);
+			//     } else {
+			//         console.log(response.statusCode, body);
+			// }
+			// });
 
 		  	if (err) throw err;
 		  	console.log('finalized!');

@@ -3,6 +3,9 @@
 // preview canvas
 var canvas = document.getElementById('previewCanvas');
 var context = canvas.getContext('2d');
+var odata;
+var testimg = document.getElementById('testimg');
+
 
 // hidden canvas for saving the correct size
 var hiddencanvas = document.getElementById('hiddenCanvas');
@@ -44,6 +47,7 @@ imageObj.onload = function() {
 	console.log("image loaded!");
 
 	imageData = context.getImageData(0,0,canvas.width, canvas.height);
+	// odata = jQuery.extend(true, {}, imageData);
 	saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
 
 	// show elements
@@ -63,8 +67,16 @@ acceptButton.addEventListener('click', function (e) {
     // Preview canvas work
 
 	// imageData = context.getImageData(0,0,canvas.width, canvas.height);
-	var contrastedImg = contrastImage(imageData, 100);
-    context.putImageData(contrastedImg, 0, 0);
+
+	var cb_image = Filters.brightnessContrast(imageData, 0.0, 1.0);
+	context.putImageData(cb_image, 0, 0);
+	// Caman("#previewCanvas", "images/incoming/"+nameOfPhoto, function () {
+	//   // manipulate image here
+	//   this.contrast(5).render();
+	// });
+	// testimg.src = imageObj.src;
+	// var contrastedImg = contrastImage(imageData, document.getElementById('contrast-bar').value);
+ //    context.putImageData(contrastedImg, 0, 0);
     // overlay
     // composite the image
 	context.globalCompositeOperation = "source-over";
@@ -75,8 +87,8 @@ acceptButton.addEventListener('click', function (e) {
 	// saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
 	
 	// filter
-	var contrastedSave = contrastImage(saveImageData, 100);
-    hiddencontext.putImageData(contrastedSave, 0, 0);
+	// var contrastedSave = contrastImage(saveImageData, document.getElementById('contrast-bar').value);
+    // hiddencontext.putImageData(contrastedSave, 0, 0);
     // overlay
     hiddencontext.globalCompositeOperation = "source-over";
 	hiddencontext.drawImage(compositeObj,-100,-10);
@@ -91,19 +103,81 @@ acceptButton.addEventListener('click', function (e) {
 });
 
 // slider bar to apply filters
-function showValue(newValue)
+function showContrast(newValue)
 {
-	console.log("changed slider!");
-	document.getElementById("range").innerHTML=newValue;
-	
-	var contrastedImg = contrastImage(imageData, newValue);
-	context.putImageData(contrastedImg, 0, 0);
+	console.log("changed contrast slider!");
+	document.getElementById("range-contrast").innerHTML=newValue;
+
+	// clear for filter application
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	context.drawImage(imageObj, 0, 0);
+	imageData = context.getImageData(0,0, canvas.width, canvas.height);
+
+	console.log(typeof(newValue));
+	console.log(parseFloat(newValue));
+	var cb_image = Filters.brightnessContrast(imageData, parseFloat(document.getElementById('brightness-bar').value)/10.0, parseFloat(newValue)/10.0);
+	context.putImageData(cb_image, 0,0 );
+	// apply filter
+	// var contrastedImg = contrastImage(imageData, newValue);
+	// context.putImageData(contrastedImg, 0, 0);
+	// camanContrast('#previewCanvas', newValue);
+
+	// composite
     context.globalCompositeOperation = "source-over";
     context.drawImage(compositeObj,-100,-10);
-	var contrastedSave = contrastImage(saveImageData, newValue);
-    hiddencontext.putImageData(contrastedSave, 0, 0);
+
+    // hiddenCanvas draw
+    hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
+	hiddencontext.drawImage(imageObj, 0, 0);
+	saveImageData = hiddencontext.getImageData(0,0, hiddencanvas.width, hiddencanvas.height);
+	var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(document.getElementById('brightness-bar').value)/10.0, parseFloat(newValue)/10.0);
+	hiddencontext.putImageData(hidden_cb_image, 0,0 );
+	// var contrastedSave = contrastImage(saveImageData, newValue);
+    // hiddencontext.putImageData(contrastedSave, 0, 0);
     hiddencontext.globalCompositeOperation = "source-over";
 	hiddencontext.drawImage(compositeObj,-100,-10);
+
+}
+
+function showBrightness(newValue)
+{
+	console.log("changed brightness slider!");
+	document.getElementById("range-brightness").innerHTML=newValue;
+
+	// clear for filter application
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	context.drawImage(imageObj, 0, 0);
+	imageData = context.getImageData(0,0, canvas.width, canvas.height);
+
+	var cb_image = Filters.brightnessContrast(imageData, parseFloat(newValue) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
+	context.putImageData(cb_image, 0, 0);
+	
+
+	// apply filter
+	// var contrastedImg = brightness(imageData, newValue);
+	// context.putImageData(contrastedImg, 0, 0);
+
+	// composite
+    context.globalCompositeOperation = "source-over";
+    context.drawImage(compositeObj,-100,-10);
+
+
+    hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
+	hiddencontext.drawImage(imageObj, 0, 0);
+	saveImageData = hiddencontext.getImageData(0,0, hiddencanvas.width, hiddencanvas.height);
+	var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(newValue) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
+	hiddencontext.putImageData(hidden_cb_image, 0, 0);
+	// var contrastedSave = contrastImage(saveImageData, newValue);
+    // hiddencontext.putImageData(contrastedSave, 0, 0);
+    hiddencontext.globalCompositeOperation = "source-over";
+	hiddencontext.drawImage(compositeObj,-100,-10);
+
+    // hiddenCanvas draw
+ //    hiddencontext.drawImage(imageObj, 0, 0);
+	// var contrastedSave = brightness(saveImageData, newValue);
+ //    hiddencontext.putImageData(contrastedSave, 0, 0);
+ //    hiddencontext.globalCompositeOperation = "source-over";
+	// hiddencontext.drawImage(compositeObj,-100,-10);
 
 }
 

@@ -14,6 +14,13 @@ function negativeFilter(pixelData){
 
 }
 
+function camanContrast(canvas, contrastVal){
+  Caman(canvas, function () {
+    // manipulate image here
+    this.contrast(contrastVal).render();
+  });
+}
+
 function contrastImage(pixelData, contrast) {
 
     console.log("contrast to");
@@ -27,8 +34,35 @@ function contrastImage(pixelData, contrast) {
         tempData.data[i+1] = factor * (tempData.data[i+1] - 128) + 128;
         tempData.data[i+2] = factor * (tempData.data[i+2] - 128) + 128;
     }
+
+    // for (var i = 0; i < tempData.data.length; i += 4) {
+    //  // var contrast = 10;
+    //  var average = Math.round( ( tempData.data[i] + tempData.data[i+1] + tempData.data[i+2] ) / 3 );
+    //   if (average > 127){
+    //     tempData.data[i] += ( tempData.data[i]/average ) * contrast;
+    //     tempData.data[i+1] += ( tempData.data[i+1]/average ) * contrast;
+    //     tempData.data[i+2] += ( tempData.data[i+2]/average ) * contrast;
+    //   }else{
+    //     tempData.data[i] -= ( tempData.data[i]/average ) * contrast;
+    //     tempData.data[i+1] -= ( tempData.data[i+1]/average ) * contrast;
+    //     tempData.data[i+2] -= ( tempData.data[i+2]/average ) * contrast;
+    //   }
+    // }
     return tempData;
 }
+
+function brightness(pixelData, adjustment) {
+  console.log("adjustment");
+  console.log(adjustment);
+  var tempData = pixelData;
+
+  for (var i=0; i<tempData.data.length; i+=4) {
+    tempData.data[i] = tempData.data[i] + adjustment;
+    tempData.data[i+1] = tempData.data[i+1] + adjustment;
+    tempData.data[i+2] = tempData.data[i+2] + adjustment;
+  }
+  return tempData;
+};
 
 function cssContrast(canvasi, contrast) {
 

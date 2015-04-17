@@ -12,6 +12,7 @@
 		<canvas id="hiddenCanvas"></canvas>
 		<img id="imgtag" alt="capture"/>
 	</div>
+	<img id="testimg"/>
 	<canvas id="previewCanvas" width ="530" height="420"></canvas>
 	<div class="button-holder">
 		<div id="moderation-action">
@@ -25,8 +26,10 @@
 			</form>
 		</div>
 		<div id="controls">
-			<input type="range" min="1" max="255" value="5" step="1" onchange="showValue(this.value)" />
-			<span id="range">125</span>
+			<input type="range" id="brightness-bar" min="-10" max="10" value="0" step="1" onchange="showBrightness(this.value)" />
+			<span id="range-brightness">0</span>
+			<input type="range" id="contrast-bar" min="0" max="20" value="10" step="1" onchange="showContrast(this.value)" />
+			<span id="range-contrast">10</span>
 		</div>
 		<div id="image-submit">
 			<form action="./saveProcessed" id="data-submit" name="data-submit" method="post"/>
@@ -38,8 +41,9 @@
 		</div>
 	</div>
 
-	<script src="js/support/caman.full.min.js"></script>
+	<script src="js/support/caman.full.js"></script>
 	<script src="js/support/jquery-2.1.3.min.js"></script>
+	<script src="js/support/canvasfilters/canfilters.js"></script>
 	<script src="js/filters.js"></script>
 	<script src="js/main.js"></script>
 	<script>

@@ -6,15 +6,16 @@
  * routes.js
  */ 
 
-var debug = 1;
-var nasLoadPath = '/Volumes/nas/incoming';
-var debugLoadPath = __dirname + '/public/photos';
+var debug = 0;
+var nasLoadPath = '/Volumes/OCULTO/Photocopier/incoming';
+var debugLoadPath = __dirname + '/images/incoming';
 var loadPath = [nasLoadPath, debugLoadPath];
 var readyString = "good_";
 
 // Require the nedb module
 var Datastore = require('nedb'),
 	chokidar = require('chokidar'),
+	gaze = require('gaze'),
 	fs = require('fs');
 
 
@@ -26,60 +27,79 @@ var photos = new Datastore({ filename: __dirname + '/data/photos', autoload: tru
 photos.ensureIndex({fieldName: 'name', unique: true});
 users.ensureIndex({fieldName: 'ip', unique: true});
 
-// Load all images from the public/photos folder in the database
-// var photos_on_disk = fs.readdirSync(__dirname + '/public/photos');
+// watcher function
+// chokidar.watch(loadPath[debug], {ignored: /[\/\\]\./}).on('all', function(event, path) {
+//   console.log(event, path);
+//   console.log("stuff");
 
-// // Insert the photos in the database. This is executed on every 
-// // start up of your application, but because there is a unique
-// // constraint on the name field, subsequent writes will fail 
-// // and you will still have only one record per image:
+//   if(event == 'add'){
+// 	 //  var newFile = fs.readFile(path, function (err, data) {
+// 		//   if (err) throw err;
+// 		//   console.log(data);
+// 		// });
 
-// photos_on_disk.forEach(function(photo){
-// 	photos.insert({
-// 		name: photo,
-// 		likes: 0,
-// 		dislikes: 0,
-// 		viewed: 0,
-// 		time_added: 0,
-// 		time_viewed: 0,
-// 		time_saved: 0
-// 	});
+// 		// location_id will be based on the path the file was found in
+// 		var location_id = 0;
+
+// 		if(path.indexOf(readyString) >= 0){
+// 			var added_time = new Date();
+
+// 			photos.insert({
+// 				name: path.replace(/^.*[\\\/]/, ''),
+// 				likes: 0,
+// 				dislikes: 0,
+// 				viewed: 0,
+// 				time_added: added_time.toString(),
+// 				time_viewed: 0,
+// 				time_saved: 0,
+// 				loc_id: location_id,
+// 				filepath: path
+// 			});
+// 		}
+// 	}
+
+// 	if(event == 'addDir'){
+
+
+// 	}
 // });
 
+// gaze([loadPath[debug]+'/*'], function(err, watcher) {
+//   // Files have all started watching
+//   // watcher === this
 
-// watcher function
-chokidar.watch(loadPath[debug], {ignored: /[\/\\]\./}).on('all', function(event, path) {
-  console.log(event, path);
-  console.log("stuff");
+//   // Get all watched files
+//   this.watched(function(err, watched) {
+//     console.log(watched);
+//   });
 
-  if(event == 'add'){
-	 //  var newFile = fs.readFile(path, function (err, data) {
-		//   if (err) throw err;
-		//   console.log(data);
-		// });
+//   // On file changed
+//   this.on('changed', function(filepath) {
+//     console.log(filepath + ' was changed');
+//   });
 
-		// location_id will be based on the path the file was found in
-		var location_id = 0;
+//   // On file added
+//   this.on('added', function(filepath) {
+//     console.log(filepath + ' was added');
+//   });
 
-		if(path.indexOf(readyString) >= 0){
-			var added_time = new Date();
+//   // On file deleted
+//   this.on('deleted', function(filepath) {
+//     console.log(filepath + ' was deleted');
+//   });
 
-			photos.insert({
-				name: path.replace(/^.*[\\\/]/, ''),
-				likes: 0,
-				dislikes: 0,
-				viewed: 0,
-				time_added: added_time.toString(),
-				time_viewed: 0,
-				time_saved: 0,
-				loc_id: location_id,
-				filepath: path
-			});
-		}
-	}
-});
+//   // On changed/added/deleted
+//   this.on('all', function(event, filepath) {
+//     console.log(filepath + ' was ' + event);
+//   });
 
-var watcher = chokidar.watch('file, dir, or glob', {
+//   // Get watched files with relative paths
+//   this.relative(function(err, files) {
+//     console.log(files);
+//   });
+// });
+
+var watcher = chokidar.watch(loadPath[debug], {
   ignored: /[\/\\]\./,
   persistent: true
 });
@@ -110,9 +130,10 @@ watcher
 		}
   	})
   // .on('change', function(path) { log('File', path, 'has been changed'); })
-  // .on('unlink', function(path) { log('File', path, 'has been removed'); })
+  .on('unlink', function(path) { log('File', path, 'has been removed'); })
   // // More events.
-  // .on('addDir', function(path) { log('Directory', path, 'has been added'); })
+  .on('addDir', function(path) { 
+  	log('Directory', path, 'has been added'); })
   // .on('unlinkDir', function(path) { log('Directory', path, 'has been removed'); })
   // .on('error', function(error) { log('Error happened', error); })
   // .on('ready', function() { log('Initial scan complete. Ready for changes.'); })
@@ -121,6 +142,7 @@ watcher
 	// 'add', 'addDir' and 'change' events also receive stat() results as second
 	// argument when available: http://nodejs.org/api/fs.html#fs_class_fs_stats
 	watcher.on('change', function(path, stats) {
+		log('Change noted');
 	  if (stats) console.log('File', path, 'changed size to', stats.size);
 	});
 
@@ -133,8 +155,8 @@ chokidar.watch('file', {
   followSymlinks: true,
   cwd: '.',
 
-  useFsEvents: true,
-  // usePolling: true,
+  // useFsEvents: true,
+  usePolling: true,
   alwaysStat: false,
   depth: undefined,
   interval: 1000,

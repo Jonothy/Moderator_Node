@@ -1,19 +1,30 @@
 // Canvas display and manipulation
 
+// preview canvas
 var canvas = document.getElementById('previewCanvas');
 var context = canvas.getContext('2d');
+
+// hidden canvas for saving the correct size
 var hiddencanvas = document.getElementById('hiddenCanvas');
 var hiddencontext = hiddencanvas.getContext('2d');
+
+// original image to be modified
 var imageObj = new Image();
+// modified image to be sent
 var saveObj = new Image();
+
+// overlay object
 var compositeObj = new Image();
 var compositeSaveObj = new Image();
+
 var imageData;
 var saveImageData;
+
+// ajax polling variables
 var pollTimer1, pollTimer2;
 var clear = false;
 
-
+// loading composite object
 compositeObj.src = "img/sequence01.png";
 
 
@@ -21,16 +32,19 @@ imageObj.onload = function() {
 
 	/* image preview */
 	context.drawImage(imageObj, 0, 0);
+
 	hiddencanvas.width = imageObj.width;
 	hiddencanvas.height = imageObj.height;
+
 	hiddencontext.drawImage(imageObj, 0, 0);
 	
-	// imageData = context.getImageData(0,0,imageObj.width, imageObj.height);
-	// saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
 	saveObj.width = imageObj.width;
 	saveObj.height = imageObj.height;
 
 	console.log("image loaded!");
+
+	imageData = context.getImageData(0,0,canvas.width, canvas.height);
+	saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
 
 	// show elements
 	document.getElementById('controls').style.display = 'none';
@@ -46,34 +60,27 @@ var acceptButton = document.getElementById('btn-accept');
 acceptButton.addEventListener('click', function (e) {
     console.log("accepted!");
 
-	// performing a negative filter
-	// negativeFilter(imageData.data);
-	
+    // Preview canvas work
 
+	// imageData = context.getImageData(0,0,canvas.width, canvas.height);
+	var contrastedImg = contrastImage(imageData, 100);
+    context.putImageData(contrastedImg, 0, 0);
+    // overlay
+    // composite the image
+	context.globalCompositeOperation = "source-over";
+	context.drawImage(compositeObj,-100,-10);
     
 
-	// composite the image
-	context.globalCompositeOperation = "source-over";
-	// context.globalCompositeOperation = "destination-over";
-	context.drawImage(compositeObj,-100,-10);
-	// cssContrast(canvas, 50);
-	imageData = context.getImageData(0,0,canvas.width, canvas.height);
-	
-	var contrastedImg = contrastImage(imageData, 125);
-    context.putImageData(contrastedImg, 0, 0);
     // full size image save 
-
-	// performing a negative filter
-	// negativeFilter(saveImageData.data);
+	// saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
 	
-
+	// filter
+	var contrastedSave = contrastImage(saveImageData, 100);
+    hiddencontext.putImageData(contrastedSave, 0, 0);
+    // overlay
     hiddencontext.globalCompositeOperation = "source-over";
 	hiddencontext.drawImage(compositeObj,-100,-10);
 	// cssContrast(hiddencanvas, 50);
-	saveImageData = hiddencontext.getImageData(0,0, imageObj.width, imageObj.height);
-	
-	var contrastedSave = contrastImage(saveImageData, 125);
-    hiddencontext.putImageData(contrastedSave, 0, 0);
 
 	console.log('processed!');
 
@@ -88,12 +95,16 @@ function showValue(newValue)
 {
 	console.log("changed slider!");
 	document.getElementById("range").innerHTML=newValue;
-	// cssContrast(canvas, newValue);
-	// cssContrast(hiddencanvas, newValue);
+	
 	var contrastedImg = contrastImage(imageData, newValue);
-    context.putImageData(contrastedImg, 0, 0);
+	context.putImageData(contrastedImg, 0, 0);
+    context.globalCompositeOperation = "source-over";
+    context.drawImage(compositeObj,-100,-10);
 	var contrastedSave = contrastImage(saveImageData, newValue);
     hiddencontext.putImageData(contrastedSave, 0, 0);
+    hiddencontext.globalCompositeOperation = "source-over";
+	hiddencontext.drawImage(compositeObj,-100,-10);
+
 }
 
 // rejected behavior
@@ -155,7 +166,7 @@ $("#data-submit").submit(function(e)
         error: function(jqXHR, textStatus, errorThrown) 
         {
         	console.log("unsuccesful");
-        	console.log(data);
+        	console.log(errorThrown);
             //if fails      
         }
     });
@@ -174,8 +185,8 @@ function requestNext(data){
         context.clearRect(0, 0, canvas.width, canvas.height);
         hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
 
-        imageObj.src = "photos/"+nameOfPhoto;
-        // imageObj.src = "images/incoming/"+nameOfPhoto;
+        // imageObj.src = "photos/"+nameOfPhoto;
+        imageObj.src = "images/incoming/"+nameOfPhoto;
         document.getElementById('photo-name').value = nameOfPhoto;
 	}
 
@@ -183,6 +194,7 @@ function requestNext(data){
 
 		clear = false;
 		console.log("no more photos!");
+		document.getElementById('controls').style.display = 'none';
 		document.getElementById('moderation-action').style.display = 'none';
 		document.getElementById('image-submit').style.display = 'none';
 		document.getElementById('previewCanvas').style.display = 'none';
@@ -205,8 +217,8 @@ function requestNext(data){
 			        context.clearRect(0, 0, canvas.width, canvas.height);
 			        hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
 
-			        imageObj.src = "photos/"+nameOfPhoto;
-			        // imageObj.src = "images/incoming/"+nameOfPhoto;
+			        // imageObj.src = "photos/"+nameOfPhoto;
+			        imageObj.src = "images/incoming/"+nameOfPhoto;
 
 			        document.getElementById('photo-name').value = nameOfPhoto;
 			        console.log('found new photo');
@@ -259,6 +271,5 @@ function poll(url, method, period, beforeRequest, onSuccess, onError) {
     xhr.onreadystatechange = onReadyStateChange;
 
     pollTimer1 = setTimeout(sendRequest, period);
-    // pollTimer1();
 }
 

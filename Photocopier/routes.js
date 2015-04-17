@@ -4,8 +4,8 @@
  */ 
 
 var debug = 1;
-var nasSavePath = '/Volumes/nas/saved/';
-var debugSavePath = 'public/uploads/';
+var nasSavePath = '/Volumes/OCULTO/Photocopier/';
+var debugSavePath = __dirname+'/images/';
 var savePath = [nasSavePath, debugSavePath]
 
 
@@ -114,10 +114,10 @@ module.exports = function(app){
 					console.log("user update");
 
 					// rename file into rejected folder
-					// fs.rename(savePath[debug]+'modified_'+photoName, savePath[debug]+'finalized_'+photoName, function (err) {
-					//   	if (err) throw err;
-					//   	console.log('finalized!');
-					//   });
+					fs.rename(savePath[debug]+'incoming/'+photoName, savePath[debug]+'rejected/'+'bad_'+photoName, function (err) {
+					  	if (err) throw err;
+					  	console.log('rejected');
+					  });
 					// ajax response
 					// Find all photos
 					photos.find({}, function(err, all_photos){
@@ -166,30 +166,15 @@ module.exports = function(app){
 		var photoName = req.body.photo;
 		
 		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
-		fs.writeFile(savePath[debug]+'modified_'+photoName, buf, function (err) {
+		fs.writeFile(savePath[debug]+'approved/modified_'+photoName, buf, function (err) {
 		  if (err) throw err;
 		  console.log('It\'s saved!');
-		  fs.rename(savePath[debug]+'modified_'+photoName, savePath[debug]+'finalized_'+photoName, function (err) {
+		  fs.rename(savePath[debug]+'approved/modified_'+photoName, savePath[debug]+'approved/finalized_'+photoName, function (err) {
 		  	if (err) throw err;
 		  	console.log('finalized!');
 		  });
 		});
 
-		// fs.writeFile(nasSavePath+'/modified_'+photoName, buf, function (err) {
-		//   if (err) throw err;
-		//   console.log('It\'s saved!');
-		//   fs.rename(nasSavePath+'/modified_'+photoName, nasSavePath + '/finalized_'+photoName, function (err) {
-		//   	if (err) throw err;
-		//   	console.log('finalized!');
-		//   });
-		// });
-
-		// stream option in case for some reason too memory intensive
-		// var stream = fs.createWriteStream('public/uploads/meow.png');
-		// stream.write(buf);
-		// stream.on("end", function() {
-		// 	stream.end();
-		// });
 		console.log("SAVE BUFFER DATA");
 		console.log(photoName);
 

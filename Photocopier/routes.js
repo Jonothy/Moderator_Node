@@ -7,14 +7,14 @@ var debug = 1;
 var nasSavePath = '/Volumes/OCULTO/Photocopier/';
 var debugSavePath = __dirname+'/images/';
 var savePath = [nasSavePath, debugSavePath]
-var printer_url = "192.168.0.1";
+var printer_url = "http://172.16.3.73:8888/print";
 
 var path = require('path'),
 	formidable = require('formidable'),
 	http = require('http'),
 	sys = require('sys'),
 	fs = require('fs'),
-	request = require('request');
+	request = require('request'),
 	db = require('./database'),
 	photos = db.photos,
 	users = db.users;
@@ -173,20 +173,20 @@ module.exports = function(app){
 		  // saved so rename to signify so
 		  fs.rename(savePath[debug]+'approved/modified_'+photoName, savePath[debug]+'approved/finalized_'+photoName, function (err) {
 		  	// request to printer
-		 //  	request({
-			//     url: printer_url, //URL to hit
-			//     method: 'POST',
-			//     //Lets post the following key/values as form
-			//     json: {
-			//         to_print: savePath[debug]+'approved/finalized_'+photoName,,
-			//     }
-			// }, function(error, response, body){
-			//     if(error) {
-			//         console.log(error);
-			//     } else {
-			//         console.log(response.statusCode, body);
-			// }
-			// });
+		  	request({
+			    url: printer_url, //URL to hit
+			    method: 'GET',
+			    //Lets post the following key/values as form
+			    json: {
+			        to_print: savePath[debug]+'approved/finalized_'+photoName,
+			    }
+			}, function(error, response, body){
+			    if(error) {
+			        console.log(error);
+			    } else {
+			        console.log(response.statusCode, body);
+			}
+			});
 
 		  	if (err) throw err;
 		  	console.log('finalized!');

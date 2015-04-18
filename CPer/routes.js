@@ -11,6 +11,7 @@ var nasSavePath = '/Volumes/OCULTO/04_18_15/scan/';
 var debugSavePath = __dirname+'/images/04_18_15/scan/';
 var savePath = [nasSavePath, debugSavePath]
 var printer_url = "http://172.16.3.73:5000/print";
+var waitString = '_incoming';
 
 var path = require('path'),
 	formidable = require('formidable'),

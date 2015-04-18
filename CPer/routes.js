@@ -4,7 +4,8 @@
  */ 
 
 var debug = 0;
-var nasSavePath = '/Volumes/OCULTO/Photocopier/';
+// var nasSavePath = '/Volumes/OCULTO/Photocopier/';
+var nasSavePath = 'Z:/Photocopier/';
 var debugSavePath = __dirname+'/images/';
 var savePath = [nasSavePath, debugSavePath]
 var printer_url = "http://172.16.3.73:8888/print";

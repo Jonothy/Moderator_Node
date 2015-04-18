@@ -7,8 +7,9 @@
  */ 
 
 var debug = 0;
-var nasLoadPath = '/Volumes/OCULTO/Photocopier/incoming';
-var debugLoadPath = __dirname + '/images/incoming';
+// var nasLoadPath = '/Volumes/OCULTO/Photocopier/incoming';
+var nasLoadPath = 'Z:/Photocopier/incoming';
+var debugLoadPath = __dirname + '/images/incoming';
 var loadPath = [nasLoadPath, debugLoadPath];
 var readyString = "good_";
 
@@ -28,80 +29,80 @@ var photos = new Datastore({ filename: __dirname + '/data/photos', autoload: tru
 photos.ensureIndex({fieldName: 'name', unique: true});
 users.ensureIndex({fieldName: 'ip', unique: true});
 
-watchr.watch({
-    paths: [loadPath[debug]],
-    listeners: {
-        log: function(logLevel){
-            console.log('a log message occured:', arguments);
-        },
-        error: function(err){
-            console.log('an error occured:', err);
-        },
-        watching: function(err,watcherInstance,isWatching){
-            if (err) {
-                console.log("watching the path " + watcherInstance.path + " failed with error", err);
-            } else {
-                console.log("watching the path " + watcherInstance.path + " completed");
-            }
-        },
-        change: function(changeType,filePath,fileCurrentStat,filePreviousStat){
-            console.log('a change event occured:',arguments);
-        }
-    },
-    next: function(err,watchers){
-        if (err) {
-            return console.log("watching everything failed with error", err);
-        } else {
-            console.log('watching everything completed', watchers);
-        }
+// watchr.watch({
+//     paths: [loadPath[debug]],
+//     listeners: {
+//         log: function(logLevel){
+//             console.log('a log message occured:', arguments);
+//         },
+//         error: function(err){
+//             console.log('an error occured:', err);
+//         },
+//         watching: function(err,watcherInstance,isWatching){
+//             if (err) {
+//                 console.log("watching the path " + watcherInstance.path + " failed with error", err);
+//             } else {
+//                 console.log("watching the path " + watcherInstance.path + " completed");
+//             }
+//         },
+//         change: function(changeType,filePath,fileCurrentStat,filePreviousStat){
+//             console.log('a change event occured:',arguments);
+//         }
+//     },
+//     next: function(err,watchers){
+//         if (err) {
+//             return console.log("watching everything failed with error", err);
+//         } else {
+//             console.log('watching everything completed', watchers);
+//         }
 
-        // Close watchers after 60 seconds
-        // setTimeout(function(){
-        //     var i;
-        //     console.log('Stop watching our paths');
-        //     for ( i=0;  i<watchers.length; i++ ) {
-        //         watchers[i].close();
-        //     }
-        // },60*1000);
-    }
-});
+//         // Close watchers after 60 seconds
+//         // setTimeout(function(){
+//         //     var i;
+//         //     console.log('Stop watching our paths');
+//         //     for ( i=0;  i<watchers.length; i++ ) {
+//         //         watchers[i].close();
+//         //     }
+//         // },60*1000);
+//     }
+// });
 
 // watcher function
-// chokidar.watch(loadPath[debug], {ignored: /[\/\\]\./}).on('all', function(event, path) {
-//   console.log(event, path);
-//   console.log("stuff");
+chokidar.watch(loadPath[debug], {ignored: /[\/\\]\./}).on('all', function(event, path) {
+  console.log(event, path);
+  console.log("stuff");
 
-//   if(event == 'add'){
-// 	 //  var newFile = fs.readFile(path, function (err, data) {
-// 		//   if (err) throw err;
-// 		//   console.log(data);
-// 		// });
+  if(event == 'add'){
+	 //  var newFile = fs.readFile(path, function (err, data) {
+		//   if (err) throw err;
+		//   console.log(data);
+		// });
 
-// 		// location_id will be based on the path the file was found in
-// 		var location_id = 0;
+		// location_id will be based on the path the file was found in
+		var location_id = 0;
 
-// 		if(path.indexOf(readyString) >= 0){
-// 			var added_time = new Date();
+		if(path.indexOf(readyString) >= 0){
+			var added_time = new Date();
 
-// 			photos.insert({
-// 				name: path.replace(/^.*[\\\/]/, ''),
-// 				likes: 0,
-// 				dislikes: 0,
-// 				viewed: 0,
-// 				time_added: added_time.toString(),
-// 				time_viewed: 0,
-// 				time_saved: 0,
-// 				loc_id: location_id,
-// 				filepath: path
-// 			});
-// 		}
-// 	}
+			photos.insert({
+				name: path.replace(/^.*[\\\/]/, ''),
+				likes: 0,
+				dislikes: 0,
+				viewed: 0,
+				time_added: added_time.toString(),
+				time_viewed: 0,
+				time_saved: 0,
+				loc_id: location_id,
+				filepath: path
+			});
+		}
+	}
 
-// 	if(event == 'addDir'){
+	if(event == 'addDir'){
 
 
-// 	}
-// });
+	}
+});
 
 // gaze([loadPath[debug]+'/*'], function(err, watcher) {
 //   // Files have all started watching
@@ -185,24 +186,24 @@ watchr.watch({
 // 	  if (stats) console.log('File', path, 'changed size to', stats.size);
 // 	});
 
-// // Full list of options. See below for descriptions.
-// chokidar.watch('file', {
-//   persistent: true,
+// Full list of options. See below for descriptions.
+chokidar.watch('file', {
+  persistent: true,
 
-//   ignored: '*.txt',
-//   ignoreInitial: false,
-//   followSymlinks: true,
-//   cwd: '.',
+  ignored: '*.txt',
+  ignoreInitial: false,
+  followSymlinks: true,
+  cwd: '.',
 
-//   // useFsEvents: true,
-//   usePolling: true,
-//   alwaysStat: false,
-//   depth: undefined,
-//   interval: 1000,
+  // useFsEvents: true,
+  usePolling: true,
+  alwaysStat: false,
+  depth: undefined,
+  interval: 1000,
 
-//   ignorePermissionErrors: false,
-//   atomic: true
-// });
+  ignorePermissionErrors: false,
+  atomic: true
+});
 
 // Make the photos and users data sets available to the code
 // that uses require() on this module:

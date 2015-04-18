@@ -32,6 +32,7 @@ module.exports = function(app){
 
 	// static directory for serving image files
 	// app.use('/images', serveStatic('/Volumes/OCULTO/Photocopier'));
+	app.use('/images', serveStatic('Z:/Photocopier'))
 	app.use('/images', serveStatic(__dirname + '/images'));
 	// app.use(express.bodyParser({uploadDir:'/public/uploaded'}));
 

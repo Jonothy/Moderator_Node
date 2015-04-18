@@ -1,8 +1,16 @@
 /**
  * This file runs some configuration settings on your express application.
  */ 
+var debug = 1;
+// var win7 = 0;
+// var nasServePath = ['/Volumes/OCULTO/Photocopier', 'Z:/Photocopier'];
+var nasServePath = '/Volumes/OCULTO/Photocopier';
+// var nasServePath = 'Z:/Photocopier';
+var debugServePath = __dirname + '/images';
+var servePath = [nasServePath, debugServePath];
 
 
+console.log(__dirname);
 // Include the handlebars templating library
 var handlebars = require('express3-handlebars'),
 	express = require('express'),
@@ -32,8 +40,7 @@ module.exports = function(app){
 
 	// static directory for serving image files
 	// app.use('/images', serveStatic('/Volumes/OCULTO/Photocopier'));
-	app.use('/images', serveStatic('Z:/Photocopier'))
-	app.use('/images', serveStatic(__dirname + '/images'));
+	app.use('/images', serveStatic(servePath[debug]))
 	// app.use(express.bodyParser({uploadDir:'/public/uploaded'}));
 
 	// Parse POST request data. It will be available in the req.body object

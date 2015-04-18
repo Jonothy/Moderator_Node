@@ -23,6 +23,10 @@ var compositeSaveObj = new Image();
 var imageData;
 var saveImageData;
 
+// default brightness and contrast values
+var def_brightness = 0;
+var def_contrast = 10;
+
 // ajax polling variables
 var pollTimer1, pollTimer2;
 var clear = false;
@@ -64,6 +68,11 @@ imageObj.onload = function() {
 var acceptButton = document.getElementById('btn-accept');
 acceptButton.addEventListener('click', function (e) {
     console.log("accepted!");
+
+    document.getElementById("brightness-bar").value = 0;
+    document.getElementById("contrast-bar").value = 10;
+    document.getElementById("range-brightness").innerHTML=0;
+    document.getElementById("range-contrast").innerHTML=10;
 
     // Preview canvas work
 

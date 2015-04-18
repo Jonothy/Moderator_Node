@@ -171,11 +171,11 @@ module.exports = function(app){
 		var photoName = req.body.photo;
 		
 		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
-		fs.writeFile(savePath[debug]+'3_moderated/'+photoName.substring(0, s.lastIndexOf(".")) + "_incoming" + s.substring(s.lastIndexOf(".")), buf, function (err) {
+		fs.writeFile(savePath[debug]+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), buf, function (err) {
 		  if (err) throw err;
 		  console.log('It\'s saved!');
 		  // saved so rename to signify so
-		  fs.rename(savePath[debug]+'3_moderated/modified_'+photoName.substring(0, s.lastIndexOf(".")) + "_incoming" + s.substring(s.lastIndexOf(".")), savePath[debug]+'3_moderated/'+photoName, function (err) {
+		  fs.rename(savePath[debug]+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath[debug]+'3_moderated/'+photoName, function (err) {
 		  	
 		  	if (err) throw err;
 		  	console.log('finalized!');

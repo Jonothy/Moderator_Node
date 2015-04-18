@@ -3,7 +3,6 @@
 // preview canvas
 var canvas = document.getElementById('previewCanvas');
 var context = canvas.getContext('2d');
-var odata;
 var testimg = document.getElementById('testimg');
 
 
@@ -15,8 +14,6 @@ var hiddencontext = hiddencanvas.getContext('2d');
 var imageObj = new Image();
 // preview image object
 var previewImg = new Image();
-// modified image to be sent
-var saveObj = new Image();
 
 // overlay object
 var compositeObj = new Image();
@@ -41,14 +38,6 @@ compositeObj.src = "img/sequence01.png";
 
 imageObj.onload = function() {
 
-	// image adjustment
-	// var w = imageObj.width;
- //    var h = imageObj.height;
- //    var tw = canvas.width;
- //    var th = canvas.height;
-
- //    var result = ScaleImage(w, h, tw, th, false);
-
 	/* image preview */
 	canvas.width = canvas.height * (imageObj.width / imageObj.height);
 	context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
@@ -58,9 +47,6 @@ imageObj.onload = function() {
 	hiddencanvas.height = imageObj.height;
 
 	hiddencontext.drawImage(imageObj, 0, 0);
-	
-	saveObj.width = imageObj.width;
-	saveObj.height = imageObj.height;
 
 	console.log("image loaded!");
 
@@ -174,13 +160,12 @@ $("#rejected").submit(function(e)
 $("#data-submit").submit(function(e)
 {
 
+	// Save canvas image for submission
 	hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
 	hiddencontext.drawImage(imageObj, 0, 0);
 	saveImageData = hiddencontext.getImageData(0,0, hiddencanvas.width, hiddencanvas.height);
 	var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(document.getElementById('brightness-bar').value) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
 	hiddencontext.putImageData(hidden_cb_image, 0, 0);
-	// var contrastedSave = contrastImage(saveImageData, newValue);
-    // hiddencontext.putImageData(contrastedSave, 0, 0);
     hiddencontext.globalCompositeOperation = "source-over";
 	hiddencontext.drawImage(compositeObj,-100,-10);
 

@@ -30,57 +30,24 @@ var photos = new Datastore({ filename: __dirname + '/data/photos', autoload: tru
 photos.ensureIndex({fieldName: 'name', unique: true});
 users.ensureIndex({fieldName: 'ip', unique: true});
 
-console.log(loadPath[debug]);
-console.log(typeof(loadPath[debug]));
+
 // watcher function
-chokidar.watch(loadPath[debug], {ignored: /[\/\\]\./}).on('all', function(event, path) {
-// chokidar.watch('/Users/JohnnyLu/Documents/Developer/web/nodeIMG/NoMod/CPer/images/04_18_15/scan', {ignored: /[\/\\]\./}).on('all', function(event, path) {
-  console.log(event, path);
-  console.log("stuff");
+// chokidar.watch(loadPath[debug], {ignored: /[\/\\]\./}).on('all', function(event, path) {
+// // chokidar.watch('/Users/JohnnyLu/Documents/Developer/web/nodeIMG/NoMod/CPer/images/04_18_15/scan', {ignored: /[\/\\]\./}).on('all', function(event, path) {
+//   console.log(event, path);
+//   console.log("stuff");
 
-  if(event == 'add'){
-	 //  var newFile = fs.readFile(path, function (err, data) {
-		//   if (err) throw err;
-		//   console.log(data);
-		// });
+//   if(event == 'add'){
+// 	 //  var newFile = fs.readFile(path, function (err, data) {
+// 		//   if (err) throw err;
+// 		//   console.log(data);
+// 		// });
 
-		// location_id will be based on the path the file was found in
-		var location_id = 0;
-
-		// if(path.indexOf(notReadyString) < 0){
-		if(path.indexOf(readyString) >= 0){
-			var added_time = new Date();
-
-			photos.insert({
-				name: path.replace(/^.*[\\\/]/, ''),
-				likes: 0,
-				dislikes: 0,
-				viewed: 0,
-				time_added: added_time.toString(),
-				time_viewed: 0,
-				time_saved: 0,
-				loc_id: location_id,
-				filepath: path
-			});
-		}
-	}
-});
-
-var watcher = chokidar.watch(loadPath[debug], {
-  ignored: /[\/\\]\./,
-  persistent: true
-});
-
-var log = console.log.bind(console);
-
-// watcher
-//   .on('add', function(path) { 
-//   		log('File', path, 'has been added'); 
-//   		// location_id will be based on the path the file was found in
+// 		// location_id will be based on the path the file was found in
 // 		var location_id = 0;
 
+// 		// if(path.indexOf(notReadyString) < 0){
 // 		if(path.indexOf(readyString) >= 0){
-
 // 			var added_time = new Date();
 
 // 			photos.insert({
@@ -95,15 +62,47 @@ var log = console.log.bind(console);
 // 				filepath: path
 // 			});
 // 		}
-//   	})
-  // .on('change', function(path) { log('File', path, 'has been changed'); })
+// 	}
+// });
+
+var watcher = chokidar.watch(loadPath[debug], {
+  ignored: /[\/\\]\./,
+  persistent: true
+});
+
+var log = console.log.bind(console);
+
+watcher
+  .on('add', function(path) { 
+  		log('File', path, 'has been added'); 
+  		// location_id will be based on the path the file was found in
+		var location_id = 0;
+
+		if(path.indexOf(readyString) >= 0){
+
+			var added_time = new Date();
+
+			photos.insert({
+				name: path.replace(/^.*[\\\/]/, ''),
+				likes: 0,
+				dislikes: 0,
+				viewed: 0,
+				time_added: added_time.toString(),
+				time_viewed: 0,
+				time_saved: 0,
+				loc_id: location_id,
+				filepath: path
+			});
+		}
+  	})
+  .on('change', function(path) { log('File', path, 'has been changed'); })
   // .on('unlink', function(path) { log('File', path, 'has been removed'); })
   // // More events.
   // .on('addDir', function(path) { log('Directory', path, 'has been added'); })
   // .on('unlinkDir', function(path) { log('Directory', path, 'has been removed'); })
   // .on('error', function(error) { log('Error happened', error); })
   // .on('ready', function() { log('Initial scan complete. Ready for changes.'); })
-  // .on('raw', function(event, path, details) { log('Raw event info:', event, path, details); })
+  .on('raw', function(event, path, details) { log('Raw event info:', event, path, details); })
 
 	// 'add', 'addDir' and 'change' events also receive stat() results as second
 	// argument when available: http://nodejs.org/api/fs.html#fs_class_fs_stats

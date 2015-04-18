@@ -3,7 +3,7 @@
  */ 
 var debug = 0;
 // var win7 = 0;
-// var nasServePath = ['/Volumes/OCULTO/Photocopier', 'Z:/Photocopier'];
+// var nasServePath = ['/Volumes/OCULTO/04_18_15/scan', 'Z:/04_18_15/scan'];
 var nasServePath = '/Volumes/OCULTO/04_18_15/scan';
 // var nasServePath = 'Z:/04_18_15/scan';
 var debugServePath = __dirname + '/images/04_18_15/scan';
@@ -39,7 +39,7 @@ module.exports = function(app){
 
 	// static directory for serving image files
 	// app.use('/images', serveStatic('/Volumes/OCULTO/Photocopier'));
-	app.use('/images', serveStatic(servePath[debug]))
+	app.use('/images', serveStatic(servePath[debug]));
 	// app.use(express.bodyParser({uploadDir:'/public/uploaded'}));
 
 	// Parse POST request data. It will be available in the req.body object

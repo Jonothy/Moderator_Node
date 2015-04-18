@@ -1,3 +1,2 @@
 *.md
 CPer/node_modules/**
-CPer/node_modules/chokidar/lib/fsevents-handler.js

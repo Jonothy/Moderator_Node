@@ -13,6 +13,7 @@ var nasLoadPath = '/Volumes/OCULTO/04_18_15/scan/1_raw';
 // var nasLoadPath = ['/Volumes/OCULTO/04_18_15/scan/1_raw', 'Z:/04_18_15/scan/1_raw'];
 var debugLoadPath = __dirname + '/images/04_18_15/scan/1_raw';
 var loadPath = [nasLoadPath, debugLoadPath];
+var notReadyString = "_incoming";
 var readyString = "good_";
 
 // Require the nedb module
@@ -46,6 +47,7 @@ chokidar.watch(loadPath[debug], {ignored: /[\/\\]\./}).on('all', function(event,
 		// location_id will be based on the path the file was found in
 		var location_id = 0;
 
+		// if(path.indexOf(notReadyString) < 0){
 		if(path.indexOf(readyString) >= 0){
 			var added_time = new Date();
 

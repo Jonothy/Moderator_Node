@@ -32,8 +32,8 @@ var pollTimer1, pollTimer2;
 var clear = false;
 
 // loading composite object
-compositeObj.src = "img/overlay.png";
-// prevCompostiteObj.src = "img/tinysequence01.png";
+compositeObj.src = "img/OCL_Xerox_large.png";
+prevCompositeObj.src = "img/OCL_Xerox_small.png";
 
 
 imageObj.onload = function() {
@@ -80,8 +80,8 @@ acceptButton.addEventListener('click', function (e) {
 	context.putImageData(cb_image, 0, 0);
 
 	// initial overlay
-	// context.globalCompositeOperation = "source-over";
-	// context.drawImage(compositeObj,-100,-10);
+	context.globalCompositeOperation = "source-over";
+	context.drawImage(prevCompositeObj,-100,-10);
     
 	console.log('processed!');
 

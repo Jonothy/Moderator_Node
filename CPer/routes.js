@@ -10,7 +10,7 @@ var nasSavePath = '/Volumes/OCULTO/04_18_15/scan/';
 // var nasSavePath = ['/Volumes/OCULTO/Photocopier/', 'Z:/Photocopier/'];
 var debugSavePath = __dirname+'/images/04_18_15/scan/';
 var savePath = [nasSavePath, debugSavePath]
-var printer_url = "http://172.16.3.73:8888/print";
+var printer_url = "http://172.16.3.73:5000/print";
 
 var path = require('path'),
 	formidable = require('formidable'),
@@ -170,29 +170,29 @@ module.exports = function(app){
 		var photoName = req.body.photo;
 		
 		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
-		fs.writeFile(savePath[debug]+'3_moderated/modified_'+photoName, buf, function (err) {
+		fs.writeFile(savePath[debug]+'3_moderated/'+photoName.substring(0, s.lastIndexOf(".")) + "_incoming" + s.substring(s.lastIndexOf(".")), buf, function (err) {
 		  if (err) throw err;
 		  console.log('It\'s saved!');
 		  // saved so rename to signify so
-		  fs.rename(savePath[debug]+'3_moderated/modified_'+photoName, savePath[debug]+'3_moderated/finalized_'+photoName, function (err) {
-		  	// request to printer
-		 //  	request({
-			//     url: printer_url, //URL to hit
-			//     method: 'GET',
-			//     //Lets post the following key/values as form
-			//     json: {
-			//         to_print: savePath[debug]+'3_moderated/finalized_'+photoName,
-			//     }
-			// }, function(error, response, body){
-			//     if(error) {
-			//         console.log(error);
-			//     } else {
-			//         console.log(response.statusCode, body);
-			// }
-			// });
-
+		  fs.rename(savePath[debug]+'3_moderated/modified_'+photoName.substring(0, s.lastIndexOf(".")) + "_incoming" + s.substring(s.lastIndexOf(".")), savePath[debug]+'3_moderated/'+photoName, function (err) {
+		  	
 		  	if (err) throw err;
 		  	console.log('finalized!');
+		  	// request to printer
+		  	request({
+			    url: printer_url, //URL to hit
+			    method: 'POST',
+			    //Lets post the following key/values as form
+			    form: { image_name: photoName }
+			}, function(error, response, body){
+			    if(error) {
+			        console.log(error);
+			    } else {
+			        console.log(response.statusCode, body);
+			}
+			});
+
+		  	
 		  });
 		});
 

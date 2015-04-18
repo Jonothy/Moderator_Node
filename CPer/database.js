@@ -8,8 +8,8 @@
 
 var debug = 0;
 // var win7 = 0;
-var nasLoadPath = '/Volumes/OCULTO/04_18_15/scan/1_raw';
-// var nasLoadPath = 'Z:/04_18_15/scan/1_raw';
+// var nasLoadPath = '/Volumes/OCULTO/04_18_15/scan/1_raw';
+var nasLoadPath = 'Z:/04_18_15/scan/1_raw';
 // var nasLoadPath = ['/Volumes/OCULTO/04_18_15/scan/1_raw', 'Z:/04_18_15/scan/1_raw'];
 var debugLoadPath = __dirname + '/images/04_18_15/scan/1_raw';
 var loadPath = [nasLoadPath, debugLoadPath];

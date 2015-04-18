@@ -181,7 +181,7 @@ module.exports = function(app){
 			//     method: 'GET',
 			//     //Lets post the following key/values as form
 			//     json: {
-			//         to_print: savePath[debug]+'approved/finalized_'+photoName,
+			//         to_print: savePath[debug]+'3_moderated/finalized_'+photoName,
 			//     }
 			// }, function(error, response, body){
 			//     if(error) {

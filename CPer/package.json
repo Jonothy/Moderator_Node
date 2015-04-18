@@ -22,6 +22,7 @@
     "nedb": "^0.9.4",
     "request": "^2.55.0",
     "serve-static": "^1.9.2",
-    "watchr": "^2.4.13"
+    "watchr": "^2.4.13",
+    "winston": "^1.0.0"
   }
 }

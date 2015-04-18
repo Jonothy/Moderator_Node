@@ -13,13 +13,16 @@ var hiddencontext = hiddencanvas.getContext('2d');
 
 // original image to be modified
 var imageObj = new Image();
+// preview image object
+var previewImg = new Image();
 // modified image to be sent
 var saveObj = new Image();
 
 // overlay object
 var compositeObj = new Image();
-var compositeSaveObj = new Image();
+var prevCompositeObj = new Image();
 
+// image data vars for canvas manipulation
 var imageData;
 var saveImageData;
 
@@ -38,8 +41,18 @@ compositeObj.src = "img/sequence01.png";
 
 imageObj.onload = function() {
 
+	// image adjustment
+	// var w = imageObj.width;
+ //    var h = imageObj.height;
+ //    var tw = canvas.width;
+ //    var th = canvas.height;
+
+ //    var result = ScaleImage(w, h, tw, th, false);
+
 	/* image preview */
-	context.drawImage(imageObj, 0, 0);
+	canvas.width = canvas.height * (imageObj.width / imageObj.height);
+	context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
+	previewImg.src = canvas.toDataURL();
 
 	hiddencanvas.width = imageObj.width;
 	hiddencanvas.height = imageObj.height;
@@ -117,7 +130,7 @@ function adjustValues(ctx, brightness, contrast)
 {	
 	// reset canvas
 	ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
-	ctx.drawImage(imageObj, 0, 0);
+	ctx.drawImage(previewImg, 0, 0);
 	ctxImageData = ctx.getImageData(0,0, ctx.canvas.width, ctx.canvas.height);
 	// apply filter
 	var cb_image = Filters.brightnessContrast(imageData, brightness, contrast);

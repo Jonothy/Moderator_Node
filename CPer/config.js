@@ -4,8 +4,8 @@
 var debug = 1;
 // var win7 = 0;
 // var nasServePath = ['/Volumes/OCULTO/Photocopier', 'Z:/Photocopier'];
-var nasServePath = '/Volumes/OCULTO/Photocopier';
-// var nasServePath = 'Z:/Photocopier';
+// var nasServePath = '/Volumes/OCULTO/Photocopier';
+var nasServePath = 'Z:/Photocopier';
 var debugServePath = __dirname + '/images';
 var servePath = [nasServePath, debugServePath];
 

@@ -6,7 +6,7 @@
 var debug = 0;
 // var win7 = 0;
 // var nasSavePath = '/Volumes/OCULTO/04_18_15/scan/';
-var nasSavePath = 'Z:/scan/04_18_15/scan/';
+var nasSavePath = 'Z:/04_18_15/scan/';
 // var nasSavePath = ['/Volumes/OCULTO/Photocopier/', 'Z:/Photocopier/'];
 var debugSavePath = __dirname+'/images/04_18_15/scan/';
 var savePath = [nasSavePath, debugSavePath]

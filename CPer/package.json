@@ -18,11 +18,9 @@
     "express": "^3.4.7",
     "express3-handlebars": "^0.5.0",
     "formidable": "^1.0.17",
-    "gaze": "^0.5.1",
     "nedb": "^0.9.4",
     "request": "^2.55.0",
     "serve-static": "^1.9.2",
-    "watchr": "^2.4.13",
     "winston": "^1.0.0"
   }
 }

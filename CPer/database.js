@@ -18,8 +18,6 @@ var readyString = "good_";
 // Require the nedb module
 var Datastore = require('nedb'),
 	chokidar = require('chokidar'),
-	gaze = require('gaze'),
-	watchr = require('watchr'),
 	fs = require('fs');
 
 

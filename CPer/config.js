@@ -1,12 +1,12 @@
 /**
  * This file runs some configuration settings on your express application.
  */ 
-var debug = 1;
+var debug = 0;
 // var win7 = 0;
 // var nasServePath = ['/Volumes/OCULTO/Photocopier', 'Z:/Photocopier'];
-// var nasServePath = '/Volumes/OCULTO/Photocopier';
-var nasServePath = 'Z:/Photocopier';
-var debugServePath = __dirname + '/images';
+var nasServePath = '/Volumes/OCULTO/04_18_15/scan';
+// var nasServePath = 'Z:/04_18_15/scan';
+var debugServePath = __dirname + '/images/04_18_15/scan';
 var servePath = [nasServePath, debugServePath];
 
 

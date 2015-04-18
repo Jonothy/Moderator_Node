@@ -32,7 +32,7 @@ var pollTimer1, pollTimer2;
 var clear = false;
 
 // loading composite object
-compositeObj.src = "img/sequence01.png";
+compositeObj.src = "img/overlay.png";
 // prevCompostiteObj.src = "img/tinysequence01.png";
 
 
@@ -80,8 +80,8 @@ acceptButton.addEventListener('click', function (e) {
 	context.putImageData(cb_image, 0, 0);
 
 	// initial overlay
-	context.globalCompositeOperation = "source-over";
-	context.drawImage(compositeObj,-100,-10);
+	// context.globalCompositeOperation = "source-over";
+	// context.drawImage(compositeObj,-100,-10);
     
 	console.log('processed!');
 
@@ -122,8 +122,8 @@ function adjustValues(ctx, brightness, contrast)
 	var cb_image = Filters.brightnessContrast(imageData, brightness, contrast);
 	context.putImageData(cb_image, 0, 0);
 	// composite
-    ctx.globalCompositeOperation = "source-over";
-    ctx.drawImage(compositeObj,-100,-10);
+    // ctx.globalCompositeOperation = "source-over";
+    // ctx.drawImage(compositeObj,-100,-10);
 
 }
 
@@ -216,7 +216,7 @@ function requestNext(data){
         hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
 
         // imageObj.src = "photos/"+nameOfPhoto;
-        imageObj.src = "images/incoming/"+nameOfPhoto;
+        imageObj.src = "images/1_raw/"+nameOfPhoto;
         document.getElementById('photo-name').value = nameOfPhoto;
 	}
 
@@ -248,7 +248,7 @@ function requestNext(data){
 			        hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
 
 			        // imageObj.src = "photos/"+nameOfPhoto;
-			        imageObj.src = "images/incoming/"+nameOfPhoto;
+			        imageObj.src = "images/1_raw/"+nameOfPhoto;
 
 			        document.getElementById('photo-name').value = nameOfPhoto;
 			        console.log('found new photo');

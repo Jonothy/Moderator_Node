@@ -6,12 +6,12 @@
  * routes.js
  */ 
 
-var debug = 1;
+var debug = 0;
 // var win7 = 0;
-// var nasLoadPath = '/Volumes/OCULTO/Photocopier/incoming';
-var nasLoadPath = 'Z:/Photocopier/incoming';
-// var nasLoadPath = ['/Volumes/OCULTO/Photocopier/incoming', 'Z:/Photocopier/incoming'];
-var debugLoadPath = __dirname + '/images/incoming';
+var nasLoadPath = '/Volumes/OCULTO/04_18_15/scan/1_raw';
+// var nasLoadPath = 'Z:/04_18_15/scan/1_raw';
+// var nasLoadPath = ['/Volumes/OCULTO/04_18_15/scan/1_raw', 'Z:/04_18_15/scan/1_raw'];
+var debugLoadPath = __dirname + '/images/04_18_15/scan/1_raw';
 var loadPath = [nasLoadPath, debugLoadPath];
 var readyString = "good_";
 
@@ -32,8 +32,8 @@ users.ensureIndex({fieldName: 'ip', unique: true});
 console.log(loadPath[debug]);
 console.log(typeof(loadPath[debug]));
 // watcher function
-// chokidar.watch(loadPath[debug], {ignored: /[\/\\]\./}).on('all', function(event, path) {
-chokidar.watch('/Users/JohnnyLu/Documents/Developer/web/nodeIMG/NoMod/CPer/images/incoming', {ignored: /[\/\\]\./}).on('all', function(event, path) {
+chokidar.watch(loadPath[debug], {ignored: /[\/\\]\./}).on('all', function(event, path) {
+// chokidar.watch('/Users/JohnnyLu/Documents/Developer/web/nodeIMG/NoMod/CPer/images/04_18_15/scan', {ignored: /[\/\\]\./}).on('all', function(event, path) {
   console.log(event, path);
   console.log("stuff");
 
@@ -71,29 +71,29 @@ var watcher = chokidar.watch(loadPath[debug], {
 
 var log = console.log.bind(console);
 
-watcher
-  .on('add', function(path) { 
-  		log('File', path, 'has been added'); 
-  		// location_id will be based on the path the file was found in
-		var location_id = 0;
+// watcher
+//   .on('add', function(path) { 
+//   		log('File', path, 'has been added'); 
+//   		// location_id will be based on the path the file was found in
+// 		var location_id = 0;
 
-		if(path.indexOf(readyString) >= 0){
+// 		if(path.indexOf(readyString) >= 0){
 
-			var added_time = new Date();
+// 			var added_time = new Date();
 
-			photos.insert({
-				name: path.replace(/^.*[\\\/]/, ''),
-				likes: 0,
-				dislikes: 0,
-				viewed: 0,
-				time_added: added_time.toString(),
-				time_viewed: 0,
-				time_saved: 0,
-				loc_id: location_id,
-				filepath: path
-			});
-		}
-  	})
+// 			photos.insert({
+// 				name: path.replace(/^.*[\\\/]/, ''),
+// 				likes: 0,
+// 				dislikes: 0,
+// 				viewed: 0,
+// 				time_added: added_time.toString(),
+// 				time_viewed: 0,
+// 				time_saved: 0,
+// 				loc_id: location_id,
+// 				filepath: path
+// 			});
+// 		}
+//   	})
   // .on('change', function(path) { log('File', path, 'has been changed'); })
   // .on('unlink', function(path) { log('File', path, 'has been removed'); })
   // // More events.

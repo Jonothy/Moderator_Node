@@ -3,12 +3,12 @@
  * It requires the database module that we wrote previously.
  */ 
 
-var debug = 1;
+var debug = 0;
 // var win7 = 0;
-// var nasSavePath = '/Volumes/OCULTO/Photocopier/';
-var nasSavePath = 'Z:/Photocopier/';
+var nasSavePath = '/Volumes/OCULTO/04_18_15/scan/';
+// var nasSavePath = 'Z:/scan/04_18_15/scan/';
 // var nasSavePath = ['/Volumes/OCULTO/Photocopier/', 'Z:/Photocopier/'];
-var debugSavePath = __dirname+'/images/';
+var debugSavePath = __dirname+'/images/04_18_15/scan/';
 var savePath = [nasSavePath, debugSavePath]
 var printer_url = "http://172.16.3.73:8888/print";
 
@@ -118,7 +118,7 @@ module.exports = function(app){
 					console.log("user update");
 
 					// rename file into rejected folder
-					fs.rename(savePath[debug]+'incoming/'+photoName, savePath[debug]+'rejected/'+'bad_'+photoName, function (err) {
+					fs.rename(savePath[debug]+'1_raw/'+photoName, savePath[debug]+'2_rejected/'+photoName, function (err) {
 					  	if (err) throw err;
 					  	console.log('rejected');
 					  });
@@ -170,11 +170,11 @@ module.exports = function(app){
 		var photoName = req.body.photo;
 		
 		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
-		fs.writeFile(savePath[debug]+'approved/modified_'+photoName, buf, function (err) {
+		fs.writeFile(savePath[debug]+'3_moderated/modified_'+photoName, buf, function (err) {
 		  if (err) throw err;
 		  console.log('It\'s saved!');
 		  // saved so rename to signify so
-		  fs.rename(savePath[debug]+'approved/modified_'+photoName, savePath[debug]+'approved/finalized_'+photoName, function (err) {
+		  fs.rename(savePath[debug]+'3_moderated/modified_'+photoName, savePath[debug]+'3_moderated/finalized_'+photoName, function (err) {
 		  	// request to printer
 		 //  	request({
 			//     url: printer_url, //URL to hit

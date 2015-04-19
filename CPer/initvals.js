@@ -5,6 +5,7 @@
 var debug = 0;
 var win7 = 1;
 var eventfolder = 'scan';
+var socket = 8080;
 
 // this gets us the correct base folders based on debug, os, date and event
 var fdate = new Date();
@@ -18,8 +19,8 @@ var debugBasePath = __dirname + '/images/'+fdatestring+'/'+eventfolder;
 var basePath = [nasBasePath[win7], debugBasePath];
 
 module.exports = {
-
 	debug: debug,
-	basePath: basePath
-
+	basePath: basePath,
+	eventFolder: eventFolder,
+	socket: socket
 };

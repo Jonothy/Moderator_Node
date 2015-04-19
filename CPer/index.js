@@ -7,7 +7,7 @@
  */ 
 
 var express = require('express');
-var socket = 8080;
+var initvals = require('./initvals.js');
 // Create a new express.js web app:
 
 var app = express();
@@ -27,5 +27,5 @@ require('./routes')(app);
 // This file has been called directly with 
 // `node index.js`. Start the server!
 
-app.listen(socket);
-console.log('Photocopier is running on http://localhost:'+socket);
+app.listen(initvals.socket);
+console.log(initvals.eventFolder + ' is running on http://localhost:'+initvals.socket);

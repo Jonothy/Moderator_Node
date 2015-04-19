@@ -7,12 +7,20 @@
  */ 
 
 var debug = 0;
-// var win7 = 0;
-// var nasLoadPath = '/Volumes/OCULTO/04_18_15/scan/1_raw';
-var nasLoadPath = 'Z:/04_18_15/scan/1_raw';
-// var nasLoadPath = ['/Volumes/OCULTO/04_18_15/scan/1_raw', 'Z:/04_18_15/scan/1_raw'];
-var debugLoadPath = __dirname + '/images/04_18_15/scan/1_raw';
-var loadPath = [nasLoadPath, debugLoadPath];
+var win7 = 1;
+
+var fdate = new Date();
+Date.prototype.addHours = function(h){
+    this.setHours(this.getHours()+h);
+    return this;
+};
+fdate.addHours(-12);
+var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "_" + ("0" + fdate.getDate().toString()).substr(-2)  + "_" + (fdate.getFullYear().toString()).substr(2);
+var eventfolder = 'scan';
+
+var nasLoadPath = ['/Volumes/OCULTO/'+fdatestring+'/'+eventfolder+'/1_raw', 'Z:/'+fdatestring+'/'+eventfolder+'/1_raw'];
+var debugLoadPath = __dirname + '/images/'+fdatestring+'/'+eventfolder+'/1_raw';
+var loadPath = [nasLoadPath[win7], debugLoadPath];
 var notReadyString = "_incoming";
 var readyString = "good_";
 
@@ -78,7 +86,8 @@ watcher
   		// location_id will be based on the path the file was found in
 		var location_id = 0;
 
-		if(path.indexOf(notReadyString) < 0){
+		// ready files that are images
+		if(path.indexOf(notReadyString) < 0 && path.match(/\.(jpg|jpeg|png|gif)$/)){
 
 			var added_time = new Date();
 
@@ -95,7 +104,7 @@ watcher
 			});
 		}
   	})
-  .on('change', function(path) { log('File', path, 'has been changed'); })
+  // .on('change', function(path) { log('File', path, 'has been changed'); })
   // .on('unlink', function(path) { log('File', path, 'has been removed'); })
   // // More events.
   // .on('addDir', function(path) { log('Directory', path, 'has been added'); })
@@ -104,12 +113,9 @@ watcher
   // .on('ready', function() { log('Initial scan complete. Ready for changes.'); })
   .on('raw', function(event, path, details) { 
 	  	log('Raw event info:', event, path, details); 
-
-	  	console.log(typeof(details));
-	  	console.log(details.watchedPath);
-	  	console.log(typeof(details.watchedPath));
-	  	if(path !== null){
-	  		
+ 	
+	  	// matching raw pattern consistent with a file write and then rename
+	  	if(path !== null){	
 		  	if(event=='rename' && path.indexOf(notReadyString) >= 0 && details.watchedPath.indexOf(notReadyString) >= 0){
 		  		console.log("INCOMMING!");
 		  		console.log(path);
@@ -134,10 +140,10 @@ watcher
 
 	// 'add', 'addDir' and 'change' events also receive stat() results as second
 	// argument when available: http://nodejs.org/api/fs.html#fs_class_fs_stats
-	watcher.on('change', function(path, stats) {
-		log('Change noted');
-	  if (stats) console.log('File', path, 'changed size to', stats.size);
-	});
+	// watcher.on('change', function(path, stats) {
+	// 	log('Change noted');
+	//   if (stats) console.log('File', path, 'changed size to', stats.size);
+	// });
 
 // Full list of options. See below for descriptions.
 chokidar.watch('file', {

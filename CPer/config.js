@@ -2,12 +2,21 @@
  * This file runs some configuration settings on your express application.
  */ 
 var debug = 0;
-// var win7 = 0;
-// var nasServePath = ['/Volumes/OCULTO/04_18_15/scan', 'Z:/04_18_15/scan'];
-// var nasServePath = '/Volumes/OCULTO/04_18_15/scan';
-var nasServePath = 'Z:/04_18_15/scan';
-var debugServePath = __dirname + '/images/04_18_15/scan';
-var servePath = [nasServePath, debugServePath];
+var win7 = 1;
+
+var fdate = new Date();
+Date.prototype.addHours = function(h){
+    this.setHours(this.getHours()+h);
+    return this;
+};
+fdate.addHours(-12);
+var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "_" + ("0" + fdate.getDate().toString()).substr(-2)  + "_" + (fdate.getFullYear().toString()).substr(2);
+var eventfolder = 'scan';
+
+console.log(fdatestring);
+var nasServePath = ['/Volumes/OCULTO/'+fdatestring+'/'+eventfolder, 'Z:/'+fdatestring+'/'+eventfolder];
+var debugServePath = __dirname + '/images/'+fdatestring+'/'+eventfolder;
+var servePath = [nasServePath[win7], debugServePath];
 
 
 console.log(__dirname);

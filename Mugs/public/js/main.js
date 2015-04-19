@@ -156,7 +156,7 @@ function createRapsheet(){
 	var thumbBoxWidth = 1*resolution;
 
 	var fdate = new Date();
-	var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "_" + ("0" + fdate.getDate().toString()).substr(-2)  + "_" + (fdate.getFullYear().toString()).substr(2);
+	var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + fdate.getDate().toString()).substr(-2)  + "/" + (fdate.getFullYear().toString()).substr(2);
 
 	// draw mug
 	rapcontext.drawImage(rapMug, 0, 0, 825, 1275);
@@ -224,7 +224,7 @@ function createRapsheet(){
 	rapcontext.font = "16px bpdotsregular";
 	rapcontext.fillText("DATE OF INCIDENT:", docWidth*0.5+50, 3.17*resolution);
 	rapcontext.font = "20px bpdotsregular";
-	rapcontext.fillText("MM/DD/YY", docWidth*0.5+50, 3.4*resolution);
+	rapcontext.fillText(fdatestring, docWidth*0.5+50, 3.4*resolution);
 	rapcontext.font = "16px bpdotsregular";
 	rapcontext.fillText("OFFICER:", docWidth*0.5+50, 4*resolution);
 	rapcontext.font = "20px bpdotsregular";

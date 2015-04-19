@@ -6,7 +6,7 @@
 var initvals = require('./initvals.js');
 var savePath = initvals.basePath[initvals.debug]+'/';
 
-var printer_url = "172.16.3.70:5000/mugshot";
+var printer_url = "http://172.16.3.70:5000/mugshot";
 var waitString = '_incoming';
 
 var path = require('path'),

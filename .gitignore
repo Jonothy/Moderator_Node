@@ -1,3 +1,5 @@
 *.md
 CPer/node_modules/**
 CPer/images/**
+Confess/node_module/**
+Confess/images/**

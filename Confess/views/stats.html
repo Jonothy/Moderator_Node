@@ -1,0 +1,25 @@
+<nav>
+	<a href="./">Moderation</a>
+	<a class="active" href="./stats">Stats</a>
+</nav>
+
+{{#if standings}}
+	<ul>
+		Approved: {{ numApproved }} <br>
+		Rejected: {{ numRejected}} <br>
+		Total Photos: {{ numPhotos }}
+
+		{{#each standings}}
+		
+		<li>
+			<img src="images/1_raw/{{name}}" alt="Moderated images thumbnail" />
+			<!-- <img src="images/{{name}}" alt="Moderated images thumbnail" /> -->
+			<p class="up">{{this.likes}}</p>
+			<p class="down">{{this.dislikes}}</p>
+		</li>
+
+		{{/each}}
+
+	</ul>
+
+{{/if}}

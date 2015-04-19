@@ -1,0 +1,26 @@
+{
+  "name": "moderation_tool",
+  "version": "0.0.1",
+  "description": "Moderating with node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "game",
+    "picture",
+    "moderation"
+  ],
+  "author": "BKR",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^1.0.1",
+    "express": "^3.4.7",
+    "express3-handlebars": "^0.5.0",
+    "formidable": "^1.0.17",
+    "nedb": "^0.9.4",
+    "request": "^2.55.0",
+    "serve-static": "^1.9.2",
+    "winston": "^1.0.0"
+  }
+}

@@ -78,7 +78,7 @@ watcher
   		// location_id will be based on the path the file was found in
 		var location_id = 0;
 
-		if(path.indexOf(readyString) >= 0){
+		if(path.indexOf(notReadyString) < 0){
 
 			var added_time = new Date();
 
@@ -102,7 +102,35 @@ watcher
   // .on('unlinkDir', function(path) { log('Directory', path, 'has been removed'); })
   // .on('error', function(error) { log('Error happened', error); })
   // .on('ready', function() { log('Initial scan complete. Ready for changes.'); })
-  .on('raw', function(event, path, details) { log('Raw event info:', event, path, details); })
+  .on('raw', function(event, path, details) { 
+	  	log('Raw event info:', event, path, details); 
+
+	  	console.log(typeof(details));
+	  	console.log(details.watchedPath);
+	  	console.log(typeof(details.watchedPath));
+	  	if(path !== null){
+	  		
+		  	if(event=='rename' && path.indexOf(notReadyString) >= 0 && details.watchedPath.indexOf(notReadyString) >= 0){
+		  		console.log("INCOMMING!");
+		  		console.log(path);
+		  		var location_id = 0;
+		  		var added_time = new Date();
+		  		var filename = path.replace(notReadyString,'');
+		  		var filepathway = loadPath[debug] + '/' + filename;
+					photos.insert({
+						name: filename,
+						likes: 0,
+						dislikes: 0,
+						viewed: 0,
+						time_added: added_time.toString(),
+						time_viewed: 0,
+						time_saved: 0,
+						loc_id: location_id,
+						filepath: filepathway
+					});
+		  	}
+		}
+  })
 
 	// 'add', 'addDir' and 'change' events also receive stat() results as second
 	// argument when available: http://nodejs.org/api/fs.html#fs_class_fs_stats

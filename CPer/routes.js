@@ -3,21 +3,9 @@
  * It requires the database module that we wrote previously.
  */ 
 
-var debug = 0;
-var win7 = 1;
+var initvals = require('./initvals.js');
+var savePath = initvals.basePath[initvals.debug]+'/';
 
-var fdate = new Date();
-Date.prototype.addHours = function(h){
-    this.setHours(this.getHours()+h);
-    return this;
-};
-fdate.addHours(-12);
-var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "_" + ("0" + fdate.getDate().toString()).substr(-2)  + "_" + (fdate.getFullYear().toString()).substr(2);
-var eventfolder = 'scan';
-
-var nasSavePath = ['/Volumes/OCULTO/'+fdatestring+'/'+eventfolder+'/', 'Z:/'+fdatestring+'/'+eventfolder+'/'];
-var debugSavePath = __dirname+'/images/'+fdatestring+'/'+eventfolder+'/';
-var savePath = [nasSavePath[win7], debugSavePath]
 var printer_url = "http://172.16.3.73:5000/print";
 var waitString = '_incoming';
 
@@ -127,7 +115,7 @@ module.exports = function(app){
 					console.log("user update");
 
 					// rename file into rejected folder
-					fs.rename(savePath[debug]+'1_raw/'+photoName, savePath[debug]+'2_rejected/'+photoName, function (err) {
+					fs.rename(savePath+'1_raw/'+photoName, savePath+'2_rejected/'+photoName, function (err) {
 					  	if (err) throw err;
 					  	console.log('rejected');
 					  });
@@ -179,11 +167,11 @@ module.exports = function(app){
 		var photoName = req.body.photo;
 		
 		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
-		fs.writeFile(savePath[debug]+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), buf, function (err) {
+		fs.writeFile(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), buf, function (err) {
 		  if (err) throw err;
 		  console.log('It\'s saved!');
 		  // saved so rename to signify so
-		  fs.rename(savePath[debug]+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath[debug]+'3_moderated/'+photoName, function (err) {
+		  fs.rename(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath+'3_moderated/'+photoName, function (err) {
 		  	
 		  	if (err) throw err;
 		  	console.log('finalized!');

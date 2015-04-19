@@ -7,7 +7,7 @@
  */ 
 
 var express = require('express');
-
+var socket = 8080;
 // Create a new express.js web app:
 
 var app = express();
@@ -27,5 +27,5 @@ require('./routes')(app);
 // This file has been called directly with 
 // `node index.js`. Start the server!
 
-app.listen(8080);
-console.log('Photocopier is running on http://localhost:8080');
+app.listen(socket);
+console.log('Photocopier is running on http://localhost:'+socket);

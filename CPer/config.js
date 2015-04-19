@@ -1,25 +1,11 @@
 /**
  * This file runs some configuration settings on your express application.
  */ 
-var debug = 0;
-var win7 = 1;
 
-var fdate = new Date();
-Date.prototype.addHours = function(h){
-    this.setHours(this.getHours()+h);
-    return this;
-};
-fdate.addHours(-12);
-var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "_" + ("0" + fdate.getDate().toString()).substr(-2)  + "_" + (fdate.getFullYear().toString()).substr(2);
-var eventfolder = 'scan';
-
-console.log(fdatestring);
-var nasServePath = ['/Volumes/OCULTO/'+fdatestring+'/'+eventfolder, 'Z:/'+fdatestring+'/'+eventfolder];
-var debugServePath = __dirname + '/images/'+fdatestring+'/'+eventfolder;
-var servePath = [nasServePath[win7], debugServePath];
+var initvals = require('./initvals.js');
+var servePath = initvals.basePath[initvals.debug];
 
 
-console.log(__dirname);
 // Include the handlebars templating library
 var handlebars = require('express3-handlebars'),
 	express = require('express'),
@@ -48,7 +34,8 @@ module.exports = function(app){
 
 	// static directory for serving image files
 	// app.use('/images', serveStatic('/Volumes/OCULTO/Photocopier'));
-	app.use('/images', serveStatic(servePath[debug]));
+	// app.use('/images', serveStatic(servePath[debug]));
+	app.use('/images', serveStatic(servePath));
 	// app.use(express.bodyParser({uploadDir:'/public/uploaded'}));
 
 	// Parse POST request data. It will be available in the req.body object

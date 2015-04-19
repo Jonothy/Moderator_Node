@@ -6,21 +6,9 @@
  * routes.js
  */ 
 
-var debug = 0;
-var win7 = 1;
+var initvals = require('./initvals.js');
+var loadPath = initvals.basePath[initvals.debug]+'/1_raw';
 
-var fdate = new Date();
-Date.prototype.addHours = function(h){
-    this.setHours(this.getHours()+h);
-    return this;
-};
-fdate.addHours(-12);
-var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "_" + ("0" + fdate.getDate().toString()).substr(-2)  + "_" + (fdate.getFullYear().toString()).substr(2);
-var eventfolder = 'scan';
-
-var nasLoadPath = ['/Volumes/OCULTO/'+fdatestring+'/'+eventfolder+'/1_raw', 'Z:/'+fdatestring+'/'+eventfolder+'/1_raw'];
-var debugLoadPath = __dirname + '/images/'+fdatestring+'/'+eventfolder+'/1_raw';
-var loadPath = [nasLoadPath[win7], debugLoadPath];
 var notReadyString = "_incoming";
 var readyString = "good_";
 
@@ -40,7 +28,7 @@ users.ensureIndex({fieldName: 'ip', unique: true});
 
 
 // watcher function
-// chokidar.watch(loadPath[debug], {ignored: /[\/\\]\./}).on('all', function(event, path) {
+// chokidar.watch(loadPath, {ignored: /[\/\\]\./}).on('all', function(event, path) {
 // // chokidar.watch('/Users/JohnnyLu/Documents/Developer/web/nodeIMG/NoMod/CPer/images/04_18_15/scan', {ignored: /[\/\\]\./}).on('all', function(event, path) {
 //   console.log(event, path);
 //   console.log("stuff");
@@ -73,7 +61,7 @@ users.ensureIndex({fieldName: 'ip', unique: true});
 // 	}
 // });
 
-var watcher = chokidar.watch(loadPath[debug], {
+var watcher = chokidar.watch(loadPath, {
   ignored: /[\/\\]\./,
   persistent: true
 });
@@ -122,7 +110,7 @@ watcher
 		  		var location_id = 0;
 		  		var added_time = new Date();
 		  		var filename = path.replace(notReadyString,'');
-		  		var filepathway = loadPath[debug] + '/' + filename;
+		  		var filepathway = loadPath + '/' + filename;
 					photos.insert({
 						name: filename,
 						likes: 0,

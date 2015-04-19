@@ -75,7 +75,7 @@ watcher
 		var location_id = 0;
 
 		// ready files that are images
-		if(path.indexOf(notReadyString) < 0 && path.match(/\.(jpg|jpeg|png|gif)$/)){
+		if(path.indexOf(notReadyString) < 0 && path.match(/\.(jpg|jpeg|JPG|png|gif)$/)){
 			console.log('add me');
 			var added_time = new Date();
 

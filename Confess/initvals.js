@@ -3,7 +3,7 @@
 
 // change these guys
 var debug = 0;
-var win7 = 0;
+var win7 = 1;
 var eventFolder = 'confession';
 var socket = 8081;
 

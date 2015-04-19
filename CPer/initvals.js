@@ -15,7 +15,7 @@ Date.prototype.addHours = function(h){
 var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "_" + ("0" + fdate.getDate().toString()).substr(-2)  + "_" + (fdate.getFullYear().toString()).substr(2);
 var nasBasePath = ['/Volumes/OCULTO/'+fdatestring+'/'+eventfolder, 'Z:/'+fdatestring+'/'+eventfolder];
 var debugBasePath = __dirname + '/images/'+fdatestring+'/'+eventfolder;
-var basePath = [nasBasePath, debugBasePath];
+var basePath = [nasBasePath[win7], debugBasePath];
 
 module.exports = {
 

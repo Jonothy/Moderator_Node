@@ -48,7 +48,7 @@ module.exports = function(app){
 			console.log('image to show');
 			console.log(image_to_show);
 
-			res.render('home', {photo: image_to_show });
+			res.render('home', {photo: image_to_show, eventFolder: initvals.eventFolder });
 
 		});
 
@@ -82,7 +82,7 @@ module.exports = function(app){
 
 			// Render the standings template and pass the photos and stats
 			res.render('stats', { standings: all_photos, numApproved: approved.length, 
-					numRejected : rejected.length, numPhotos: all_photos.length });
+					numRejected : rejected.length, numPhotos: all_photos.length, eventFolder: initvals.eventFolder  });
 
 		});
 

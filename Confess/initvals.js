@@ -13,6 +13,7 @@ Date.prototype.addHours = function(h){
     this.setHours(this.getHours()+h);
     return this;
 }
+fdate.addHours(-12);
 var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "_" + ("0" + fdate.getDate().toString()).substr(-2)  + "_" + (fdate.getFullYear().toString()).substr(2);
 var nasBasePath = ['/Volumes/OCULTO/'+fdatestring+'/'+eventFolder, 'Z:/'+fdatestring+'/'+eventFolder];
 var debugBasePath = __dirname + '/images/'+fdatestring+'/'+eventFolder;

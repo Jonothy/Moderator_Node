@@ -22,7 +22,8 @@ var previewImg = new Image();
 // overlay object
 var compositeObj = new Image();
 var prevCompositeObj = new Image();
-var rapCompositeObj = new Image();
+var rapMug = new Image();
+var rapFinger = new Image();
 
 // image data vars for canvas manipulation
 var imageData;
@@ -39,6 +40,9 @@ var clear = false;
 // loading composite object
 compositeObj.src = "img/OCL_Xerox_large.png";
 prevCompositeObj.src = "img/OCL_Xerox_small.png";
+rapMug.src = "img/mugshot.jpg";
+rapFinger.src ="img/fingerprint.jpg";
+
 // rapCompositeObj.src = "";
 
 imageObj.onload = function() {
@@ -47,6 +51,16 @@ imageObj.onload = function() {
 	canvas.width = canvas.height * (imageObj.width / imageObj.height);
 	context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
 	previewImg.src = canvas.toDataURL();
+
+	// mugshot resize
+	var resizecanvas=document.getElementById("resizeCanvas");
+    var resizectx=resizecanvas.getContext("2d");
+
+    // would possibly want to move this out to submit
+    resizecanvas.width=825;
+    resizecanvas.height=1275;
+    resizectx.drawImage(imageObj,0,0,imageObj.width,imageObj.height,0,0,resizecanvas.width,resizecanvas.height);
+    rapMug.src = resizecanvas.toDataURL();
 
 	hiddencanvas.width = imageObj.width;
 	hiddencanvas.height = imageObj.height;
@@ -90,6 +104,7 @@ acceptButton.addEventListener('click', function (e) {
     
 	console.log('processed!');
 
+	createRapsheet();
 	// display elements settings
 	document.getElementById('controls').style.display = 'block';
     document.getElementById('moderation-action').style.display = 'none';
@@ -135,6 +150,142 @@ function adjustValues(ctx, brightness, contrast)
 // rapsheet composition
 function createRapsheet(){
 
+	// vars
+	var resolution = 150;
+	var docWidth = 1650;
+	var thumbBoxWidth = 1*resolution;
+
+	var fdate = new Date();
+	var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "_" + ("0" + fdate.getDate().toString()).substr(-2)  + "_" + (fdate.getFullYear().toString()).substr(2);
+
+	// draw mug
+	rapcontext.drawImage(rapMug, 0, 0, 825, 1275);
+
+	// fingerprint boxes
+	rapcontext.beginPath();
+	rapcontext.lineWidth = 2;
+	rapcontext.strokeRect(docWidth*0.75, 2.25*resolution, 1*resolution, 1.25*resolution);
+	rapcontext.strokeRect(docWidth*0.75+thumbBoxWidth+15, 2.25*resolution, 1*resolution, 1.25*resolution);
+	rapcontext.strokeStyle = "black";
+	rapcontext.stroke();
+	rapcontext.lineWidth = 1;
+	rapcontext.beginPath();
+	rapcontext.moveTo(docWidth*0.75, 2.44*resolution);
+	rapcontext.lineTo(docWidth*0.75+thumbBoxWidth, 2.44*resolution);
+	rapcontext.stroke();
+	rapcontext.beginPath();
+	rapcontext.moveTo(docWidth*0.75+thumbBoxWidth+15, 2.44*resolution);
+	rapcontext.lineTo(docWidth*0.75+thumbBoxWidth*2+15, 2.44*resolution);
+	rapcontext.stroke();
+	
+	//fingerprint images
+	rapcontext.drawImage(rapFinger, docWidth*0.75, 2.52*resolution, 120, 168);
+	rapcontext.drawImage(rapFinger, docWidth*0.75+thumbBoxWidth+15, 2.45*resolution, 120, 168);
+
+
+	//heading section
+	rapcontext.beginPath();
+	rapcontext.moveTo(docWidth*0.5+50, 0.5*resolution);
+	rapcontext.lineTo(docWidth-50, 0.5*resolution);
+	rapcontext.stroke();
+
+	rapcontext.font = "50px bpdotsregular";
+	rapcontext.textAlign="center";
+	rapcontext.fillText("SUSPECT RAP SHEET", docWidth*0.75, 1*resolution);
+
+	rapcontext.beginPath();
+	rapcontext.moveTo(docWidth*0.5+50, 1.375*resolution);
+	rapcontext.lineTo(docWidth-50, 1.375*resolution);
+	rapcontext.stroke();
+	//rapcontext.strokeStyle = pat;
+
+	rapcontext.font = "16px bpdotsregular";
+	rapcontext.fillText("OCULTO MANOR POLICE DEPARTMENT", docWidth*0.75, 1.65*resolution);
+	rapcontext.fillText("MIAMI, FL", docWidth*0.75, 1.85*resolution);
+
+	rapcontext.beginPath();
+	rapcontext.moveTo(docWidth*0.5+50, 2*resolution);
+	rapcontext.lineTo(docWidth-50, 2*resolution);
+	rapcontext.stroke();
+
+	//fingerprint text
+	rapcontext.textAlign="center";
+	rapcontext.font = "12px bpdotsregular";
+	rapcontext.fillText("1. LEFT THUMB", docWidth*0.75+thumbBoxWidth/2, 2.4*resolution);
+	rapcontext.fillText("2. RIGHT THUMB", docWidth*0.75+thumbBoxWidth*1.5+15, 2.4*resolution);
+
+
+	//info section
+	rapcontext.textAlign="left";
+	rapcontext.font = "16px bpdotsregular";
+	rapcontext.fillText("SERIAL NO.:", docWidth*0.5+50, 2.5*resolution);
+	rapcontext.font = "20px bpdotsregular";
+	rapcontext.fillText("XXXXXXXX", docWidth*0.5+50, 2.75*resolution);
+	rapcontext.font = "16px bpdotsregular";
+	rapcontext.fillText("DATE OF INCIDENT:", docWidth*0.5+50, 3.17*resolution);
+	rapcontext.font = "20px bpdotsregular";
+	rapcontext.fillText("MM/DD/YY", docWidth*0.5+50, 3.4*resolution);
+	rapcontext.font = "16px bpdotsregular";
+	rapcontext.fillText("OFFICER:", docWidth*0.5+50, 4*resolution);
+	rapcontext.font = "20px bpdotsregular";
+	rapcontext.fillText("WINKLER", docWidth*0.5+140, 4*resolution);
+	rapcontext.font = "16px bpdotsregular";
+	rapcontext.fillText("STAR NO.:", docWidth*0.75, 4*resolution);
+	rapcontext.font = "20px bpdotsregular";
+	rapcontext.fillText("XXXXXXX", docWidth*0.75+100, 4*resolution);
+
+	//list of possible offences
+	var OffenceLib = [
+		"Strange Browser Activity",
+		"Loud Music Playing",
+		"Bad Music Playing",
+		"Waking Up the Neighbors",
+		"Excessive Flirting",
+		"Indecent Exposure",
+		"Dancing Suggestively",
+		"Improper Use of a Public Parking Meter",
+		"Jaywalking",
+		"Sleeping in a Public Place"
+		];
+		
+	//create a unique random number between 0-OffenceLib length
+	var uniqueRandoms = [];
+	var numRandoms = OffenceLib.length;
+	function makeUniqueRandom() {
+	    // refill the array if needed
+	    if (!uniqueRandoms.length) {
+	        for (var i = 0; i < numRandoms; i++) {
+	            uniqueRandoms.push(i);
+	        }
+	    }
+	    var index = Math.floor(Math.random() * uniqueRandoms.length);
+	    var val = uniqueRandoms[index];
+	    // now remove that value from the array
+	    uniqueRandoms.splice(index, 1);
+	    return val;
+	}
+
+	//activities section
+	rapcontext.beginPath();
+	rapcontext.moveTo(docWidth*0.5+50, 4.2*resolution);
+	rapcontext.lineTo(docWidth-50, 4.2*resolution);
+	rapcontext.stroke();
+	//bullets
+	rapcontext.fillRect(docWidth*0.5+100, 5.1*resolution-8, 5, 5);
+	rapcontext.fillRect(docWidth*0.5+100, 5.35*resolution-8, 5, 5);
+	rapcontext.fillRect(docWidth*0.5+100, 5.6*resolution-8, 5, 5);
+	rapcontext.fillRect(docWidth*0.5+100, 5.85*resolution-8, 5, 5);
+	rapcontext.fillRect(docWidth*0.5+100, 6.1*resolution-8, 5, 5);
+	//Offences
+	rapcontext.textAlign="left";
+	rapcontext.font = "16px bpdotsregular";
+	rapcontext.fillText("SUSPICIOUS ACTIVITY DOCUMENTED:", docWidth*0.5+50, 4.6*resolution);
+	rapcontext.font = "26px bpdotsregular";
+	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 5.1*resolution);
+	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 5.35*resolution);
+	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 5.6*resolution);
+	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 5.85*resolution);
+	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 6.1*resolution);
 
 }
 

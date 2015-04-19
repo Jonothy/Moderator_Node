@@ -32,6 +32,22 @@ section, footer, header, aside{
 	display: block;
 }
 
+/*-------------------------
+	Header & Titles
+--------------------------*/
+
+@font-face {
+    font-family: 'bpdotsregular';
+    src: url('fonts/bpdots-webfont.eot');
+    src: url('fonts/bpdots-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/bpdots-webfont.woff2') format('woff2'),
+         url('fonts/bpdots-webfont.woff') format('woff'),
+         url('fonts/bpdots-webfont.ttf') format('truetype'),
+         url('fonts/bpdots-webfont.svg#bpdotsregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
 
 /*-------------------------
 	Header & Titles

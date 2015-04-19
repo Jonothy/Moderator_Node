@@ -6,7 +6,7 @@
 var initvals = require('./initvals.js');
 var savePath = initvals.basePath[initvals.debug]+'/';
 
-var printer_url = "http://172.16.3.73:5000/print";
+var printer_url = "172.16.3.70:5000/mugshot";
 var waitString = '_incoming';
 
 var path = require('path'),
@@ -206,18 +206,18 @@ module.exports = function(app){
 		  	if (err) throw err;
 		  	console.log('finalized!');
 		  	// request to printer
-		 //  	request({
-			//     url: printer_url, //URL to hit
-			//     method: 'POST',
-			//     //Lets post the following key/values as form
-			//     form: { image_name: photoName }
-			// }, function(error, response, body){
-			//     if(error) {
-			//         console.log(error);
-			//     } else {
-			//         console.log(response.statusCode, body);
-			// }
-			// });
+		  	request({
+			    url: printer_url, //URL to hit
+			    method: 'POST',
+			    //Lets post the following key/values as form
+			    form: { image_name: photoName }
+			}, function(error, response, body){
+			    if(error) {
+			        console.log(error);
+			    } else {
+			        console.log(response.statusCode, body);
+			}
+			});
 
 		  	
 		  });

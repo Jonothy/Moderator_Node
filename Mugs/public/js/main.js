@@ -41,7 +41,7 @@ var clear = false;
 compositeObj.src = "img/OCL_Xerox_large.png";
 prevCompositeObj.src = "img/OCL_Xerox_small.png";
 rapMug.src = "img/mugshot.jpg";
-rapFinger.src ="img/fingerprint.jpg";
+rapFinger.src ="img/fingerprint.png";
 
 // rapCompositeObj.src = "";
 
@@ -340,6 +340,7 @@ $("#data-submit").submit(function(e)
 	postData += "&rapData=";
 	postData += rapData.replace(/^data:image\/(png|jpg);base64,/, "");
 	console.log("submit");
+	rapcontext.clearRect(0, 0, rapcanvas.width, rapcanvas.height);
 	// console.log(postData);
 
 

@@ -76,7 +76,7 @@ watcher
 
 		// ready files that are images
 		if(path.indexOf(notReadyString) < 0 && path.match(/\.(jpg|jpeg|png|gif)$/)){
-
+			console.log('add me');
 			var added_time = new Date();
 
 			photos.insert({

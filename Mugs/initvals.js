@@ -2,7 +2,7 @@
 // values shared in other files
 
 // change these guys
-var debug = 1;
+var debug = 0;
 var win7 = 1;
 var eventFolder = 'mugshot';
 var socket = 8083;

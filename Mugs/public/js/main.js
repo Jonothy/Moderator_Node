@@ -103,7 +103,6 @@ acceptButton.addEventListener('click', function (e) {
 	context.drawImage(prevCompositeObj,-100,-10);
     
 	console.log('processed!');
-
 	createRapsheet();
 	// display elements settings
 	document.getElementById('controls').style.display = 'block';
@@ -158,9 +157,7 @@ function createRapsheet(){
 	var fdate = new Date();
 	var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + fdate.getDate().toString()).substr(-2)  + "/" + (fdate.getFullYear().toString()).substr(2);
 
-	// draw background
-	rapcontext.fillStyle = "#FFFFFF";
-	rapcontext.fillRect(0,0,rapcontext.width,rapcanvas.height);
+	
 	// draw mug
 	rapcontext.drawImage(rapMug, 0, 0, 825, 1275);
 
@@ -365,7 +362,9 @@ $("#data-submit").submit(function(e)
 	postData += "&rapData=";
 	postData += rapData.replace(/^data:image\/(png|jpg);base64,/, "");
 	console.log("submit");
-	rapcontext.clearRect(0, 0, rapcanvas.width, rapcanvas.height);
+	// draw background
+	rapcontext.fillStyle = "#FFFFFF";
+	rapcontext.fillRect(0,0,rapcontext.width,rapcanvas.height);
 	// console.log(postData);
 
 

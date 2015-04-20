@@ -372,8 +372,8 @@ $("#data-submit").submit(function(e)
 	saveImageData = hiddencontext.getImageData(0,0, hiddencanvas.width, hiddencanvas.height);
 	var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(document.getElementById('brightness-bar').value) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
 	hiddencontext.putImageData(hidden_cb_image, 0, 0);
-    hiddencontext.globalCompositeOperation = "source-over";
-	hiddencontext.drawImage(compositeObj,-100,-10);
+    // hiddencontext.globalCompositeOperation = "source-over";
+	// hiddencontext.drawImage(compositeObj,-100,-10);
 
     var postData = 'photo=' + document.getElementById('photo-name').value;
     // console.log(postData);

@@ -157,16 +157,20 @@ function createRapsheet(){
 	var fdate = new Date();
 	var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + fdate.getDate().toString()).substr(-2)  + "/" + (fdate.getFullYear().toString()).substr(2);
 
-	
+	// draw white background
+	rapcontext.fillStyle = "#FFFFFF";
+	rapcontext.fillRect(0,0,rapcontext.width,rapcanvas.height);
+
 	// draw mug
 	rapcontext.drawImage(rapMug, 0, 0, 825, 1275);
 
 	// fingerprint boxes
+	rapcontext.strokeStyle = "black";
 	rapcontext.beginPath();
 	rapcontext.lineWidth = 2;
 	rapcontext.strokeRect(docWidth*0.75, 2.25*resolution, 1*resolution, 1.25*resolution);
 	rapcontext.strokeRect(docWidth*0.75+thumbBoxWidth+15, 2.25*resolution, 1*resolution, 1.25*resolution);
-	rapcontext.strokeStyle = "black";
+	// rapcontext.strokeStyle = "black";
 	rapcontext.stroke();
 	rapcontext.lineWidth = 1;
 	rapcontext.beginPath();
@@ -293,6 +297,7 @@ function createRapsheet(){
 	rapcontext.lineTo(docWidth-50, 4.2*resolution);
 	rapcontext.stroke();
 	//bullets
+	rapcontext.fillStyle = "#000000";
 	rapcontext.fillRect(docWidth*0.5+100, 5.1*resolution-8, 5, 5);
 	rapcontext.fillRect(docWidth*0.5+100, 5.35*resolution-8, 5, 5);
 	rapcontext.fillRect(docWidth*0.5+100, 5.6*resolution-8, 5, 5);
@@ -355,16 +360,13 @@ $("#data-submit").submit(function(e)
 
     var postData = 'photo=' + document.getElementById('photo-name').value;
     // console.log(postData);
-    var canvasData = hiddenCanvas.toDataURL("image/jpg");
-    var rapData = rapCanvas.toDataURL("image/jpg");
+    var canvasData = hiddenCanvas.toDataURL("image/jpeg");
+    var rapData = rapCanvas.toDataURL("image/jpeg");
 	postData += "&imgData=";
-	postData += canvasData.replace(/^data:image\/(png|jpg);base64,/, "");
+	postData += canvasData.replace(/^data:image\/(jpg|jpeg);base64,/, "");
 	postData += "&rapData=";
-	postData += rapData.replace(/^data:image\/(png|jpg);base64,/, "");
+	postData += rapData.replace(/^data:image\/(jpg|jpeg);base64,/, "");
 	console.log("submit");
-	// draw background
-	rapcontext.fillStyle = "#FFFFFF";
-	rapcontext.fillRect(0,0,rapcontext.width,rapcanvas.height);
 	// console.log(postData);
 
 

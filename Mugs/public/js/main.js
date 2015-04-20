@@ -108,8 +108,8 @@ acceptButton.addEventListener('click', function (e) {
 	context.putImageData(cb_image, 0, 0);
 
 	// initial overlay
-	context.globalCompositeOperation = "source-over";
-	context.drawImage(prevCompositeObj,-100,-10);
+	// context.globalCompositeOperation = "source-over";
+	// context.drawImage(prevCompositeObj,-100,-10);
     
 	console.log('processed!');
 	createRapsheet();

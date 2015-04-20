@@ -4,7 +4,7 @@
 // change these guys
 var debug = 0;
 var win7 = 1;
-var eventFolder = 'scan';
+var eventFolder = 'copier';
 var socket = 8080;
 
 // this gets us the correct base folders based on debug, os, date and event

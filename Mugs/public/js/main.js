@@ -49,20 +49,24 @@ rapBackground.src = "img/background.jpg";
 
 imageObj.onload = function() {
 
-	/* image preview */
-	canvas.width = canvas.height * (imageObj.width / imageObj.height);
-	context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
+	/* image preview and clipping */
+	// var widTarget = canvas.width;
+
+	// var canvas.width = canvas.height * (canvas.height / imageObj.height);
+	// context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
+	context.drawImage(imageObj, imageObj.width/2 - ((imageObj.height / canvas.height)*canvas.width)/2, 0,(imageObj.height / canvas.height)*canvas.width, imageObj.height, 0, 0, canvas.width,canvas.height);
 	previewImg.src = canvas.toDataURL();
+	rapMug.src = canvas.toDataURL();;
 
 	// mugshot resize
 	var resizecanvas=document.getElementById("resizeCanvas");
     var resizectx=resizecanvas.getContext("2d");
 
     // would possibly want to move this out to submit
-    resizecanvas.width=825;
-    resizecanvas.height=1275;
-    resizectx.drawImage(imageObj,0,0,imageObj.width,imageObj.height,0,0,resizecanvas.width,resizecanvas.height);
-    rapMug.src = resizecanvas.toDataURL();
+    // resizecanvas.width=825;
+    // resizecanvas.height=1275;
+    // resizectx.drawImage(imageObj,0,0,imageObj.width,imageObj.height,0,0,resizecanvas.width,resizecanvas.height);
+    // rapMug.src = resizecanvas.toDataURL();
 
 	hiddencanvas.width = imageObj.width;
 	hiddencanvas.height = imageObj.height;

@@ -12,7 +12,7 @@ var hiddencontext = hiddencanvas.getContext('2d');
 
 // resizing for rapsheet
 var resizecanvas=document.getElementById("resizeCanvas");
-var resizectx=resizecanvas.getContext("2d");
+var resizecontext=resizecanvas.getContext("2d");
 
 // rapsheet canvas for making canvas to print
 var rapcanvas = document.getElementById('rapCanvas');

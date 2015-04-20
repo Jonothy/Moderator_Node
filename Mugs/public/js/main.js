@@ -10,6 +10,10 @@ var testimg = document.getElementById('testimg');
 var hiddencanvas = document.getElementById('hiddenCanvas');
 var hiddencontext = hiddencanvas.getContext('2d');
 
+// resizing for rapsheet
+var resizecanvas=document.getElementById("resizeCanvas");
+var resizectx=resizecanvas.getContext("2d");
+
 // rapsheet canvas for making canvas to print
 var rapcanvas = document.getElementById('rapCanvas');
 var rapcontext = rapcanvas.getContext('2d');
@@ -41,7 +45,7 @@ var clear = false;
 // loading composite object
 compositeObj.src = "img/OCL_Xerox_large.png";
 prevCompositeObj.src = "img/OCL_Xerox_small.png";
-rapMug.src = "img/mugshot.jpg";
+// rapMug.src = "img/mugshot.jpg";
 rapFinger.src ="img/fingerprint.png";
 rapBackground.src = "img/background.jpg";
 
@@ -53,14 +57,13 @@ imageObj.onload = function() {
 	// var widTarget = canvas.width;
 
 	// var canvas.width = canvas.height * (canvas.height / imageObj.height);
-	// context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
-	context.drawImage(imageObj, imageObj.width/2 - ((imageObj.height / canvas.height)*canvas.width)/2, 0,(imageObj.height / canvas.height)*canvas.width, imageObj.height, 0, 0, canvas.width,canvas.height);
-	previewImg.src = canvas.toDataURL();
-	rapMug.src = canvas.toDataURL();;
+	context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
+	resizecontext.drawImage(imageObj, imageObj.width/2 - ((imageObj.height / resizecanvas.height)*resizecanvas.width)/2, 0,(imageObj.height / resizecanvas.height)*resizecanvas.width, imageObj.height, 0, 0, resizecanvas.width,resizecanvas.height);
+	// previewImg.src = canvas.toDataURL();
+	rapMug.src = resizecanvas.toDataURL();;
 
 	// mugshot resize
-	var resizecanvas=document.getElementById("resizeCanvas");
-    var resizectx=resizecanvas.getContext("2d");
+	
 
     // would possibly want to move this out to submit
     // resizecanvas.width=825;

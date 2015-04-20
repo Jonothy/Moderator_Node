@@ -171,9 +171,10 @@ $("#data-submit").submit(function(e)
 
     var postData = 'photo=' + document.getElementById('photo-name').value;
     // console.log(postData);
-    var canvasData = hiddenCanvas.toDataURL("image/jpg");
+    var canvasData = hiddenCanvas.toDataURL("image/jpeg");
+    console.log(canvasData);
 	postData += "&imgData=";
-	postData +=canvasData.replace(/^data:image\/(png|jpg);base64,/, "");
+	postData +=canvasData.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
 	console.log("submit");
 	// console.log(postData);
 

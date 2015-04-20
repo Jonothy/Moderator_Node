@@ -158,6 +158,9 @@ function createRapsheet(){
 	var fdate = new Date();
 	var fdatestring = ("0" + (fdate.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + fdate.getDate().toString()).substr(-2)  + "/" + (fdate.getFullYear().toString()).substr(2);
 
+	// draw background
+	rapcontext.fillStyle = "#FF0000";
+	rapcontext.fillRect(0,0,rapcontext.width,rapcanvas.height);
 	// draw mug
 	rapcontext.drawImage(rapMug, 0, 0, 825, 1275);
 

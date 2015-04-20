@@ -159,12 +159,13 @@ function createRapsheet(){
 
 	// draw white background
 	rapcontext.fillStyle = "#FFFFFF";
-	rapcontext.fillRect(0,0,rapcontext.width,rapcanvas.height);
+	rapcontext.fillRect(0,0,rapcanvas.width,rapcanvas.height);
 
 	// draw mug
 	rapcontext.drawImage(rapMug, 0, 0, 825, 1275);
 
 	// fingerprint boxes
+	rapcontext.fillStyle = "#000000";
 	rapcontext.strokeStyle = "black";
 	rapcontext.beginPath();
 	rapcontext.lineWidth = 2;
@@ -361,7 +362,7 @@ $("#data-submit").submit(function(e)
     var postData = 'photo=' + document.getElementById('photo-name').value;
     // console.log(postData);
     var canvasData = hiddenCanvas.toDataURL("image/jpeg");
-    var rapData = rapCanvas.toDataURL("image/jpeg");
+    var rapData = rapCanvas.toDataURL("image/jpeg", 1.0);
 	postData += "&imgData=";
 	postData += canvasData.replace(/^data:image\/(jpg|jpeg);base64,/, "");
 	postData += "&rapData=";

@@ -6,7 +6,7 @@
 var initvals = require('./initvals.js');
 var savePath = initvals.basePath[initvals.debug]+'/';
 
-var printer_url = "http://172.16.3.73:5000/print";
+var printer_url = "http://172.16.3.32:5000/print";
 var waitString = '_incoming';
 
 var path = require('path'),

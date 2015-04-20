@@ -220,12 +220,16 @@ function createRapsheet(){
 	rapcontext.fillText("2. RIGHT THUMB", docWidth*0.75+thumbBoxWidth*1.5+15, 2.4*resolution);
 
 
+	//generate serial number
+	var serialNo = (""+Math.random()).substring(2,10);
+	var starNo = (""+Math.random()).substring(2,9);
+
 	//info section
 	rapcontext.textAlign="left";
 	rapcontext.font = "16px bpdotsregular";
 	rapcontext.fillText("SERIAL NO.:", docWidth*0.5+50, 2.5*resolution);
 	rapcontext.font = "20px bpdotsregular";
-	rapcontext.fillText("XXXXXXXX", docWidth*0.5+50, 2.75*resolution);
+	rapcontext.fillText(serialNo, docWidth*0.5+50, 2.75*resolution);
 	rapcontext.font = "16px bpdotsregular";
 	rapcontext.fillText("DATE OF INCIDENT:", docWidth*0.5+50, 3.17*resolution);
 	rapcontext.font = "20px bpdotsregular";
@@ -237,7 +241,7 @@ function createRapsheet(){
 	rapcontext.font = "16px bpdotsregular";
 	rapcontext.fillText("STAR NO.:", docWidth*0.75, 4*resolution);
 	rapcontext.font = "20px bpdotsregular";
-	rapcontext.fillText("XXXXXXX", docWidth*0.75+100, 4*resolution);
+	rapcontext.fillText(starNo, docWidth*0.75+100, 4*resolution);
 
 	//list of possible offences
 	var OffenceLib = ['Strange browser activity',

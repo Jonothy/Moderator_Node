@@ -24,6 +24,7 @@ var compositeObj = new Image();
 var prevCompositeObj = new Image();
 var rapMug = new Image();
 var rapFinger = new Image();
+var rapBackground = new Image();
 
 // image data vars for canvas manipulation
 var imageData;
@@ -42,6 +43,7 @@ compositeObj.src = "img/OCL_Xerox_large.png";
 prevCompositeObj.src = "img/OCL_Xerox_small.png";
 rapMug.src = "img/mugshot.jpg";
 rapFinger.src ="img/fingerprint.png";
+rapBackground.src = "img/background.jpg";
 
 // rapCompositeObj.src = "";
 
@@ -161,6 +163,10 @@ function createRapsheet(){
 	rapcontext.fillStyle = "#FFFFFF";
 	rapcontext.fillRect(0,0,rapcanvas.width,rapcanvas.height);
 
+	// draw background img
+	rapcontext.drawImage(rapBackground, 0, 0, 1650, 1275);
+
+
 	// draw mug
 	rapcontext.drawImage(rapMug, 0, 0, 825, 1275);
 
@@ -188,30 +194,31 @@ function createRapsheet(){
 	rapcontext.drawImage(rapFinger, docWidth*0.75+thumbBoxWidth+15, 2.45*resolution, 120, 168);
 
 
-	//heading section
-	rapcontext.beginPath();
-	rapcontext.moveTo(docWidth*0.5+50, 0.5*resolution);
-	rapcontext.lineTo(docWidth-50, 0.5*resolution);
-	rapcontext.stroke();
+	//heading section - former background lines
+	// rapcontext.beginPath();
+	// rapcontext.moveTo(docWidth*0.5+50, 0.5*resolution);
+	// rapcontext.lineTo(docWidth-50, 0.5*resolution);
+	// rapcontext.stroke();
 
-	rapcontext.font = "50px bpdotsregular";
+	rapcontext.font = "40px DotMatrix-TwoRegular";
 	rapcontext.textAlign="center";
 	rapcontext.fillText("SUSPECT RAP SHEET", docWidth*0.75, 1*resolution);
 
-	rapcontext.beginPath();
-	rapcontext.moveTo(docWidth*0.5+50, 1.375*resolution);
-	rapcontext.lineTo(docWidth-50, 1.375*resolution);
-	rapcontext.stroke();
-	//rapcontext.strokeStyle = pat;
+	// former background lines
+	// rapcontext.beginPath();
+	// rapcontext.moveTo(docWidth*0.5+50, 1.375*resolution);
+	// rapcontext.lineTo(docWidth-50, 1.375*resolution);
+	// rapcontext.stroke();
 
-	rapcontext.font = "16px bpdotsregular";
-	rapcontext.fillText("OCULTO MANOR POLICE DEPARTMENT", docWidth*0.75, 1.65*resolution);
-	rapcontext.fillText("MIAMI, FL", docWidth*0.75, 1.85*resolution);
+	rapcontext.font = "16px DotMatrix-TwoExtended";
+	rapcontext.fillText("LOS SECRETO POLICE DEPARTMENT", docWidth*0.75, 1.65*resolution);
+	rapcontext.fillText("13TH PRECINCT", docWidth*0.75, 1.85*resolution);
 
-	rapcontext.beginPath();
-	rapcontext.moveTo(docWidth*0.5+50, 2*resolution);
-	rapcontext.lineTo(docWidth-50, 2*resolution);
-	rapcontext.stroke();
+	// former background lines
+	// rapcontext.beginPath();
+	// rapcontext.moveTo(docWidth*0.5+50, 2*resolution);
+	// rapcontext.lineTo(docWidth-50, 2*resolution);
+	// rapcontext.stroke();
 
 	//fingerprint text
 	rapcontext.textAlign="center";
@@ -226,21 +233,21 @@ function createRapsheet(){
 
 	//info section
 	rapcontext.textAlign="left";
-	rapcontext.font = "16px bpdotsregular";
+	rapcontext.font = "16px DotMatrix-TwoExtended";
 	rapcontext.fillText("SERIAL NO.:", docWidth*0.5+50, 2.5*resolution);
-	rapcontext.font = "20px bpdotsregular";
+	rapcontext.font = "20px DotMatrix-TwoRegular";
 	rapcontext.fillText(serialNo, docWidth*0.5+50, 2.75*resolution);
-	rapcontext.font = "16px bpdotsregular";
+	rapcontext.font = "16px DotMatrix-TwoExtended";
 	rapcontext.fillText("DATE OF INCIDENT:", docWidth*0.5+50, 3.17*resolution);
-	rapcontext.font = "20px bpdotsregular";
+	rapcontext.font = "20px DotMatrix-TwoRegular";
 	rapcontext.fillText(fdatestring, docWidth*0.5+50, 3.4*resolution);
-	rapcontext.font = "16px bpdotsregular";
+	rapcontext.font = "16px DotMatrix-TwoExtended";
 	rapcontext.fillText("OFFICER:", docWidth*0.5+50, 4*resolution);
-	rapcontext.font = "20px bpdotsregular";
+	rapcontext.font = "20px DotMatrix-TwoRegular";
 	rapcontext.fillText("WINKLER", docWidth*0.5+140, 4*resolution);
-	rapcontext.font = "16px bpdotsregular";
+	rapcontext.font = "16px DotMatrix-TwoExtended";
 	rapcontext.fillText("STAR NO.:", docWidth*0.75, 4*resolution);
-	rapcontext.font = "20px bpdotsregular";
+	rapcontext.font = "20px DotMatrix-TwoRegular";
 	rapcontext.fillText(starNo, docWidth*0.75+100, 4*resolution);
 
 	//list of possible offences
@@ -296,11 +303,12 @@ function createRapsheet(){
 	    return val;
 	}
 
+	// part of background image now
 	//activities section
-	rapcontext.beginPath();
-	rapcontext.moveTo(docWidth*0.5+50, 4.2*resolution);
-	rapcontext.lineTo(docWidth-50, 4.2*resolution);
-	rapcontext.stroke();
+	// rapcontext.beginPath();
+	// rapcontext.moveTo(docWidth*0.5+50, 4.2*resolution);
+	// rapcontext.lineTo(docWidth-50, 4.2*resolution);
+	// rapcontext.stroke();
 	//bullets
 	rapcontext.fillStyle = "#000000";
 	rapcontext.fillRect(docWidth*0.5+100, 5.1*resolution-8, 5, 5);
@@ -310,9 +318,9 @@ function createRapsheet(){
 	rapcontext.fillRect(docWidth*0.5+100, 6.1*resolution-8, 5, 5);
 	//Offences
 	rapcontext.textAlign="left";
-	rapcontext.font = "16px bpdotsregular";
+	rapcontext.font = "16px DotMatrix-TwoExtended";
 	rapcontext.fillText("SUSPICIOUS ACTIVITY DOCUMENTED:", docWidth*0.5+50, 4.6*resolution);
-	rapcontext.font = "26px bpdotsregular";
+	rapcontext.font = "26px DotMatrix-TwoRegular";
 	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 5.1*resolution);
 	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 5.35*resolution);
 	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 5.6*resolution);

@@ -33,8 +33,28 @@ section, footer, header, aside{
 }
 
 /*-------------------------
-	Header & Titles
+	Fonts
 --------------------------*/
+
+@font-face {
+	font-family: 'DotMatrix-TwoRegular';
+	src: url('fonts/DotMatrix-TwoRegular.eot');
+	src: url('fonts/DotMatrix-TwoRegular.woff') format('woff'),
+		url('fonts/DotMatrix-TwoRegular.ttf') format('truetype'),
+		url('fonts/DotMatrix-TwoRegular.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'DotMatrix-TwoExtended';
+	src: url('fonts/DotMatrix-TwoExtended.eot');
+	src: url('fonts/DotMatrix-TwoExtended.woff') format('woff'),
+		url('fonts/DotMatrix-TwoExtended.ttf') format('truetype'),
+		url('fonts/DotMatrix-TwoExtended.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
 
 @font-face {
     font-family: 'bpdotsregular';

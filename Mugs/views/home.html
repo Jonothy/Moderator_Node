@@ -47,7 +47,14 @@
 	<script src="js/main.js"></script>
 	<script>
 
+		rapcontext.font = "16px DotMatrix-TwoExtended";
+		rapcontext.fillText('.', 0,0);
+		rapcontext.font = "20px DotMatrix-TwoRegular";
+		rapcontext.fillText('.', 0, 0);
+		rapcontext.clearRect(0,0, rapcanvas.width, rapcanvas.height);
+
 		var nameOfPhoto = "{{photo.name}}";
+		
 
 		if(nameOfPhoto !== ""){
 			document.getElementById('photo-name').value = nameOfPhoto;
@@ -79,6 +86,6 @@
 		            //if fails      
 		        }
 		    });
-		}	
+		}
 		 
 	</script>

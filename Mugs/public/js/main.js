@@ -26,6 +26,12 @@ var previewImg = new Image();
 // overlay object
 var compositeObj = new Image();
 var prevCompositeObj = new Image();
+// filters
+var hidNoise = new Image();
+var hidBorder = new Image();
+var rapNoise = new Image();
+var rapBorder = new Image();
+// rapsheet graphics
 var rapMug = new Image();
 var rapFinger = new Image();
 var rapBackground = new Image();
@@ -47,6 +53,12 @@ var clear = false;
 compositeObj.src = "img/OCL_Xerox_large.png";
 prevCompositeObj.src = "img/OCL_Xerox_small.png";
 // rapMug.src = "img/mugshot.jpg";
+// noise and borders
+// hidNoise.src = "img/rapnoisesquare.png";
+hidBorder.src = "img/rapbordersquare.png";
+// rapNoise.src = "img/rapnoise.png";
+rapBorder.src = "img/rapborder.png";
+
 rapFinger.src ="img/fingerprint.png";
 rapBackground.src = "img/background.jpg";
 //occultostamp
@@ -179,6 +191,10 @@ function createRapsheet(){
 
 	// draw mug
 	rapcontext.drawImage(rapMug, 0, 0, 825, 1275);
+	// draw border
+	rapcontext.drawImage(rapBorder, 0, 0, 825, 1275);
+	// draw noise
+	// rapcontext.drawImage(rapNoise, 0, 0, 825, 1275);
 
 	// fingerprint boxes
 	rapcontext.fillStyle = "#000000";
@@ -369,6 +385,10 @@ $("#data-submit").submit(function(e)
 	saveImageData = hiddencontext.getImageData(0,0, hiddencanvas.width, hiddencanvas.height);
 	var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(document.getElementById('brightness-bar').value) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
 	hiddencontext.putImageData(hidden_cb_image, 0, 0);
+	// draw border
+	hiddencontext.drawImage(hidBorder, 0, 0);
+	// draw noise
+	// hiddencontext.drawImage(hidNoise, 0, 0);
     // hiddencontext.globalCompositeOperation = "source-over";
 	// hiddencontext.drawImage(compositeObj,-100,-10);
 

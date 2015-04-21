@@ -260,7 +260,9 @@ function requestNext(data){
 		    function onError(xhr, sendRequest, period) {
 		        if (xhr.status === 401) {
 		            // show dialog to log in user
-		            console.log("in 401")
+		            console.log("in 401");
+		            console.log('retrying');
+		            setTimeout(sendRequest, period + 1000);
 		        }
 		        else {
 		            // retry the operation

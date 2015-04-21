@@ -193,6 +193,33 @@ module.exports = function(app){
 		  });
 		});
 
+		var pbuf = new Buffer(data.replace(/ /g, '+'), 'base64');
+		fs.writeFile(savePath+'5_printer/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), buf, function (err) {
+		  if (err) throw err;
+		  console.log('It\'s saved!');
+		  // saved so rename to signify so
+		  fs.rename(savePath+'5_printer/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath+'5_printer/'+photoName, function (err) {
+		  	
+		  	if (err) throw err;
+		  	console.log('to print');
+		  	// request to printer
+		  	request({
+			    url: printer_url, //URL to hit
+			    method: 'POST',
+			    //Lets post the following key/values as form
+			    form: { image_name: photoName }
+			}, function(error, response, body){
+			    if(error) {
+			        console.log(error);
+			    } else {
+			        console.log(response.statusCode, body);
+			}
+			});
+
+		  	
+		  });
+		});
+
 		console.log("SAVE BUFFER DATA");
 		console.log(photoName);
 

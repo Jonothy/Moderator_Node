@@ -123,6 +123,31 @@ watcher
 						filepath: filepathway
 					});
 		  	}
+		  // 	if(event=='change' && path.indexOf(notReadyString) >= 0 && path.match(/\.(jpg|jpeg|png|gif)$/)){
+		  // 		photos.find({ name: path}, function(err, found){
+
+				// 	if(found.length == 0){
+
+				//   		console.log("INCOMMING!");
+				//   		console.log(path);
+				//   		var location_id = 0;
+				//   		var added_time = new Date();
+				//   		var filename = path.replace(notReadyString,'');
+				//   		var filepathway = loadPath + '/' + filename;
+				// 		photos.insert({
+				// 			name: filename,
+				// 			likes: 0,
+				// 			dislikes: 0,
+				// 			viewed: 0,
+				// 			time_added: added_time.toString(),
+				// 			time_viewed: 0,
+				// 			time_saved: 0,
+				// 			loc_id: location_id,
+				// 			filepath: filepathway
+				// 		});
+				// 	}
+				// });
+		  // 	}
 		}
   })
 

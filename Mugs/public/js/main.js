@@ -29,6 +29,7 @@ var prevCompositeObj = new Image();
 var rapMug = new Image();
 var rapFinger = new Image();
 var rapBackground = new Image();
+var ocultoStamp = new Image();
 
 // image data vars for canvas manipulation
 var imageData;
@@ -49,7 +50,7 @@ prevCompositeObj.src = "img/OCL_Xerox_small.png";
 rapFinger.src ="img/fingerprint.png";
 rapBackground.src = "img/background.jpg";
 //occultostamp
-occultoStamp.src = "img/stamp.png";
+ocultoStamp.src = "img/stamp.png";
 
 // rapCompositeObj.src = "";
 
@@ -325,7 +326,7 @@ function createRapsheet(){
 	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 6.1*resolution);
 
 	// draw stamp
-	rapcontext.drawImage(occultoStamp, 825, 800);
+	rapcontext.drawImage(ocultoStamp, 825, 800);
 
 }
 

@@ -39,7 +39,10 @@ prevCompositeObj.src = "img/OCL_Xerox_small.png";
 imageObj.onload = function() {
 
 	/* image preview */
-	canvas.width = canvas.height * (imageObj.width / imageObj.height);
+	var scalefactor = 3;
+	canvas.width = imageObj.width / scalefactor;
+	canvas.height = imageObj.height/ scalefactor;
+	// canvas.width = canvas.height * (imageObj.width / imageObj.height);
 	context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
 	previewImg.src = canvas.toDataURL();
 

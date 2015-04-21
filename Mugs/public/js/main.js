@@ -48,6 +48,8 @@ prevCompositeObj.src = "img/OCL_Xerox_small.png";
 // rapMug.src = "img/mugshot.jpg";
 rapFinger.src ="img/fingerprint.png";
 rapBackground.src = "img/background.jpg";
+//occultostamp
+occultoStamp.src = "img/stamp.png";
 
 // rapCompositeObj.src = "";
 
@@ -321,6 +323,9 @@ function createRapsheet(){
 	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 5.6*resolution);
 	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 5.85*resolution);
 	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 6.1*resolution);
+
+	// draw stamp
+	rapcontext.drawImage(occultoStamp, 825, 800);
 
 }
 

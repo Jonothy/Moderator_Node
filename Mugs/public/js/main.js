@@ -253,7 +253,7 @@ function createRapsheet(){
 	rapcontext.font = "16px DotMatrix-TwoExtended";
 	rapcontext.fillText("OFFICER:", docWidth*0.5+50, 4*resolution);
 	rapcontext.font = "20px DotMatrix-TwoRegular";
-	rapcontext.fillText("WINKLER", docWidth*0.5+140, 4*resolution);
+	rapcontext.fillText("WIGGLESWORTH", docWidth*0.5+140, 4*resolution);
 	rapcontext.font = "16px DotMatrix-TwoExtended";
 	rapcontext.fillText("STAR NO.:", docWidth*0.75, 4*resolution);
 	rapcontext.font = "20px DotMatrix-TwoRegular";

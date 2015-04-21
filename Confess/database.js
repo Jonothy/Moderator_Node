@@ -124,7 +124,7 @@ watcher
 					// });
 		  	// }
 
-		  	if(event=='rename' && path.indexOf(notReadyString) >= 0 && path.match(/\.(jpg|jpeg|png|gif)$/)){
+		  	if(event=='change' && path.indexOf(notReadyString) >= 0 && path.match(/\.(jpg|jpeg|png|gif)$/)){
 		  		photos.find({ name: path}, function(err, found){
 
 					if(found.length == 0){

@@ -54,9 +54,9 @@ compositeObj.src = "img/OCL_Xerox_large.png";
 prevCompositeObj.src = "img/OCL_Xerox_small.png";
 // rapMug.src = "img/mugshot.jpg";
 // noise and borders
-// hidNoise.src = "img/rapnoisesquare.png";
+hidNoise.src = "img/rapnoisesquare.png";
 hidBorder.src = "img/rapbordersquare.png";
-// rapNoise.src = "img/rapnoise.png";
+rapNoise.src = "img/rapnoise.png";
 rapBorder.src = "img/rapborder.png";
 
 rapFinger.src ="img/fingerprint.png";
@@ -70,10 +70,10 @@ imageObj.onload = function() {
 
 	/* image preview and clipping */
 	// var widTarget = canvas.width;
-
+	var cropShift = -100;
 	// var canvas.width = canvas.height * (canvas.height / imageObj.height);
 	context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
-	resizecontext.drawImage(imageObj, imageObj.width/2 - ((imageObj.height / resizecanvas.height)*resizecanvas.width)/2, 0,(imageObj.height / resizecanvas.height)*resizecanvas.width, imageObj.height, 0, 0, resizecanvas.width,resizecanvas.height);
+	resizecontext.drawImage(imageObj, imageObj.width/2 - ((imageObj.height / resizecanvas.height)*resizecanvas.width)/2 + cropShift, 0,(imageObj.height / resizecanvas.height)*resizecanvas.width, imageObj.height, 0, 0, resizecanvas.width,resizecanvas.height);
 	// previewImg.src = canvas.toDataURL();
 	rapMug.src = resizecanvas.toDataURL();;
 
@@ -194,7 +194,7 @@ function createRapsheet(){
 	// draw border
 	rapcontext.drawImage(rapBorder, 0, 0, 825, 1275);
 	// draw noise
-	// rapcontext.drawImage(rapNoise, 0, 0, 825, 1275);
+	rapcontext.drawImage(rapNoise, 0, 0, 825, 1275);
 
 	// fingerprint boxes
 	rapcontext.fillStyle = "#000000";
@@ -342,7 +342,7 @@ function createRapsheet(){
 	rapcontext.fillText(OffenceLib[makeUniqueRandom()], docWidth*0.5+150, 6.1*resolution);
 
 	// draw stamp
-	rapcontext.drawImage(ocultoStamp, 825, 800);
+	rapcontext.drawImage(ocultoStamp, 825, 900);
 
 }
 
@@ -388,7 +388,7 @@ $("#data-submit").submit(function(e)
 	// draw border
 	hiddencontext.drawImage(hidBorder, 0, 0);
 	// draw noise
-	// hiddencontext.drawImage(hidNoise, 0, 0);
+	hiddencontext.drawImage(hidNoise, 0, 0);
     // hiddencontext.globalCompositeOperation = "source-over";
 	// hiddencontext.drawImage(compositeObj,-100,-10);
 

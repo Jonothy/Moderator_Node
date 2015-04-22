@@ -190,7 +190,7 @@ function createRapsheet(){
 	var mugImageData = resizecontext.getImageData(0,0,canvas.width, canvas.height);
 	var mug_cb_image = Filters.brightnessContrast(mugImageData, parseFloat(document.getElementById('brightness-bar').value) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
 	resizecontext.putImageData(mug_cb_image, 0, 0);
-	rapMug.src = resizecontext.toDataURL();
+	rapMug.src = resizecanvas.toDataURL();
 
 	// draw mug
 	rapcontext.drawImage(rapMug, 0, 0, 825, 1275);

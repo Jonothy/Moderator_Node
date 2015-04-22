@@ -228,7 +228,7 @@ function requestNext(data){
 		document.getElementById('image-submit').style.display = 'none';
 		document.getElementById('previewCanvas').style.display = 'none';
 		document.getElementById('waiting-new').style.display = 'block';
-		var keeptrying = poll("/requestNext", "POST", 1000,
+		poll("/requestNext", "POST", 1000,
 		    function beforeRequest(xhr) {
 		        return "beforeRequest";
 		    },
@@ -270,7 +270,6 @@ function requestNext(data){
 		            console.log('retrying');
 		            // setTimeout(sendRequest, period + 1000);
 		        }
-		        keeptrying();
 		    }
 		);
 	}

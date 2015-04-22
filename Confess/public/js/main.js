@@ -43,8 +43,8 @@ imageObj.onload = function() {
 	context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
 	previewImg.src = canvas.toDataURL();
 
-	hiddencanvas.width = imageObj.width;
-	hiddencanvas.height = imageObj.height;
+	// hiddencanvas.width = imageObj.width;
+	// hiddencanvas.height = imageObj.height;
 
 	hiddencontext.drawImage(imageObj, 0, 0);
 

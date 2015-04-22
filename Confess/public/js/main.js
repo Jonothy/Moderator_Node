@@ -46,7 +46,7 @@ imageObj.onload = function() {
 	// hiddencanvas.width = imageObj.width;
 	// hiddencanvas.height = imageObj.height;
 
-	hiddencontext.drawImage(imageObj, 0, 0);
+	hiddencontext.drawImage(imageObj, 0, 0, hiddencanvas.width, hiddencanvas.height);
 
 	console.log("image loaded!");
 

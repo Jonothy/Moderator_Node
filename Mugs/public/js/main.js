@@ -56,7 +56,7 @@ prevCompositeObj.src = "img/OCL_Xerox_small.png";
 // noise and borders
 hidNoise.src = "img/rapnoisesquare.png";
 hidBorder.src = "img/rapbordersquare.png";
-rapNoise.src = "img/rapnoise.png";
+rapNoise.src = "img/rapnoise2.png";
 rapBorder.src = "img/rapborder.png";
 
 rapFinger.src ="img/fingerprint.png";
@@ -195,16 +195,17 @@ function createRapsheet(){
 	rapcontext.drawImage(rapMug, 0, 0, 825, 1275);
 
 	// draw border
-	rapcontext.globalCompositeOperation="multiply";
+	// rapcontext.globalCompositeOperation="multiply";
 	rapcontext.globalAlpha = 0.5;
+	// draw noise
+	rapcontext.drawImage(rapNoise, 0, 0, 825, 1275);
 	rapcontext.drawImage(rapBorder, 0, 0, 825, 1275);
 	// global alpha
 	
-	// draw noise
-	rapcontext.drawImage(rapNoise, 0, 0, 825, 1275);
+	
 	// global alpha
 	rapcontext.globalAlpha = 1.0;
-	rapcontext.globalCompositeOperation="source-over";
+	// rapcontext.globalCompositeOperation="source-over";
 	// fingerprint boxes
 	rapcontext.fillStyle = "#000000";
 	rapcontext.strokeStyle = "black";
@@ -399,15 +400,16 @@ $("#data-submit").submit(function(e)
 	var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(document.getElementById('brightness-bar').value) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
 	hiddencontext.putImageData(hidden_cb_image, 0, 0);
 	
-	hiddencontext.globalCompositeOperation="multiply";
+	// hiddencontext.globalCompositeOperation="multiply";
 	hiddencontext.globalAlpha = 0.5;
-	hiddencontext.drawImage(hidBorder, 0, 0);
 	// draw noise
 	
 	hiddencontext.drawImage(hidNoise, 0, 0);
+	hiddencontext.drawImage(hidBorder, 0, 0);
+	
 	var canvasData = hiddenCanvas.toDataURL("image/jpeg");
 	hiddencontext.globalAlpha = 1;
-	hiddencontext.globalCompositeOperation="source-over";
+	// hiddencontext.globalCompositeOperation="source-over";
 	// draw border
 	
     // hiddencontext.globalCompositeOperation = "source-over";

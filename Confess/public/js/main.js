@@ -161,7 +161,7 @@ $("#data-submit").submit(function(e)
 
 	// Save canvas image for submission
 	hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
-	hiddencontext.drawImage(imageObj, 0, 0);
+	hiddencontext.drawImage(imageObj, 0, 0, hiddencanvas.width, hiddencanvas.height);
 	saveImageData = hiddencontext.getImageData(0,0, hiddencanvas.width, hiddencanvas.height);
 	var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(document.getElementById('brightness-bar').value) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
 	hiddencontext.putImageData(hidden_cb_image, 0, 0);

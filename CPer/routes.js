@@ -180,9 +180,6 @@ module.exports = function(app){
 		  	
 		  	if (err) throw err;
 		  	console.log('finalized!');
-		  	var saved_time = new Date();
-			photos.update(found[0], {$set : { time_saved: saved_time.toString() }});
-
 		  	// request to printer
 		  	
 		  });
@@ -227,6 +224,8 @@ module.exports = function(app){
 				users.update({ip: req.ip}, { $addToSet: { votes: found[0]._id}}, function(){
 
 					console.log("user update");
+					var saved_time = new Date();
+					photos.update(found[0], {$set : {time_saved: saved_time.toString()}});
 					// ajax response
 					// Find all photos
 					var image_to_show = null;

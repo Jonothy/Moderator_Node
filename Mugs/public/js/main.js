@@ -196,9 +196,10 @@ function createRapsheet(){
 
 	// draw border
 	rapcontext.globalCompositeOperation="multiply";
-	rapcontext.globalAlpha = 0.4;
+	rapcontext.globalAlpha = 0.8;
 	// draw noise
 	rapcontext.drawImage(rapNoise, 0, 0, 825, 1275);
+	rapcontext.globalAlpha = 0.4;
 	rapcontext.drawImage(rapBorder, 0, 0, 825, 1275);
 	// global alpha
 	
@@ -401,10 +402,11 @@ $("#data-submit").submit(function(e)
 	hiddencontext.putImageData(hidden_cb_image, 0, 0);
 	
 	hiddencontext.globalCompositeOperation="multiply";
-	hiddencontext.globalAlpha = 0.4;
+	hiddencontext.globalAlpha = 0.8;
 	// draw noise
 	
 	hiddencontext.drawImage(hidNoise, 0, 0);
+	hiddencontext.globalAlpha = 0.4;
 	hiddencontext.drawImage(hidBorder, 0, 0);
 	
 	var canvasData = hiddenCanvas.toDataURL("image/jpeg");

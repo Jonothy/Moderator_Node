@@ -517,6 +517,12 @@ function poll(url, method, period, beforeRequest, onSuccess, onError) {
                     // Allow error handling code to retry the operation
                     onError(xhr, sendRequest, period);
                 }
+                else {
+                	console.log("trying to reconnect");
+                	if(!clear){
+	                    pollTimer2 = setTimeout(sendRequest, period);
+	                }
+                }
             }
         },
         sendRequest = function() {

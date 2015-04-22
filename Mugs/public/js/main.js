@@ -56,7 +56,7 @@ prevCompositeObj.src = "img/OCL_Xerox_small.png";
 // noise and borders
 hidNoise.src = "img/rapnoisesquare.png";
 hidBorder.src = "img/rapbordersquare.png";
-rapNoise.src = "img/rapnoise2.png";
+rapNoise.src = "img/rapnoise_new.png";
 rapBorder.src = "img/rapborder.png";
 
 rapFinger.src ="img/fingerprint.png";

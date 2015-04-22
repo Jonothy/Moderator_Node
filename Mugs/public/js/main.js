@@ -154,7 +154,7 @@ function showBrightness(newValue)
 	var contrast = parseFloat(document.getElementById('contrast-bar').value) / 10.0;
 	adjustValues(context, brightness, contrast);
 }
-c
+
 function adjustValues(ctx, brightness, contrast)
 {	
 	// reset canvas

@@ -154,7 +154,7 @@ function showBrightness(newValue)
 	var contrast = parseFloat(document.getElementById('contrast-bar').value) / 10.0;
 	adjustValues(context, brightness, contrast);
 }
-
+c
 function adjustValues(ctx, brightness, contrast)
 {	
 	// reset canvas
@@ -400,7 +400,7 @@ $("#data-submit").submit(function(e)
 	var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(document.getElementById('brightness-bar').value) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
 	hiddencontext.putImageData(hidden_cb_image, 0, 0);
 	
-	hiddencotext.globalCompositeOperation="multiply";
+	hiddencontext.globalCompositeOperation="multiply";
 	hiddencontext.globalAlpha = 0.4;
 	hiddencontext.drawImage(hidBorder, 0, 0);
 	// draw noise

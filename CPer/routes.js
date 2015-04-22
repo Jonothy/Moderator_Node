@@ -165,7 +165,9 @@ module.exports = function(app){
 
 		var data = req.body.imgData;
 		var photoName = req.body.photo;
+		var pdata = req.body.printerData;
 		
+		// write for moderated for social
 		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
 		fs.writeFile(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), buf, function (err) {
 		  if (err) throw err;
@@ -176,25 +178,13 @@ module.exports = function(app){
 		  	if (err) throw err;
 		  	console.log('finalized!');
 		  	// request to printer
-		  	request({
-			    url: printer_url, //URL to hit
-			    method: 'POST',
-			    //Lets post the following key/values as form
-			    form: { image_name: photoName }
-			}, function(error, response, body){
-			    if(error) {
-			        console.log(error);
-			    } else {
-			        console.log(response.statusCode, body);
-			}
-			});
-
 		  	
 		  });
 		});
 
-		var pbuf = new Buffer(data.replace(/ /g, '+'), 'base64');
-		fs.writeFile(savePath+'5_printer/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), buf, function (err) {
+		// write for printer to grab
+		var pbuf = new Buffer(pdata.replace(/ /g, '+'), 'base64');
+		fs.writeFile(savePath+'5_printer/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), pbuf, function (err) {
 		  if (err) throw err;
 		  console.log('It\'s saved!');
 		  // saved so rename to signify so
@@ -215,8 +205,6 @@ module.exports = function(app){
 			        console.log(response.statusCode, body);
 			}
 			});
-
-		  	
 		  });
 		});
 

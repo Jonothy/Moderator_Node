@@ -196,7 +196,7 @@ function createRapsheet(){
 
 	// draw border
 	rapcontext.globalCompositeOperation="multiply";
-	rapcontext.globalAlpha = 0.6;
+	rapcontext.globalAlpha = 0.4;
 	rapcontext.drawImage(rapBorder, 0, 0, 825, 1275);
 	// global alpha
 	
@@ -401,7 +401,7 @@ $("#data-submit").submit(function(e)
 	hiddencontext.putImageData(hidden_cb_image, 0, 0);
 	
 	hiddencotext.globalCompositeOperation="multiply";
-	hiddencontext.globalAlpha = 0.6;
+	hiddencontext.globalAlpha = 0.4;
 	hiddencontext.drawImage(hidBorder, 0, 0);
 	// draw noise
 	

@@ -169,7 +169,7 @@ $("#data-submit").submit(function(e)
 
 	var canvasData = hiddenCanvas.toDataURL("image/jpeg");
     // hiddencontext.globalCompositeOperation = "source-over";
-	hiddencontext.drawImage(compositeObj,100,0);
+	hiddencontext.drawImage(compositeObj,50,0);
 
     var postData = 'photo=' + document.getElementById('photo-name').value;
     // console.log(postData);

@@ -228,7 +228,7 @@ function requestNext(data){
 		document.getElementById('image-submit').style.display = 'none';
 		document.getElementById('previewCanvas').style.display = 'none';
 		document.getElementById('waiting-new').style.display = 'block';
-		poll("/requestNext", "POST", 1000,
+		var keeptrying = poll("/requestNext", "POST", 1000,
 		    function beforeRequest(xhr) {
 		        return "beforeRequest";
 		    },
@@ -258,17 +258,19 @@ function requestNext(data){
 	        	}
 		    },
 		    function onError(xhr, sendRequest, period) {
+		    	console.log("something happened");
 		        if (xhr.status === 401) {
 		            // show dialog to log in user
 		            console.log("in 401");
 		            console.log('retrying');
-		            setTimeout(sendRequest, period + 1000);
+		            // setTimeout(sendRequest, period + 1000);
 		        }
 		        else {
 		            // retry the operation
 		            console.log('retrying');
-		            setTimeout(sendRequest, period + 1000);
+		            // setTimeout(sendRequest, period + 1000);
 		        }
+		        keeptrying();
 		    }
 		);
 	}
@@ -288,7 +290,14 @@ function poll(url, method, period, beforeRequest, onSuccess, onError) {
                 }
                 else if (this.status > 399) {
                     // Allow error handling code to retry the operation
+                    console.log("failed in this.status > 399");
                     onError(xhr, sendRequest, period);
+                }
+                else {
+                	console.log("trying to reconnect");
+                	if(!clear){
+	                    pollTimer2 = setTimeout(sendRequest, period);
+	                }
                 }
             }
         },

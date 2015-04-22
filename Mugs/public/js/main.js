@@ -203,7 +203,7 @@ function createRapsheet(){
 	// draw noise
 
 	rapcontext.drawImage(rapNoise, 0, 0, 825, 1275);
-	global alpha
+	// global alpha
 	rapcontext.globalAlpha = 1.0;
 	rapcontext.globalCompositeOperation="source-over";
 	// fingerprint boxes

@@ -252,11 +252,15 @@ function createRapsheet(){
 	rapcontext.fillText("1. LEFT THUMB", docWidth*0.75+thumbBoxWidth/2, 2.4*resolution);
 	rapcontext.fillText("2. RIGHT THUMB", docWidth*0.75+thumbBoxWidth*1.5+15, 2.4*resolution);
 
+	var randomNum = Math.random();
+	console.log(randomNum);
 
 	//generate serial number
 	var serialNo = (""+Math.random()).substring(2,10);
 	var starNo = (""+Math.random()).substring(2,9);
 
+	console.log(serialNo);
+	console.log(starNo);
 	//info section
 	rapcontext.textAlign="left";
 	rapcontext.font = "16px DotMatrix-TwoExtended";

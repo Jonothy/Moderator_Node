@@ -116,8 +116,6 @@ acceptButton.addEventListener('click', function (e) {
     document.getElementById("range-brightness").innerHTML=0;
     document.getElementById("range-contrast").innerHTML=10;
 
-    // Preview canvas work
-
 	// initial filter application
 	var cb_image = Filters.brightnessContrast(imageData, 0.0, 1.0);
 	context.putImageData(cb_image, 0, 0);
@@ -189,14 +187,17 @@ function createRapsheet(){
 	// draw background img
 	rapcontext.drawImage(rapBackground, 0, 0, 1650, 1275);
 
+	var mugImageData = resizecontext.getImageData(0,0,canvas.width, canvas.height);
+	var mug_cb_image = Filters.brightnessContrast(mugImageData, parseFloat(document.getElementById('brightness-bar').value) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
+	resizecontext.putImageData(mug_cb_image, 0, 0);
+	rapMug.src = resizecontext.toDataURL();
 
-	
 	// draw mug
 	rapcontext.drawImage(rapMug, 0, 0, 825, 1275);
 
 	// draw border
 	rapcontext.globalCompositeOperation="multiply";
-	rapcontext.globalAlpha = 0.8;
+	rapcontext.globalAlpha = 0.6;
 	// draw noise
 	rapcontext.drawImage(rapNoise, 0, 0, 825, 1275);
 	rapcontext.globalAlpha = 0.4;
@@ -402,7 +403,7 @@ $("#data-submit").submit(function(e)
 	hiddencontext.putImageData(hidden_cb_image, 0, 0);
 	
 	hiddencontext.globalCompositeOperation="multiply";
-	hiddencontext.globalAlpha = 0.8;
+	hiddencontext.globalAlpha = 0.6;
 	// draw noise
 	
 	hiddencontext.drawImage(hidNoise, 0, 0);
@@ -464,6 +465,7 @@ function requestNext(data){
   		hiddencanvas.style.filter = 'none';
         context.clearRect(0, 0, canvas.width, canvas.height);
         hiddencontext.clearRect(0, 0, hiddencanvas.width, hiddencanvas.height);
+        resizecontext.clearRect(0, 0, resizecanvas.width, resizecanvas.height);
 
         // imageObj.src = "photos/"+nameOfPhoto;
         imageObj.src = "images/1_raw/"+nameOfPhoto;

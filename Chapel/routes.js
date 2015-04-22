@@ -178,8 +178,6 @@ module.exports = function(app){
 		  	
 		  	if (err) throw err;
 		  	console.log('finalized!');
-		  	var saved_time = new Date();
-			photos.update(found[0], {$set : { time_saved: saved_time.toString() }});
 
 		  	// request to printer
 		 //  	request({
@@ -208,6 +206,8 @@ module.exports = function(app){
 
 				console.log(found[0]);
 				photos.update(found[0], {$inc : {likes:1}});
+				var saved_time = new Date();
+				photos.update(found[0], {$set : { time_saved: saved_time.toString() }});
 
 				users.update({ip: req.ip}, { $addToSet: { votes: found[0]._id}}, function(){
 

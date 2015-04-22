@@ -195,14 +195,14 @@ function createRapsheet(){
 	rapcontext.drawImage(rapMug, 0, 0, 825, 1275);
 
 	// draw border
-	rapcontext.drawImage(rapBorder, 0, 0, 825, 1275);
+	// rapcontext.drawImage(rapBorder, 0, 0, 825, 1275);
 	// global alpha
-	rapcontext.globalAlpha = 0.5;
+	// rapcontext.globalAlpha = 0.5;
 	// draw noise
 
-	rapcontext.drawImage(rapNoise, 0, 0, 825, 1275);
+	// rapcontext.drawImage(rapNoise, 0, 0, 825, 1275);
 	// global alpha
-	rapcontext.globalAlpha = 1.0;
+	// rapcontext.globalAlpha = 1.0;
 
 	// fingerprint boxes
 	rapcontext.fillStyle = "#000000";
@@ -398,12 +398,13 @@ $("#data-submit").submit(function(e)
 	var hidden_cb_image = Filters.brightnessContrast(saveImageData, parseFloat(document.getElementById('brightness-bar').value) / 10.0, parseFloat(document.getElementById('contrast-bar').value) / 10.0);
 	hiddencontext.putImageData(hidden_cb_image, 0, 0);
 	
-	hiddencontext.drawImage(hidBorder, 0, 0);
+	// hiddencontext.globalAlpha = 0.5;
+	// hiddencontext.drawImage(hidBorder, 0, 0);
 	// draw noise
-	hiddencontext.globalAlpha = 0.5;
-	hiddencontext.drawImage(hidNoise, 0, 0);
+	
+	// hiddencontext.drawImage(hidNoise, 0, 0);
 	var canvasData = hiddenCanvas.toDataURL("image/jpeg");
-	hiddencontext.globalAlpha = 1;
+	// hiddencontext.globalAlpha = 1;
 	// draw border
 	
     // hiddencontext.globalCompositeOperation = "source-over";

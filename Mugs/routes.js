@@ -118,6 +118,9 @@ module.exports = function(app){
 					fs.rename(savePath+'1_raw/'+photoName, savePath+'2_rejected/'+photoName, function (err) {
 					  	if (err) throw err;
 					  	console.log('rejected');
+					  	var saved_time = new Date();
+					  	photos.update(found[0], {$set : { filepath: savePath+ '2_rejected/' + photoName, time_saved: saved_time.toString() }});
+
 					  });
 					// ajax response
 					// Find all photos
@@ -205,6 +208,9 @@ module.exports = function(app){
 		  	
 		  	if (err) throw err;
 		  	console.log('finalized!');
+		  	var saved_time = new Date();
+			photos.update(found[0], {$set : { time_saved: saved_time.toString() }});
+
 		  	// request to printer
 		  	request({
 			    url: printer_url, //URL to hit

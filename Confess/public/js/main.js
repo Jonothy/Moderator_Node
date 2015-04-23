@@ -136,6 +136,7 @@ $("#rejected").submit(function(e)
         url : 'rejected',
         type: "POST",
         data : postData,
+        cache: false,
         success:function(data, textStatus, jqXHR) 
         {
         	//data: return data from server
@@ -183,6 +184,7 @@ $("#data-submit").submit(function(e)
         url : 'saveProcessed',
         type: "POST",
         data : postData,
+        cache: false,
         success:function(data, textStatus, jqXHR) 
         {
         	//data: return data from server

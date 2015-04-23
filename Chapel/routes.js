@@ -41,7 +41,7 @@ module.exports = function(app){
 			if(not_viewed.length > 0){
 				var viewed_time = new Date();
 				// Choose a random image
-				image_to_show = not_viewed[Math.floor(Math.random()*not_viewed.length)];
+				image_to_show = not_viewed[0];
 				// update photo as viewed and update time of viewing
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
@@ -137,7 +137,7 @@ module.exports = function(app){
 						if(not_viewed.length > 0){
 							var viewed_time = new Date();
 							// Choose a random image
-							image_to_show = not_viewed[Math.floor(Math.random()*not_viewed.length)];
+							image_to_show = not_viewed[0];
 							// update photo as viewed and update time of viewing
 							photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 						}
@@ -228,7 +228,7 @@ module.exports = function(app){
 						if(not_viewed.length > 0){
 							var viewed_time = new Date();
 							// Choose a random image
-							image_to_show = not_viewed[Math.floor(Math.random()*not_viewed.length)];
+							image_to_show = not_viewed[0];
 							// update photo as viewed and update time of viewing
 							photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 						}
@@ -270,7 +270,7 @@ module.exports = function(app){
 			if(not_viewed.length > 0){
 				var viewed_time = new Date();
 				// Choose a random image
-				image_to_show = not_viewed[Math.floor(Math.random()*not_viewed.length)];
+				image_to_show = not_viewed[0];
 				// update photo as viewed and update time of viewing
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
@@ -312,7 +312,7 @@ module.exports = function(app){
 			if(not_viewed.length > 0){
 				var viewed_time = new Date();
 				// Choose a random image
-				image_to_show = not_viewed[Math.floor(Math.random()*not_viewed.length)];
+				image_to_show = not_viewed[0];
 				// update photo as viewed and update time of viewing
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}

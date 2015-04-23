@@ -180,18 +180,18 @@ module.exports = function(app){
 		  	console.log('finalized!');
 		  	
 		  	// request to printer
-		  	request({
-			    url: printer_url, //URL to hit
-			    method: 'POST',
-			    //Lets post the following key/values as form
-			    form: { image_name: photoName }
-			}, function(error, response, body){
-			    if(error) {
-			        console.log(error);
-			    } else {
-			        console.log(response.statusCode, body);
-			}
-			});
+		 //  	request({
+			//     url: printer_url, //URL to hit
+			//     method: 'POST',
+			//     //Lets post the following key/values as form
+			//     form: { image_name: photoName }
+			// }, function(error, response, body){
+			//     if(error) {
+			//         console.log(error);
+			//     } else {
+			//         console.log(response.statusCode, body);
+			// }
+			// });
 
 		  	
 		  });

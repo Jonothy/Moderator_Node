@@ -219,13 +219,12 @@ module.exports = function(app){
 			if(found.length == 1){
 
 				console.log(found[0]);
-				photos.update(found[0], {$inc : {likes:1}});
+				var saved_time = new Date();
+				photos.update(found[0], {$inc : {likes:1}, $set : {time_saved: saved_time.toString()}});
 
 				users.update({ip: req.ip}, { $addToSet: { votes: found[0]._id}}, function(){
 
 					console.log("user update");
-					var saved_time = new Date();
-					photos.update(found[0], {$set : {time_saved: saved_time.toString()}});
 					// ajax response
 					// Find all photos
 					var image_to_show = null;

@@ -180,20 +180,6 @@ module.exports = function(app){
 		  	
 		  	if (err) throw err;
 		  	console.log('finalized!');
-		  	// request to printer
-		 //  	request({
-			//     url: printer_url, //URL to hit
-			//     method: 'POST',
-			//     //Lets post the following key/values as form
-			//     form: { image_name: photoName }
-			// }, function(error, response, body){
-			//     if(error) {
-			//         console.log(error);
-			//     } else {
-			//         console.log(response.statusCode, body);
-			// }
-			// });
-
 		  	
 		  });
 		});
@@ -229,22 +215,19 @@ module.exports = function(app){
 		  });
 		});
 
-		console.log("SAVE BUFFER DATA");
-		console.log(photoName);
+		console.log("SAVE BUFFER DATA: " + photoName);
 
 		photos.find({ name: photoName }, function(err, found){
 
 			if(found.length == 1){
 
 				console.log(found[0]);
-				photos.update(found[0], {$inc : {likes:1}});
 				var saved_time = new Date();
-				photos.update(found[0], {$set : { time_saved: saved_time.toString() }});
-
-
+				photos.update(found[0], {$inc : {likes:1}, $set : { time_saved: saved_time.toString() }});
+				
 				users.update({ip: req.ip}, { $addToSet: { votes: found[0]._id}}, function(){
 
-					console.log("user update");
+					console.log("db update for: " + photoName);
 					// ajax response
 					// Find all photos
 					var image_to_show = null;

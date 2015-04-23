@@ -205,9 +205,8 @@ module.exports = function(app){
 			if(found.length == 1){
 
 				console.log(found[0]);
-				photos.update(found[0], {$inc : {likes:1}});
 				var saved_time = new Date();
-				photos.update(found[0], {$set : { time_saved: saved_time.toString() }});
+				photos.update(found[0], {$inc : {likes:1}, $set : { time_saved: saved_time.toString() }});
 
 				users.update({ip: req.ip}, { $addToSet: { votes: found[0]._id}}, function(){
 
@@ -227,7 +226,6 @@ module.exports = function(app){
 
 						if(not_viewed.length > 0){
 							var viewed_time = new Date();
-							// Choose a random image
 							image_to_show = not_viewed[0];
 							// update photo as viewed and update time of viewing
 							photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});

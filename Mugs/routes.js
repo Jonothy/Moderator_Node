@@ -171,49 +171,49 @@ module.exports = function(app){
 		var rapdata = req.body.rapData;
 		
 		// write moderated file for social sharing
-		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
-		fs.writeFile(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), buf, function (err) {
-		  if (err) throw err;
-		  console.log('It\'s saved!');
-		  // saved so rename to signify so
-		  fs.rename(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath+'3_moderated/'+photoName, function (err) {
+		// var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
+		// fs.writeFile(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), buf, function (err) {
+		//   if (err) throw err;
+		//   console.log('It\'s saved!');
+		//   // saved so rename to signify so
+		//   fs.rename(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath+'3_moderated/'+photoName, function (err) {
 		  	
-		  	if (err) throw err;
-		  	console.log('finalized!');
+		//   	if (err) throw err;
+		//   	console.log('finalized!');
 		  	
-		  });
-		});
+		//   });
+		// });
 
-		// write rapsheet for printing
-		var rapbuf = new Buffer(rapdata.replace(/ /g, '+'), 'base64');
-		fs.writeFile(savePath+'5_rapsheet/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), rapbuf, function (err) {
-		  if (err) throw err;
-		  console.log('It\'s saved!');
-		  // saved so rename to signify so
-		  fs.rename(savePath+'5_rapsheet/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath+'5_rapsheet/'+photoName, function (err) {
+		// // write rapsheet for printing
+		// var rapbuf = new Buffer(rapdata.replace(/ /g, '+'), 'base64');
+		// fs.writeFile(savePath+'5_rapsheet/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), rapbuf, function (err) {
+		//   if (err) throw err;
+		//   console.log('It\'s saved!');
+		//   // saved so rename to signify so
+		//   fs.rename(savePath+'5_rapsheet/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath+'5_rapsheet/'+photoName, function (err) {
 		  	
-		  	if (err) throw err;
-		  	console.log('finalized!');
+		//   	if (err) throw err;
+		//   	console.log('finalized!');
 		  	
-		  	// request to printer
-		  	request({
-			    url: printer_url, //URL to hit
-			    method: 'POST',
-			    //Lets post the following key/values as form
-			    form: { image_name: photoName }
-			}, function(error, response, body){
-			    if(error) {
-			        console.log(error);
-			        console.log("got an error from printer");
-			    } else {
-			        console.log(response.statusCode, body);
-			        console.log("got a succes from printer");
-			}
-			});
+		//   	// request to printer
+		//   	request({
+		// 	    url: printer_url, //URL to hit
+		// 	    method: 'POST',
+		// 	    //Lets post the following key/values as form
+		// 	    form: { image_name: photoName }
+		// 	}, function(error, response, body){
+		// 	    if(error) {
+		// 	        console.log(error);
+		// 	        console.log("got an error from printer");
+		// 	    } else {
+		// 	        console.log(response.statusCode, body);
+		// 	        console.log("got a succes from printer");
+		// 	}
+		// 	});
 
 		  	
-		  });
-		});
+		//   });
+		// });
 
 		console.log("SAVE BUFFER DATA: " + photoName);
 

@@ -164,7 +164,26 @@ module.exports = function(app){
 		// add uploaded image
 		// console.log(req.body);	
 		// console.log(res);
-		console.log("processed photo");
+		console.log("new saved image coming in" );
+
+		var image_to_show = null;
+		photos.findOne({viewed: 0}, function(err, found){
+
+			console.log("unviewed result");
+			console.log(found);
+			if(found != null && found != undefined){
+				console.log("new photo");
+				var viewed_time = new Date();
+				image_to_show = found;
+				// update photo as viewed and update time of viewing
+				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
+			}
+
+			console.log("send new page");
+			res.status(200);
+			res.json({'success': true, 'photoName': image_to_show});
+		});
+
 
 		var data = req.body.imgData;
 		var photoName = req.body.photo;
@@ -213,27 +232,27 @@ module.exports = function(app){
 					console.log("user update");
 					// ajax response
 					// Find all photos
-					var image_to_show = null;
-					photos.find({}, function(err, all_photos){
+					// var image_to_show = null;
+					// photos.find({ viewed}, function(err, all_photos){
 
-						var not_viewed = all_photos.filter(function(photo){
-							if(photo.viewed == 0){
-								return all_photos.indexOf(photo.viewed == 0);
-							}
-						});
+					// 	var not_viewed = all_photos.filter(function(photo){
+					// 		if(photo.viewed == 0){
+					// 			return all_photos.indexOf(photo.viewed == 0);
+					// 		}
+					// 	});
 
-						var image_to_show = null;
+					// 	var image_to_show = null;
 
-						if(not_viewed.length > 0){
-							var viewed_time = new Date();
-							image_to_show = not_viewed[0];
-							// update photo as viewed and update time of viewing
-							photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
-						}
+					// 	if(not_viewed.length > 0){
+					// 		var viewed_time = new Date();
+					// 		image_to_show = not_viewed[0];
+					// 		// update photo as viewed and update time of viewing
+					// 		photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
+					// 	}
 
-						res.status(200);
-						res.json({'success': true, 'photoName': image_to_show});
-					});
+					// 	res.status(200);
+					// 	res.json({'success': true, 'photoName': image_to_show});
+					// });
 				});
 
 				/* if photo is liked and we want to save a processed photo */
@@ -254,29 +273,46 @@ module.exports = function(app){
 
 	}
 
+	function copyFile(source, target, cb) {
+	  var cbCalled = false;
+
+	  var rd = fs.createReadStream(source);
+	  rd.on("error", function(err) {
+	    done(err);
+	  });
+	  var wr = fs.createWriteStream(target);
+	  wr.on("error", function(err) {
+	    done(err);
+	  });
+	  wr.on("close", function(ex) {
+	    done();
+	  });
+	  rd.pipe(wr);
+
+	  function done(err) {
+	    if (!cbCalled) {
+	      cb(err);
+	      cbCalled = true;
+	    }
+	  }
+	}
+
 	function nextPhoto(){
-		photos.find({}, function(err, all_photos){
+		photos.findOne({viewed: 0}, function(err, found){
 
-			var not_viewed = all_photos.filter(function(photo){
-				if(photo.viewed == 0){
-					return all_photos.indexOf(photo.viewed == 0);
-				}
-			});
-
-			var image_to_show = null;
-
-			if(not_viewed.length > 0){
+			console.log("unviewed result");
+			console.log(found);
+			if(found != null && found != undefined){
+				console.log("new photo");
 				var viewed_time = new Date();
-				// Choose a random image
-				image_to_show = not_viewed[0];
+				image_to_show = found;
 				// update photo as viewed and update time of viewing
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
 
-			console.log("nextPhoto photo");
-			console.log(image_to_show);
-			return image_to_show;
-
+			console.log("send new page");
+			res.status(200);
+			res.json({'success': true, 'photoName': image_to_show});
 		});
 	}
 
@@ -322,38 +358,4 @@ module.exports = function(app){
 		});
 	}
 
-	// This is executed before the next two post requests
-	app.post('*', function(req, res, next){
-		
-		// Register the user in the database by ip address
-
-		users.insert({
-			ip: req.ip,
-			votes: []
-		}, function(){
-			// Continue with the other routes
-			next();
-		});
-		
-	});
-
-	// relics
-	app.post('/accepted', vote);
-	app.post('/declined', vote);
-
-
-	function vote(req, res){
-
-		// Which field to increment, depending on the path
-		console.log("req");
-		// console.log(req);
-		console.log(req.body);
-		// console.log("res");
-		// console.log(res);
-		var what = {
-			'/accepted': {likes:1},
-			'/declined': {dislikes:1}
-		};
-
-	}
 };

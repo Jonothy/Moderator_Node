@@ -161,6 +161,28 @@ module.exports = function(app){
 	
 	function saveProcessed(req, res){
 
+
+		console.log("new saved image coming in" );
+
+		var image_to_show = null;
+		photos.findOne({viewed: 0}, function(err, found){
+
+			console.log("unviewed result");
+			console.log(found);
+			if(found != null && found != undefined){
+				console.log("new photo");
+				var viewed_time = new Date();
+				image_to_show = found;
+				// update photo as viewed and update time of viewing
+				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
+			}
+
+
+			console.log("send new page");
+			res.status(200);
+			res.json({'success': true, 'photoName': image_to_show});
+		});
+
 		// add uploaded image
 		// console.log(req.body);	
 		// console.log(res);
@@ -171,49 +193,49 @@ module.exports = function(app){
 		var rapdata = req.body.rapData;
 		
 		// write moderated file for social sharing
-		// var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
-		// fs.writeFile(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), buf, function (err) {
-		//   if (err) throw err;
-		//   console.log('It\'s saved!');
-		//   // saved so rename to signify so
-		//   fs.rename(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath+'3_moderated/'+photoName, function (err) {
+		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
+		fs.writeFile(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), buf, function (err) {
+		  if (err) throw err;
+		  console.log('It\'s saved!');
+		  // saved so rename to signify so
+		  fs.rename(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath+'3_moderated/'+photoName, function (err) {
 		  	
-		//   	if (err) throw err;
-		//   	console.log('finalized!');
+		  	if (err) throw err;
+		  	console.log('finalized!');
 		  	
-		//   });
-		// });
+		  });
+		});
 
-		// // write rapsheet for printing
-		// var rapbuf = new Buffer(rapdata.replace(/ /g, '+'), 'base64');
-		// fs.writeFile(savePath+'5_rapsheet/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), rapbuf, function (err) {
-		//   if (err) throw err;
-		//   console.log('It\'s saved!');
-		//   // saved so rename to signify so
-		//   fs.rename(savePath+'5_rapsheet/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath+'5_rapsheet/'+photoName, function (err) {
+		// write rapsheet for printing
+		var rapbuf = new Buffer(rapdata.replace(/ /g, '+'), 'base64');
+		fs.writeFile(savePath+'5_rapsheet/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), rapbuf, function (err) {
+		  if (err) throw err;
+		  console.log('It\'s saved!');
+		  // saved so rename to signify so
+		  fs.rename(savePath+'5_rapsheet/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath+'5_rapsheet/'+photoName, function (err) {
 		  	
-		//   	if (err) throw err;
-		//   	console.log('finalized!');
+		  	if (err) throw err;
+		  	console.log('finalized!');
 		  	
-		//   	// request to printer
-		//   	request({
-		// 	    url: printer_url, //URL to hit
-		// 	    method: 'POST',
-		// 	    //Lets post the following key/values as form
-		// 	    form: { image_name: photoName }
-		// 	}, function(error, response, body){
-		// 	    if(error) {
-		// 	        console.log(error);
-		// 	        console.log("got an error from printer");
-		// 	    } else {
-		// 	        console.log(response.statusCode, body);
-		// 	        console.log("got a succes from printer");
-		// 	}
-		// 	});
+		  	// request to printer
+		  	request({
+			    url: printer_url, //URL to hit
+			    method: 'POST',
+			    //Lets post the following key/values as form
+			    form: { image_name: photoName }
+			}, function(error, response, body){
+			    if(error) {
+			        console.log(error);
+			        console.log("got an error from printer");
+			    } else {
+			        console.log(response.statusCode, body);
+			        console.log("got a succes from printer");
+			}
+			});
 
 		  	
-		//   });
-		// });
+		  });
+		});
 
 		console.log("SAVE BUFFER DATA: " + photoName);
 
@@ -230,41 +252,34 @@ module.exports = function(app){
 					console.log("db update for: " + photoName);
 					// ajax response
 					// Find all photos
-					var image_to_show = null;
-					photos.find({}, function(err, all_photos){
+					// var image_to_show = null;
+					// photos.find({}, function(err, all_photos){
 
-						var not_viewed = all_photos.filter(function(photo){
-							if(photo.viewed == 0){
-								return all_photos.indexOf(photo.viewed == 0);
-							}
-						});
+					// 	var not_viewed = all_photos.filter(function(photo){
+					// 		if(photo.viewed == 0){
+					// 			return all_photos.indexOf(photo.viewed == 0);
+					// 		}
+					// 	});
 
-						var image_to_show = null;
+					// 	var image_to_show = null;
 
-						if(not_viewed.length > 0){
-							var viewed_time = new Date();
-							// Choose a random image
-							image_to_show = not_viewed[0];
-							// update photo as viewed and update time of viewing
-							photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
-						}
+					// 	if(not_viewed.length > 0){
+					// 		var viewed_time = new Date();
+					// 		// Choose a random image
+					// 		image_to_show = not_viewed[0];
+					// 		// update photo as viewed and update time of viewing
+					// 		photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
+					// 	}
 
-						res.status(200);
-						res.json({'success': true, 'photoName': image_to_show});
-					});
+					// 	res.status(200);
+					// 	res.json({'success': true, 'photoName': image_to_show});
+					// });
 				});
-
-				/* if photo is liked and we want to save a processed photo */
-				if(req.path == '/accepted')
-				{
-					console.log("we should save this photo");
-				}
-
 			}
 
-			else{
-				res.redirect('../');
-			}
+			// else{
+			// 	res.redirect('../');
+			// }
 		});
 
 		// res.status(200);

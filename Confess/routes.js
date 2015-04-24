@@ -214,21 +214,17 @@ module.exports = function(app){
 					// ajax response
 					// Find all photos
 					var image_to_show = null;
-					photos.find({}, function(err, all_photos){
-
-						var not_viewed = all_photos.filter(function(photo){
-							if(photo.viewed == 0){
-								return all_photos.indexOf(photo.viewed == 0);
-							}
-						});
+					photos.findOne({viewed: 0}, function(err, found){
 
 						var image_to_show = null;
-
-						if(not_viewed.length > 0){
+						console.log("confession requested");
+						console.log(found);
+						
+						if(found != null && found != undefined)
+						{
+							console.log("sending new photo!");
 							var viewed_time = new Date();
-							// Choose a random image
-							image_to_show = not_viewed[0];
-							// update photo as viewed and update time of viewing
+							var image_to_show = found;
 							photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 						}
 
@@ -256,28 +252,22 @@ module.exports = function(app){
 	}
 
 	function nextPhoto(){
-		photos.find({}, function(err, all_photos){
-
-			var not_viewed = all_photos.filter(function(photo){
-				if(photo.viewed == 0){
-					return all_photos.indexOf(photo.viewed == 0);
-				}
-			});
+		photos.findOne({viewed: 0}, function(err, found){
 
 			var image_to_show = null;
-
-			if(not_viewed.length > 0){
+			console.log("confession requested");
+			console.log(found);
+			
+			if(found != null && found != undefined)
+			{
+				console.log("sending new photo!");
 				var viewed_time = new Date();
-				// Choose a random image
-				image_to_show = not_viewed[0];
-				// update photo as viewed and update time of viewing
+				var image_to_show = found;
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
 
-			console.log("nextPhoto photo");
-			console.log(image_to_show);
-			return image_to_show;
-
+			res.status(200);
+			res.json({'success': true, 'photoName': image_to_show});
 		});
 	}
 
@@ -298,63 +288,22 @@ module.exports = function(app){
 
 		// send non-viewed image or tell client that there is none currently
 		// Find all photos
-		photos.find({}, function(err, all_photos){
-
-			var not_viewed = all_photos.filter(function(photo){
-				if(photo.viewed == 0){
-					return all_photos.indexOf(photo.viewed == 0);
-				}
-			});
+		photos.findOne({viewed: 0}, function(err, found){
 
 			var image_to_show = null;
-
-			if(not_viewed.length > 0){
+			console.log("confession requested");
+			console.log(found);
+			
+			if(found != null && found != undefined)
+			{
+				console.log("sending new photo!");
 				var viewed_time = new Date();
-				// Choose a random image
-				image_to_show = not_viewed[0];
-				// update photo as viewed and update time of viewing
+				var image_to_show = found;
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
 
 			res.status(200);
 			res.json({'success': true, 'photoName': image_to_show});
-		// 	res.redirect('../');
-
 		});
-	}
-
-	// This is executed before the next two post requests
-	app.post('*', function(req, res, next){
-		
-		// Register the user in the database by ip address
-
-		users.insert({
-			ip: req.ip,
-			votes: []
-		}, function(){
-			// Continue with the other routes
-			next();
-		});
-		
-	});
-
-	// relics
-	app.post('/accepted', vote);
-	app.post('/declined', vote);
-
-
-	function vote(req, res){
-
-		// Which field to increment, depending on the path
-		console.log("req");
-		// console.log(req);
-		console.log(req.body);
-		// console.log("res");
-		// console.log(res);
-		var what = {
-			'/accepted': {likes:1},
-			'/declined': {dislikes:1}
-		};
-
 	}
 };

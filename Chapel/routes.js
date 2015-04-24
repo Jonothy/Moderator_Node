@@ -346,7 +346,7 @@ module.exports = function(app){
 		photos.findOne({viewed: 0}, function(err, found){
 
 			var image_to_show = null;
-			console.log("unviewed result");
+			console.log("chapel wedding requested");
 			console.log(found);
 			
 			if(found != null && found != undefined)

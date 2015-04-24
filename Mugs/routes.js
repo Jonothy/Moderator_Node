@@ -124,27 +124,22 @@ module.exports = function(app){
 					  });
 					// ajax response
 					// Find all photos
-					photos.find({}, function(err, all_photos){
-
-						var not_viewed = all_photos.filter(function(photo){
-							if(photo.viewed == 0){
-								return all_photos.indexOf(photo.viewed == 0);
-							}
-						});
+					photos.findOne({viewed: 0}, function(err, found){
 
 						var image_to_show = null;
-
-						if(not_viewed.length > 0){
+						console.log("mugshot requested");
+						console.log(found);
+						
+						if(found != null && found != undefined)
+						{
+							console.log("sending new photo!");
 							var viewed_time = new Date();
-							// Choose a random image
-							image_to_show = not_viewed[0];
-							// update photo as viewed and update time of viewing
+							var image_to_show = found;
 							photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 						}
 
 						res.status(200);
 						res.json({'success': true, 'photoName': image_to_show});
-
 					});
 				});
 			}
@@ -169,7 +164,7 @@ module.exports = function(app){
 		photos.findOne({viewed: 0}, function(err, found){
 
 			var image_to_show = null;
-			console.log("unviewed result");
+			console.log("mugshot saved and requested");
 			console.log(found);
 			
 			if(found != null && found != undefined)
@@ -362,19 +357,17 @@ module.exports = function(app){
 		photos.findOne({viewed: 0}, function(err, found){
 
 			var image_to_show = null;
-			console.log("unviewed result");
+			console.log("mugshot requested");
 			console.log(found);
 			
 			if(found != null && found != undefined)
 			{
-				console.log("new photo!");
+				console.log("sending new photo!");
 				var viewed_time = new Date();
 				var image_to_show = found;
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
 
-
-			console.log("sending new render");
 			res.status(200);
 			res.json({'success': true, 'photoName': image_to_show});
 		});

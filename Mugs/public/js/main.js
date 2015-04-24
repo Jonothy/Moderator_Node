@@ -427,7 +427,7 @@ $("#data-submit").submit(function(e)
 	postData += "&rapData=";
 	postData += rapData.replace(/^data:image\/(jpg|jpeg);base64,/, "");
 	console.log("submit");
-	// console.log(postData);
+	console.log(postData);
 
 
 

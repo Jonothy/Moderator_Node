@@ -96,11 +96,33 @@ module.exports = function(app){
 		// add uploaded image
 		// console.log(req.body);	
 		// console.log(res);
-		console.log("rejected photo");
+		
+		console.log("send new");
+		photos.findOne({viewed: 0}, function(err, found){
+
+			var image_to_show = null;
+			console.log("unviewed result");
+			console.log(found);
+			
+			if(found != null && found != undefined)
+			{
+				console.log("new photo!");
+				var viewed_time = new Date();
+				var image_to_show = found;
+				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
+			}
+
+
+			console.log("sending new render");
+			res.status(200);
+			res.json({'success': true, 'photoName': image_to_show});
+		});
 
 		var photoName = req.body.photo;
 		
 		console.log(photoName);
+
+		console.log("rejected photo");
 
 		photos.find({ name: photoName }, function(err, found){
 
@@ -124,34 +146,10 @@ module.exports = function(app){
 					  });
 					// ajax response
 					// Find all photos
-					photos.find({}, function(err, all_photos){
-
-						var not_viewed = all_photos.filter(function(photo){
-							if(photo.viewed == 0){
-								return all_photos.indexOf(photo.viewed == 0);
-							}
-						});
-
-						var image_to_show = null;
-
-						if(not_viewed.length > 0){
-							var viewed_time = new Date();
-							// Choose a random image
-							image_to_show = not_viewed[0];
-							// update photo as viewed and update time of viewing
-							photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
-						}
-
-						res.status(200);
-						res.json({'success': true, 'photoName': image_to_show});
-
-					});
+					
 				});
 			}
 
-			else{
-				res.redirect('../');
-			}
 		});
 	}
 
@@ -164,39 +162,67 @@ module.exports = function(app){
 		// add uploaded image
 		// console.log(req.body);	
 		// console.log(res);
-		console.log("new saved image coming in" );
-
-		var image_to_show = null;
+		console.log("received request");
 		photos.findOne({viewed: 0}, function(err, found){
 
+			var image_to_show = null;
 			console.log("unviewed result");
 			console.log(found);
-			if(found != null && found != undefined){
-				console.log("new photo");
+			
+			if(found != null && found != undefined)
+			{
+				console.log("new photo!");
 				var viewed_time = new Date();
-				image_to_show = found;
-				// update photo as viewed and update time of viewing
+				var image_to_show = found;
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
 
-			console.log("send new page");
+
+			console.log("sending new render");
 			res.status(200);
 			res.json({'success': true, 'photoName': image_to_show});
 		});
+		
+		console.log("processed photo");
 
-
-		var data = req.body.imgData;
+		// var data = req.body.imgData;
 		var photoName = req.body.photo;
 		
-		var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
-		fs.writeFile(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), buf, function (err) {
-		  if (err) throw err;
-		  console.log('It\'s saved!');
-		  // saved so rename to signify so
-		  fs.rename(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath+'3_moderated/'+photoName, function (err) {
+		// var buf = new Buffer(data.replace(/ /g, '+'), 'base64');
+
+
+		// fs.writeFile(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), buf, function (err) {
+		//   if (err) throw err;
+		//   console.log('It\'s saved!');
+		//   // saved so rename to signify so
+		//   fs.rename(savePath+'3_moderated/'+photoName.substring(0, photoName.lastIndexOf(".")) + "_incoming" + photoName.substring(photoName.lastIndexOf(".")), savePath+'3_moderated/'+photoName, function (err) {
+		  	
+		//   	if (err) throw err;
+		//   	console.log('finalized!');
+
+		//   	// request to printer
+		//  //  	request({
+		// 	//     url: printer_url, //URL to hit
+		// 	//     method: 'POST',
+		// 	//     //Lets post the following key/values as form
+		// 	//     form: { image_name: photoName }
+		// 	// }, function(error, response, body){
+		// 	//     if(error) {
+		// 	//         console.log(error);
+		// 	//     } else {
+		// 	//         console.log(response.statusCode, body);
+		// 	// }
+		// 	// });
+
+		  	
+		//   });
+		// });
+
+		fs.rename(savePath+'1_raw/'+photoName, savePath+'3_moderated/'+photoName, function (err) {
 		  	
 		  	if (err) throw err;
-		  	console.log('finalized!');
+		  	console.log('renamed');
+		  	photos.find({ name: photoName }, function(err, found){
 
 		  	// request to printer
 		 //  	request({
@@ -211,108 +237,92 @@ module.exports = function(app){
 			//         console.log(response.statusCode, body);
 			// }
 			// });
+		  		photos.update(found, {$set: {filepath: savePath+'3_moderated/'+photoName}});
+			});
 
-		  	
-		  });
+
 		});
 
 		console.log("SAVE BUFFER DATA");
 		console.log(photoName);
 
-		photos.find({ name: photoName }, function(err, found){
+		// photos.find({ name: photoName }, function(err, found){
 
-			if(found.length == 1){
+		// 	if(found.length == 1){
 
-				console.log(found[0]);
-				var saved_time = new Date();
-				photos.update(found[0], {$inc : {likes:1}, $set : { time_saved: saved_time.toString() }});
+		// 		console.log(found[0]);
+		// 		var saved_time = new Date();
+		// 		photos.update(found[0], {$inc : {likes:1}, $set : { time_saved: saved_time.toString() }});
 
-				users.update({ip: req.ip}, { $addToSet: { votes: found[0]._id}}, function(){
+		// 		users.update({ip: req.ip}, { $addToSet: { votes: found[0]._id}}, function(){
 
-					console.log("user update");
-					// ajax response
-					// Find all photos
-					// var image_to_show = null;
-					// photos.find({ viewed}, function(err, all_photos){
+		// 			console.log("user update");
+		// 			// ajax response
+		// 			// Find all photos
+		// 			var image_to_show = null;
+		// 			photos.find({}, function(err, all_photos){
 
-					// 	var not_viewed = all_photos.filter(function(photo){
-					// 		if(photo.viewed == 0){
-					// 			return all_photos.indexOf(photo.viewed == 0);
-					// 		}
-					// 	});
+		// 				var not_viewed = all_photos.filter(function(photo){
+		// 					if(photo.viewed == 0){
+		// 						return all_photos.indexOf(photo.viewed == 0);
+		// 					}
+		// 				});
 
-					// 	var image_to_show = null;
+		// 				var image_to_show = null;
 
-					// 	if(not_viewed.length > 0){
-					// 		var viewed_time = new Date();
-					// 		image_to_show = not_viewed[0];
-					// 		// update photo as viewed and update time of viewing
-					// 		photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
-					// 	}
+		// 				if(not_viewed.length > 0){
+		// 					var viewed_time = new Date();
+		// 					image_to_show = not_viewed[0];
+		// 					// update photo as viewed and update time of viewing
+		// 					photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
+		// 				}
 
-					// 	res.status(200);
-					// 	res.json({'success': true, 'photoName': image_to_show});
-					// });
-				});
+		// 				res.status(200);
+		// 				res.json({'success': true, 'photoName': image_to_show});
+		// 			});
+		// 		});
 
-				/* if photo is liked and we want to save a processed photo */
-				if(req.path == '/accepted')
-				{
-					console.log("we should save this photo");
-				}
+		// 		/* if photo is liked and we want to save a processed photo */
+		// 		if(req.path == '/accepted')
+		// 		{
+		// 			console.log("we should save this photo");
+		// 		}
 
-			}
+		// 	}
 
-			else{
-				res.redirect('../');
-			}
-		});
+		// 	else{
+		// 		res.redirect('../');
+		// 	}
+		// });
 
 		// res.status(200);
 		// res.json({'success': true});
 
 	}
 
-	function copyFile(source, target, cb) {
-	  var cbCalled = false;
-
-	  var rd = fs.createReadStream(source);
-	  rd.on("error", function(err) {
-	    done(err);
-	  });
-	  var wr = fs.createWriteStream(target);
-	  wr.on("error", function(err) {
-	    done(err);
-	  });
-	  wr.on("close", function(ex) {
-	    done();
-	  });
-	  rd.pipe(wr);
-
-	  function done(err) {
-	    if (!cbCalled) {
-	      cb(err);
-	      cbCalled = true;
-	    }
-	  }
-	}
-
 	function nextPhoto(){
-		photos.findOne({viewed: 0}, function(err, found){
+		photos.find({}, function(err, all_photos){
 
-			console.log("unviewed result");
-			console.log(found);
-			if(found != null && found != undefined){
-				console.log("new photo");
+			var not_viewed = all_photos.filter(function(photo){
+				if(photo.viewed == 0){
+					return all_photos.indexOf(photo.viewed == 0);
+				}
+			});
+
+			var image_to_show = null;
+
+			if(not_viewed.length > 0){
 				var viewed_time = new Date();
-				image_to_show = found;
+				// Choose a random image
+				image_to_show = not_viewed[0];
 				// update photo as viewed and update time of viewing
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
 
-			console.log("send new page");
-			res.status(200);
-			res.json({'success': true, 'photoName': image_to_show});
+			console.log("nextPhoto photo");
+			console.log(image_to_show);
+			return image_to_show;
+
 		});
 	}
 
@@ -333,29 +343,22 @@ module.exports = function(app){
 
 		// send non-viewed image or tell client that there is none currently
 		// Find all photos
-		photos.find({}, function(err, all_photos){
-
-			var not_viewed = all_photos.filter(function(photo){
-				if(photo.viewed == 0){
-					return all_photos.indexOf(photo.viewed == 0);
-				}
-			});
+		photos.findOne({viewed: 0}, function(err, found){
 
 			var image_to_show = null;
-
-			if(not_viewed.length > 0){
+			console.log("unviewed result");
+			console.log(found);
+			
+			if(found != null && found != undefined)
+			{
+				console.log("sending new photo!");
 				var viewed_time = new Date();
-				// Choose a random image
-				image_to_show = not_viewed[0];
-				// update photo as viewed and update time of viewing
+				var image_to_show = found;
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
 
 			res.status(200);
 			res.json({'success': true, 'photoName': image_to_show});
-		// 	res.redirect('../');
-
 		});
 	}
-
 };

@@ -168,8 +168,8 @@ chokidar.watch('file', {
   followSymlinks: true,
   cwd: '.',
 
-  useFsEvents: true,
-  // usePolling: true,
+  // useFsEvents: true,
+  usePolling: true,
   alwaysStat: false,
   depth: undefined,
   interval: 1000,

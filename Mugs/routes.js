@@ -161,32 +161,54 @@ module.exports = function(app){
 	
 	function saveProcessed(req, res){
 
-
-		console.log("new saved image coming in" );
-
-		var image_to_show = null;
+		// add uploaded image
+		// console.log(req.body);	
+		// console.log(res);
+		console.log("serving new");
+		
 		photos.findOne({viewed: 0}, function(err, found){
 
+			var image_to_show = null;
 			console.log("unviewed result");
 			console.log(found);
-			if(found != null && found != undefined){
-				console.log("new photo");
+			
+			if(found != null && found != undefined)
+			{
+				console.log("new photo!");
 				var viewed_time = new Date();
-				image_to_show = found;
-				// update photo as viewed and update time of viewing
+				var image_to_show = found;
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
 
 
-			console.log("send new page");
+			console.log("sending new render");
 			res.status(200);
 			res.json({'success': true, 'photoName': image_to_show});
 		});
 
-		// add uploaded image
-		// console.log(req.body);	
-		// console.log(res);
-		console.log("processed photo");
+		// photos.find({}, function(err, all_photos){
+
+		// 	var not_viewed = all_photos.filter(function(photo){
+		// 		if(photo.viewed == 0){
+		// 			return all_photos.indexOf(photo.viewed == 0);
+		// 		}
+		// 	});
+
+		// 	var image_to_show = null;
+
+		// 	if(not_viewed.length > 0){
+		// 		var viewed_time = new Date();
+		// 		// Choose a random image
+		// 		image_to_show = not_viewed[0];
+		// 		// update photo as viewed and update time of viewing
+		// 		photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
+		// 	}
+
+		// 	res.status(200);
+		// 	res.json({'success': true, 'photoName': image_to_show});
+		// });
+
+		console.log("processing photo");
 
 		var data = req.body.imgData;
 		var photoName = req.body.photo;
@@ -237,7 +259,7 @@ module.exports = function(app){
 		  });
 		});
 
-		console.log("SAVE BUFFER DATA: " + photoName);
+		console.log("SAVE PHOTO DATA: " + photoName);
 
 		photos.find({ name: photoName }, function(err, found){
 
@@ -275,6 +297,13 @@ module.exports = function(app){
 					// 	res.json({'success': true, 'photoName': image_to_show});
 					// });
 				});
+
+				/* if photo is liked and we want to save a processed photo */
+				// if(req.path == '/accepted')
+				// {
+				// 	console.log("we should save this photo");
+				// }
+
 			}
 
 			// else{
@@ -330,63 +359,24 @@ module.exports = function(app){
 
 		// send non-viewed image or tell client that there is none currently
 		// Find all photos
-		photos.find({}, function(err, all_photos){
-
-			var not_viewed = all_photos.filter(function(photo){
-				if(photo.viewed == 0){
-					return all_photos.indexOf(photo.viewed == 0);
-				}
-			});
+		photos.findOne({viewed: 0}, function(err, found){
 
 			var image_to_show = null;
-
-			if(not_viewed.length > 0){
+			console.log("unviewed result");
+			console.log(found);
+			
+			if(found != null && found != undefined)
+			{
+				console.log("new photo!");
 				var viewed_time = new Date();
-				// Choose a random image
-				image_to_show = not_viewed[0];
-				// update photo as viewed and update time of viewing
+				var image_to_show = found;
 				photos.update(image_to_show, {$inc : {viewed:1}, $set: {time_viewed: viewed_time.toString()}});
 			}
 
+
+			console.log("sending new render");
 			res.status(200);
 			res.json({'success': true, 'photoName': image_to_show});
-		// 	res.redirect('../');
-
 		});
-	}
-
-	// This is executed before the next two post requests
-	app.post('*', function(req, res, next){
-		
-		// Register the user in the database by ip address
-
-		users.insert({
-			ip: req.ip,
-			votes: []
-		}, function(){
-			// Continue with the other routes
-			next();
-		});
-		
-	});
-
-	// relics
-	app.post('/accepted', vote);
-	app.post('/declined', vote);
-
-
-	function vote(req, res){
-
-		// Which field to increment, depending on the path
-		console.log("req");
-		// console.log(req);
-		console.log(req.body);
-		// console.log("res");
-		// console.log(res);
-		var what = {
-			'/accepted': {likes:1},
-			'/declined': {dislikes:1}
-		};
-
 	}
 };

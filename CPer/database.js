@@ -100,11 +100,12 @@ watcher
   // .on('error', function(error) { log('Error happened', error); })
   // .on('ready', function() { log('Initial scan complete. Ready for changes.'); })
   .on('raw', function(event, path, details) { 
-	  	log('Raw event info:', event, path, details); 
+	  	
  	
 	  	// matching raw pattern consistent with a file write and then rename
 	  	if(path !== null){	
 		  	if(event=='rename' && path.indexOf(notReadyString) >= 0 && details.watchedPath.indexOf(notReadyString) >= 0){
+		  		log('Raw event info:', event, path, details); 
 		  		console.log("INCOMMING!");
 		  		console.log(path);
 		  		var location_id = 0;
@@ -167,8 +168,8 @@ chokidar.watch('file', {
   followSymlinks: true,
   cwd: '.',
 
-  useFsEvents: true,
-  // usePolling: true,
+  // useFsEvents: true,
+  usePolling: true,
   alwaysStat: false,
   depth: undefined,
   interval: 1000,

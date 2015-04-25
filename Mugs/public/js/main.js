@@ -249,7 +249,7 @@ function createRapsheet(){
 	// rapcontext.stroke();
 
 	rapcontext.font = "16px DotMatrix-TwoExtended";
-	rapcontext.fillText("LOS SECRETO POLICE DEPARTMENT", docWidth*0.75, 1.65*resolution);
+	rapcontext.fillText("LOS SECRETOS POLICE DEPARTMENT", docWidth*0.75, 1.65*resolution);
 	rapcontext.fillText("13TH PRECINCT", docWidth*0.75, 1.85*resolution);
 
 	// former background lines
